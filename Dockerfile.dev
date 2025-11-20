@@ -1,0 +1,19 @@
+FROM node:20-alpine
+
+WORKDIR /app
+
+# 1. Copy package files FIRST
+COPY package.json package-lock.json ./
+
+# 2. Install dependencies
+# This layer is now cached and will only re-run if package*.json changes.
+RUN npm ci
+
+# 3. Copy the rest of the application code
+COPY . .
+
+# Expose the application port
+EXPOSE 5001
+
+# Run the application in development mode with hot-reloading
+CMD ["npm", "run", "dev:watch"]

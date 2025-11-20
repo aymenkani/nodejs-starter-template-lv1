@@ -1,0 +1,26 @@
+# Ignore artifacts:
+build
+dist
+.next
+.turbo
+.env
+.env.*
+.DS_Store
+coverage
+
+# Ignore logs:
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Ignore dependencies:
+node_modules
+
+# Ignore IDE files:
+.vscode
+.idea
+
+# Ignore generated files:
+src/generated

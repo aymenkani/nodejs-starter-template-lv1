@@ -1,0 +1,26 @@
+# Docker
+Dockerfile
+Dockerfile.dev
+docker-compose.yml
+docker-compose.override.yml
+
+# Git
+.git
+.gitignore
+
+# Node
+node_modules
+npm-debug.log
+*.log
+
+# Build output
+dist
+
+# Environment variables
+.env
+.env.test
+.env.example
+
+# OS files
+.DS_Store
+Thumbs.db
