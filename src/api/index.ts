@@ -4,6 +4,7 @@ import tokenRoutes from './token.routes';
 import userRoutes from './user.routes';
 import { adminRoutes } from './admin.routes';
 import uploadRoutes from './upload.routes';
+import healthRoutes from './health.routes';
 
 const router = express.Router();
 
@@ -12,5 +13,6 @@ router.use('/token', tokenRoutes);
 router.use('/admin', adminRoutes);
 router.use('/users', userRoutes);
 router.use('/upload', uploadRoutes);
+router.use('/', healthRoutes);
 
 export default router;

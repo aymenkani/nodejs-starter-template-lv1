@@ -1,7 +1,12 @@
 import { z } from 'zod';
+import { registry } from '../docs/openAPIRegistry';
+import { extendZodWithOpenApi } from '@asteasolutions/zod-to-openapi'; // 1. Import this
 
-export const generateSignedUrl = {
-  body: z.object({
+extendZodWithOpenApi(z); // 2. Call this IMMEDIATELLY
+
+const generateSignedUrlBodySchema = registry.register(
+  'GenerateSignedUrlBody',
+  z.object({
     fileName: z.string(),
     fileType: z
       .string()
@@ -12,4 +17,15 @@ export const generateSignedUrl = {
       message: 'File size must be less than 5MB.',
     }),
   }),
+);
+
+export const signedUrlResponseSchema = registry.register(
+  'SignedUrlResponse',
+  z.object({
+    signedUrl: z.url(),
+  }),
+);
+
+export const generateSignedUrl = {
+  body: generateSignedUrlBodySchema,
 };

@@ -1,7 +1,59 @@
 import { z } from 'zod';
+import { registry } from '../docs/openAPIRegistry';
+import { extendZodWithOpenApi } from '@asteasolutions/zod-to-openapi'; // 1. Import this
 
-const register = {
-  body: z.object({
+extendZodWithOpenApi(z); // 2. Call this IMMEDIATELLY
+
+// User Schema
+const userSchema = registry.register(
+  'User',
+  z.object({
+    id: z.uuid(),
+    username: z.string(),
+    email: z.email(),
+    role: z.enum(['USER', 'ADMIN']),
+    createdAt: z.date(),
+    updatedAt: z.date(),
+  }),
+);
+
+// Token Schema
+const tokenSchema = registry.register(
+  'Token',
+  z.object({
+    token: z.string(),
+    expires: z.date(),
+  }),
+);
+
+// This schema represents the full tokens object, including the refresh token.
+// It's not directly exposed in the response body, but used internally.
+const fullTokensSchema = z.object({
+  access: tokenSchema,
+  refresh: tokenSchema,
+});
+
+// AuthResponse Schema
+const authResponseSchema = registry.register(
+  'AuthResponse',
+  z.object({
+    user: userSchema,
+    access: tokenSchema,
+  }),
+);
+
+// RefreshResponse Schema
+const refreshResponseSchema = registry.register(
+  'RefreshResponse',
+  z.object({
+    access: tokenSchema,
+  }),
+);
+
+// Register Body Schema
+const registerBodySchema = registry.register(
+  'RegisterBody',
+  z.object({
     email: z.email(),
     password: z
       .string()
@@ -11,13 +63,23 @@ const register = {
       }),
     username: z.string(),
   }),
+);
+
+const register = {
+  body: registerBodySchema,
 };
 
-const login = {
-  body: z.object({
-    email: z.string().email(),
+// Login Body Schema
+const loginBodySchema = registry.register(
+  'LoginBody',
+  z.object({
+    email: z.email(),
     password: z.string(),
   }),
+);
+
+const login = {
+  body: loginBodySchema,
 };
 
 const logout = {
@@ -32,14 +94,22 @@ const refreshTokens = {
   }),
 };
 
-const requestPasswordReset = {
-  body: z.object({
+// Request Password Reset Body Schema
+const requestPasswordResetBodySchema = registry.register(
+  'RequestPasswordResetBody',
+  z.object({
     email: z.email(),
   }),
+);
+
+const requestPasswordReset = {
+  body: requestPasswordResetBodySchema,
 };
 
-const resetPassword = {
-  body: z.object({
+// Reset Password Body Schema
+const resetPasswordBodySchema = registry.register(
+  'ResetPasswordBody',
+  z.object({
     token: z.string(),
     password: z
       .string()
@@ -48,12 +118,22 @@ const resetPassword = {
         message: 'Password must contain at least one letter and one number',
       }),
   }),
+);
+
+const resetPassword = {
+  body: resetPasswordBodySchema,
 };
 
-const verifyResetToken = {
-  query: z.object({
-    token: z.uuid({ message: 'Token must be a valid UUID' }), // Assuming opaque token is a UUID
+// Verify Reset Token Query Schema
+const verifyResetTokenQuerySchema = registry.register(
+  'VerifyResetTokenQuery',
+  z.object({
+    token: z.uuid({ message: 'Token must be a valid UUID' }),
   }),
+);
+
+const verifyResetToken = {
+  query: verifyResetTokenQuerySchema,
 };
 
 export const authValidation = {
@@ -64,4 +144,17 @@ export const authValidation = {
   requestPasswordReset,
   resetPassword,
   verifyResetToken,
+};
+
+// Schemas for documentation purposes
+export const authSchemas = {
+  userSchema,
+  tokenSchema,
+  authResponseSchema,
+  registerBodySchema,
+  loginBodySchema,
+  requestPasswordResetBodySchema,
+  resetPasswordBodySchema,
+  verifyResetTokenQuerySchema,
+  refreshResponseSchema,
 };

@@ -18,8 +18,6 @@ export const startTokenCleanupJob = (tokenCleanupQueue: Queue) => {
       timezone: 'UTC', // Or your application's preferred timezone
     },
   );
-  logger.info(
-    `Token cleanup job scheduled to be added to queue every ${config.jwt.accessExpirationMinutes} minutes.`,
-  );
+  logger.info(`Token cleanup job scheduled to be added to queue every 60 minutes.`);
   return job;
 };

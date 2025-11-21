@@ -36,10 +36,20 @@ USER appuser
 
 # Copy necessary files from the builder stage
 COPY --from=builder /app/package.json ./package.json
+COPY --from=builder /app/package-lock.json ./package-lock.json
+
+# Install production dependencies only
+RUN npm ci --omit=dev
+
+# Set ownership of the app directory AFTER installing dependencies
+RUN chown -R appuser:nodejs /app
+
+# Switch to the non-root user
+USER appuser
+
+# Copy built application and prisma schema
 COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/prisma ./prisma
-COPY --from=builder /app/.env* ./
-COPY --from=builder /app/node_modules ./node_modules
 
 # Set environment variables
 ENV NODE_ENV=production

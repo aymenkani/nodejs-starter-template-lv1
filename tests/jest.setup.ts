@@ -1,3 +1,7 @@
+import { z } from 'zod';
+import { extendZodWithOpenApi } from '@asteasolutions/zod-to-openapi';
+extendZodWithOpenApi(z);
+
 import dotenv from 'dotenv';
 import path from 'path';
 

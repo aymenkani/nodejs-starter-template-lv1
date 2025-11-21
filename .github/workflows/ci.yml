@@ -1,14 +1,46 @@
-name: Node.js CI
+name: CI
 
 on:
   push:
-    branches: [ main ]
+    branches: ['main']
   pull_request:
-    branches: [ main ]
+    branches: ['main']
 
 jobs:
-  build:
+  lint:
     runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Use Node.js 20.x
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+          cache: 'npm'
+      - name: Install dependencies
+        run: npm ci
+      - name: Run linter
+        run: npm run lint
+
+  type-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Use Node.js 20.x
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+          cache: 'npm'
+      - name: Install dependencies
+        run: npm ci
+      - name: Run type-check
+        run: npm run type-check
+
+  test:
+    runs-on: ubuntu-latest
+    needs: [lint, type-check]
+    strategy:
+      matrix:
+        node-version: ['18.x', '20.x']
     services:
       postgres:
         image: postgres:14-alpine
@@ -32,19 +64,66 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
-
-    strategy:
-      matrix:
-        node-version: [18.x, 20.x]
+    env:
+      # Server
+      PORT: 5002
+      NODE_ENV: test
+      # Database (points to the service container)
+      DATABASE_URL: 'postgresql://testuser:testpassword@localhost:5432/testdb?schema=public'
+      # JWT
+      JWT_SECRET: 'thisisasupersecretkeythatnobodycanguess'
+      JWT_ACCESS_EXPIRATION_MINUTES: 30
+      JWT_REFRESH_EXPIRATION_DAYS: 30
+      JWT_RESET_PASSWORD_SECRET: 'thisisasupersecretresetkeythatnobodycanguess'
+      JWT_RESET_PASSWORD_EXPIRATION_MINUTES: 10
+      JWT_VERIFY_EMAIL_EXPIRATION_MINUTES: 10
+      # AWS S3 (using dummy values for testing)
+      AWS_ACCESS_KEY_ID: 'test-aws-access-key-id'
+      AWS_SECRET_ACCESS_KEY: 'test-aws-secret-access-key'
+      AWS_REGION: 'us-east-1'
+      AWS_S3_BUCKET: 'test-s3-bucket'
+      # Google OAuth
+      GOOGLE_CLIENT_ID: 'test-google-client-id'
+      GOOGLE_CLIENT_SECRET: 'test-google-client-secret'
+      # Redis (points to the service container)
+      REDIS_HOST: localhost
+      REDIS_PORT: 6379
+      # Client
+      CLIENT_URL: 'http://localhost:3000'
+      # Socket.IO
+      SOCKET_CORS_ORIGIN: 'http://localhost:3000,http://localhost:5173'
+      # Email
+      EMAIL_PROVIDER: NODEMAILER
+      EMAIL_FROM: 'test@example.com'
+      SMTP_HOST: 'smtp.test.com'
+      SMTP_PORT: 587
+      SMTP_USER: 'test-smtp-username'
+      SMTP_PASS: 'test-smtp-password'
+      SENDGRID_API_KEY: 'SG.test-sendgrid-api-key'
 
     steps:
-    - uses: actions/checkout@v3
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'npm'
-    - run: npm ci
-    - run: npm run lint
-    - run: npm run type-check
-    - run: npm test
+      - uses: actions/checkout@v4
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+      - name: Install dependencies
+        run: npm ci
+      - name: Generate Prisma client
+        run: npx prisma generate
+      - name: Run Prisma migrations
+        run: npx prisma migrate deploy
+      - name: Run tests
+        run: npm test
+
+  docker-build:
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      - name: Build Docker image
+        run: docker build . --file Dockerfile --tag app:latest

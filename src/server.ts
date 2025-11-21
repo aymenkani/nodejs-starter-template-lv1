@@ -14,7 +14,7 @@ import { Worker, Queue } from 'bullmq';
 
 import { getConfig } from './config/config';
 import { connectDB } from './config/db';
-import swaggerSpec from './config/swagger.config';
+import { swaggerSpec } from './docs/openapi';
 import apiRoutes from './api';
 import { errorConverter, errorHandler } from './middleware/error';
 import logger from './utils/logger';
@@ -55,6 +55,11 @@ app.use(
     swaggerOptions: { docExpansion: 'none', defaultModelsExpandDepth: 2 },
   }),
 );
+
+// Health check route for deployment services like Render
+app.get('/api/health', (req: Request, res: Response) => {
+  res.status(200).send('OK');
+});
 
 app.use('/api/v1', apiRoutes);
 

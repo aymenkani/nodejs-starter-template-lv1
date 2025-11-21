@@ -1,8 +1,13 @@
 import { z } from 'zod';
+import { registry } from '../docs/openAPIRegistry';
 import { Role } from '../generated/prisma';
+import { extendZodWithOpenApi } from '@asteasolutions/zod-to-openapi'; // 1. Import this
 
-const updateUser = {
-  body: z.object({
+extendZodWithOpenApi(z); // 2. Call this IMMEDIATELLY
+
+const updateUserBodySchema = registry.register(
+  'UpdateUserBody',
+  z.object({
     email: z.email().optional(),
     username: z.string().optional(),
     role: z.enum(Role).optional(),
@@ -14,15 +19,22 @@ const updateUser = {
       })
       .optional(), // Made password optional
   }),
-  params: z.object({
+);
+
+const userParamsSchema = registry.register(
+  'UserParams',
+  z.object({
     userId: z.uuid(),
   }),
+);
+
+export const updateUser = {
+  body: updateUserBodySchema,
+  params: userParamsSchema,
 };
 
-const deleteUser = {
-  params: z.object({
-    userId: z.string().uuid(),
-  }),
+export const deleteUser = {
+  params: userParamsSchema,
 };
 
 export const adminValidation = {
