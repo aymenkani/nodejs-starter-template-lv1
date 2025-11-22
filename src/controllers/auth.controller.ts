@@ -12,7 +12,7 @@ const register = async (req: Request, res: Response, next: NextFunction) => {
       httpOnly: true,
       expires: tokens.refresh.expires,
     });
-    const { password: _password, ...userWithoutPassword } = user;
+    const { password: _password, passwordHistory: _passwordHistory, ...userWithoutPassword } = user;
     res.status(201).send({ user: userWithoutPassword, access: tokens.access });
   } catch (error) {
     next(error);
@@ -62,7 +62,7 @@ const googleCallback = async (req: Request, res: Response, next: NextFunction) =
       httpOnly: true,
       expires: tokens.refresh.expires,
     });
-    const { password: _password, ...userWithoutPassword } = user;
+    const { password: _password, passwordHistory: _passwordHistory, ...userWithoutPassword } = user;
     res.send({ user: userWithoutPassword, access: tokens.access });
   } catch (error) {
     next(error);
@@ -109,5 +109,5 @@ export const authController = {
   googleCallback,
   requestPasswordReset,
   resetPassword,
-  checkResetTokenValidity, // Export the new function
+  checkResetTokenValidity,
 };

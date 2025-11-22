@@ -10,6 +10,7 @@ const createNotificationsForUserIds = async (
   const notificationsToPersist: { userId: string; message: string }[] = [];
 
   for (const userId of userIds) {
+    console.log('userId: ', userId);
     const isOnline = await socketService.isUserOnline(userId);
     if (isOnline) {
       socketService.emitToUser(userId, event, { message });

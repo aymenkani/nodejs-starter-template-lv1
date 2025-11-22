@@ -61,7 +61,6 @@ This is the recommended approach. It spins up the application, database, and Red
     ```bash
     npm run prisma:migrate:dev
     ```
-
 ### Option B: Locally without Docker
 This approach is for developers who prefer to run the database and Redis on their host machine.
 

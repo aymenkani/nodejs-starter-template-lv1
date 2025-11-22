@@ -6,6 +6,13 @@ services:
       context: .
       dockerfile: Dockerfile.dev
     command: npm run dev:watch
+    develop:
+      watch:
+        - action: rebuild
+          path: package.json
+        - action: sync
+          path: .
+          target: /app
     volumes:
       - .:/app
     environment:

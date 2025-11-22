@@ -34,7 +34,22 @@ app.use((req: Request, res: Response, next: NextFunction) => {
   next();
 });
 
-app.use(helmet());
+app.use(
+  helmet({
+    contentSecurityPolicy: {
+      directives: {
+        ...helmet.contentSecurityPolicy.getDefaultDirectives(),
+        'script-src': ["'self'", 'https://cdn.socket.io'],
+        'connect-src': [
+          "'self'",
+          'https://cdn.socket.io',
+          // Add your server's WebSocket protocol for Socket.IO
+          config.env === 'production' ? 'wss:' : 'ws:',
+        ],
+      },
+    },
+  }),
+);
 const limiter = rateLimit({
   windowMs: 10 * 60 * 1000,
   max: 100,
@@ -48,6 +63,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(morgan('dev'));
 
+// Serve static files from the 'public' directory
+app.use(express.static('public'));
+
 app.use(
   '/api-docs',
   swaggerUi.serve,
@@ -55,6 +73,11 @@ app.use(
     swaggerOptions: { docExpansion: 'none', defaultModelsExpandDepth: 2 },
   }),
 );
+
+app.get('/docs/json', (req: Request, res: Response) => {
+  res.setHeader('Content-Type', 'application/json');
+  res.send(swaggerSpec);
+});
 
 // Health check route for deployment services like Render
 app.get('/api/health', (req: Request, res: Response) => {

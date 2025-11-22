@@ -4,6 +4,7 @@ import { User } from '../generated/prisma';
 import { ExtendedSocket } from '../types/express';
 import logger from '../utils/logger';
 import { IncomingMessage } from 'http';
+import ApiError from '../utils/ApiError';
 
 export const socketAuthMiddleware = (socket: Socket, next: (err?: Error) => void) => {
   // The 'request' object in a socket is the underlying HTTP request.
@@ -14,7 +15,7 @@ export const socketAuthMiddleware = (socket: Socket, next: (err?: Error) => void
     (err: Error | null, user: User | false, info: any) => {
       if (err) {
         logger.error({ err }, 'Socket authentication error');
-        return next(new Error('Authentication error'));
+        return next(new ApiError(500, 'Socket authentication error'));
       }
       if (!user) {
         // You can choose to deny the connection or allow unauthenticated connections.

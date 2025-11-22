@@ -1,3 +1,5 @@
+import { Strategy as JwtStrategy, ExtractJwt } from 'passport-jwt';
+import { User } from '../generated/prisma';
 import passport from 'passport';
 import { Strategy as GoogleStrategy, Profile } from 'passport-google-oauth20';
 import { prisma } from './db';
@@ -5,6 +7,25 @@ import { getConfig } from './config';
 import { AuthProvider } from '../generated/prisma';
 
 const config = getConfig(process.env);
+
+// JWT strategy for authentication
+const jwtStrategy = new JwtStrategy(
+  {
+    jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+    secretOrKey: config.jwt.secret,
+  },
+  async (payload: { sub: string }, done) => {
+    try {
+      const user: User | null = await prisma.user.findUnique({ where: { id: payload.sub } });
+      if (!user) {
+        return done(null, false);
+      }
+      return done(null, user);
+    } catch (error) {
+      return done(error, false);
+    }
+  },
+);
 
 const googleStrategy = new GoogleStrategy(
   {
@@ -54,6 +75,7 @@ const googleStrategy = new GoogleStrategy(
   },
 );
 
+passport.use(jwtStrategy);
 passport.use(googleStrategy);
 
 export default passport;

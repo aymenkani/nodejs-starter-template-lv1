@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Socket.IO Client</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        #token { width: 400px; padding: 5px; }
+        #connectBtn, #disconnectBtn { padding: 5px 10px; margin-left: 10px; }
+        #notifications { list-style-type: none; padding: 0; margin-top: 20px; }
+        #notifications li { background-color: #f0f0f0; padding: 10px; margin-bottom: 5px; border-radius: 5px; }
+        .status { font-weight: bold; }
+        .connected { color: green; }
+        .disconnected { color: red; }
+    </style>
+</head>
+<body>
+    <h1>Socket.IO Admin Notification Client</h1>
+    <div>
+        <label for="token">JWT Access Token:</label>
+        <input type="text" id="token" placeholder="Paste your JWT access token here">
+        <button id="connectBtn">Connect</button>
+        <button id="disconnectBtn" disabled>Disconnect</button>
+    </div>
+    <p>Status: <span id="status" class="status disconnected">Disconnected</span></p>
+    <h2>Notifications</h2>
+    <ul id="notifications"></ul>
+
+    <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+    <script src="/client.js" defer></script>
+</body>
+</html>

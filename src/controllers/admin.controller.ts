@@ -34,6 +34,7 @@ const sendNotificationToAll = async (req: Request, res: Response, next: NextFunc
   try {
     const { message } = req.body;
     const users = await adminService.getAllUsers();
+    console.log(users);
     const userIds = users.map((user) => user.id).filter((userId) => req.user?.id !== userId);
 
     await notificationService.createNotificationsForUserIds(userIds, message, 'new_notification');

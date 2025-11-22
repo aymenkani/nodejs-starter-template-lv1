@@ -7,7 +7,7 @@ import { getConfig } from '../config/config';
 const config = getConfig(process.env);
 
 export const startTokenCleanupJob = (tokenCleanupQueue: Queue) => {
-  // Schedule to add a token cleanup job to the queue every 30 minutes
+  // Schedule to add a token cleanup job to the queue every 60 minutes
   const job = cron.schedule(
     `*/60 * * * *`,
     async () => {

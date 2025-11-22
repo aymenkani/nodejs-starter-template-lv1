@@ -1,8 +1,9 @@
 import { z } from 'zod';
 import { registry } from '../docs/openAPIRegistry';
 import { extendZodWithOpenApi } from '@asteasolutions/zod-to-openapi'; // 1. Import this
+import { Role } from '../generated/prisma';
 
-extendZodWithOpenApi(z); // 2. Call this IMMEDIATELLY
+extendZodWithOpenApi(z); // Call this IMMEDIATELLY
 
 // User Schema
 const userSchema = registry.register(
@@ -11,7 +12,9 @@ const userSchema = registry.register(
     id: z.uuid(),
     username: z.string(),
     email: z.email(),
-    role: z.enum(['USER', 'ADMIN']),
+    role: z.enum([Role.USER, Role.ADMIN]),
+    googleId: z.string().optional(),
+    provider: z.enum(['LOCAL', 'GOOGLE']),
     createdAt: z.date(),
     updatedAt: z.date(),
   }),
@@ -90,7 +93,7 @@ const logout = {
 
 const refreshTokens = {
   cookies: z.object({
-    refreshToken: z.string(),
+    refreshToken: z.string('refresh token is required'),
   }),
 };
 
@@ -98,7 +101,7 @@ const refreshTokens = {
 const requestPasswordResetBodySchema = registry.register(
   'RequestPasswordResetBody',
   z.object({
-    email: z.email(),
+    email: z.email(), // A reset token is going to be sent to this email address
   }),
 );
 
@@ -110,8 +113,8 @@ const requestPasswordReset = {
 const resetPasswordBodySchema = registry.register(
   'ResetPasswordBody',
   z.object({
-    token: z.string(),
-    password: z
+    token: z.string(), // reset password token
+    password: z // new password
       .string()
       .min(8, { message: 'Password must be at least 8 characters' })
       .regex(/^(?=.*[A-Za-z])(?=.*\d).*$/, {
