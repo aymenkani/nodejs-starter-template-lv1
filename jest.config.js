@@ -9,5 +9,9 @@ module.exports = {
   restoreMocks: true,
   testMatch: ['**/tests/**/*.test.(js|ts)'],
   modulePathIgnorePatterns: ['<rootDir>/dist/'],
- 
+  moduleNameMapper: {
+    '^@/(.*)$': '<rootDir>/src/$1',
+  },
+
+  globalSetup: './tests/globalSetup.js',
 };
