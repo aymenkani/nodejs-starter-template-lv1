@@ -46,6 +46,8 @@ COPY --from=builder /app/package-lock.json ./package-lock.json
 # Install production dependencies only
 RUN npm ci --omit=dev --ignore-scripts
 
+# Ensure ownership is set by root
+USER root
 # Set ownership of the app directory AFTER installing dependencies
 RUN chown -R appuser:nodejs /app
 
