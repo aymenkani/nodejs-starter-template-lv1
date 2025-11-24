@@ -13,11 +13,11 @@ COPY . .
 # Stage 2: Builder - Builds the application using files from the development stage
 FROM development AS builder
 
-# Build the application
-RUN npm run build
-
 # Generate Prisma client
 RUN npx prisma generate
+
+# Build the application
+RUN npm run build
 
 # Stage 3: Runner - Creates the final production image
 FROM node:20-alpine AS runner
