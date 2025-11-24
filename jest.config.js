@@ -3,7 +3,6 @@ module.exports = {
   testEnvironment: 'node',
   testTimeout: 30000,
   setupFiles: ["<rootDir>/tests/jest.setup.ts"],
-  globalSetup: './tests/globalSetup.ts',
   globalTeardown: './tests/globalTeardown.ts',
   setupFilesAfterEnv: ['./tests/prismaSetup.ts'],
   restoreMocks: true,
@@ -12,6 +11,5 @@ module.exports = {
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/src/$1',
   },
-
   globalSetup: './tests/globalSetup.js',
 };

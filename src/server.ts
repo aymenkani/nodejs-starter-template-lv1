@@ -131,32 +131,44 @@ async function stopServer(
 ) {
   logger.info('Attempting to stop server...');
 
-  // Gracefully close Socket.IO server
+  // 1. Stop new jobs from being scheduled
+  logger.info('Attempting to stop cron job...');
+  cronJob.stop();
+  logger.info('Cron job stopped.');
+
+  // 2. Close servers to prevent new connections
   const io = socketService.getIO();
   if (io) {
-    io.close(() => {
-      logger.info('Socket.IO server closed.');
+    await new Promise<void>((resolve) => {
+      io.close(() => {
+        logger.info('Socket.IO server closed.');
+        resolve();
+      });
     });
   }
 
-  await new Promise((resolve) =>
+  await new Promise<void>((resolve) => {
     server.close(() => {
       logger.info('HTTP server closed.');
-      resolve(null);
-    }),
-  );
+      resolve();
+    });
+  });
+
+  // 3. Close the queue to prevent new jobs from being processed
+  logger.info('Attempting to close token cleanup queue...');
+  await queue.close();
+  logger.info('Token cleanup queue closed.');
+
+  // 4. Close the worker and wait for any active jobs to finish
+  logger.info('Attempting to close token cleanup worker...');
+  await worker.close();
+  logger.info('Token cleanup worker closed.');
+
+  // 5. Finally, disconnect from the database
   logger.info('Attempting to disconnect Prisma...');
   await prisma.$disconnect();
   logger.info('Prisma disconnected.');
-  logger.info('Attempting to stop cron job...');
-  cronJob.stop(); // Stop the cron job
-  logger.info('Cron job stopped.');
-  logger.info('Attempting to close token cleanup worker...');
-  await worker.close(); // Close the BullMQ worker
-  logger.info('Token cleanup worker closed.');
-  logger.info('Attempting to close token cleanup queue...');
-  await queue.close(); // Close the BullMQ queue
-  logger.info('Token cleanup queue closed.');
+
   logger.info('Server shutdown complete.');
 }
 
