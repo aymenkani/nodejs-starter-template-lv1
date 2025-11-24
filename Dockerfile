@@ -13,6 +13,11 @@ COPY . .
 # Stage 2: Builder - Builds the application using files from the development stage
 FROM development AS builder
 
+# Accept DATABASE_URL as a build argument.
+# A dummy URL is sufficient for 'prisma generate' as it doesn't connect to the DB.
+ARG DATABASE_URL="postgresql://dummy:dummy@dummy:5432/dummy"
+ENV DATABASE_URL=${DATABASE_URL}
+
 # Generate Prisma client
 RUN npx prisma generate
 

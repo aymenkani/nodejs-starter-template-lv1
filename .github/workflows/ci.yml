@@ -130,4 +130,4 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
       - name: Build Docker image
-        run: docker build . --file Dockerfile --tag app:latest
+        run: docker build . --file Dockerfile --tag app:latest --build-arg DATABASE_URL="postgresql://dummy:dummy@dummy:5432/dummy?schema=public"
