@@ -4,10 +4,21 @@ import { prisma } from '../config/db';
 import { User } from '../generated/prisma';
 import ApiError from '../utils/ApiError';
 
+/**
+ * Get all users.
+ * @returns {Promise<User[]>} A promise that resolves to an array of users.
+ */
 const getAllUsers = async (): Promise<User[]> => {
   return prisma.user.findMany();
 };
 
+/**
+ * Update a user by their ID as an admin.
+ * @param {string} userId - The ID of the user to update.
+ * @param {Partial<User>} updateBody - The user data to update.
+ * @returns {Promise<User>} A promise that resolves to the updated user.
+ * @throws {ApiError} If the user is not found or if the new password has been used recently.
+ */
 const updateUserAsAdmin = async (userId: string, updateBody: Partial<User>): Promise<User> => {
   const user = await prisma.user.findUnique({ where: { id: userId } });
   if (!user) {
@@ -46,6 +57,11 @@ const updateUserAsAdmin = async (userId: string, updateBody: Partial<User>): Pro
   });
 };
 
+/**
+ * Delete a user by their ID.
+ * @param {string} userId - The ID of the user to delete.
+ * @returns {Promise<User>} A promise that resolves to the deleted user.
+ */
 const deleteUser = async (userId: string): Promise<User> => {
   return prisma.user.delete({
     where: { id: userId },

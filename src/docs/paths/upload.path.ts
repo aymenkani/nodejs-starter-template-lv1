@@ -1,4 +1,4 @@
-import { registry } from '../openAPIRegistry';
+import { registry, errorResponseSchema } from '../openAPIRegistry';
 import { generateSignedUrl, signedUrlResponseSchema } from '../../validations/upload.validation';
 
 registry.registerPath({
@@ -6,6 +6,7 @@ registry.registerPath({
   path: '/api/v1/upload/generate-signed-url',
   summary: 'Generate a signed URL for file upload',
   tags: ['Upload'],
+  security: [{ bearerAuth: [] }],
   request: {
     body: {
       content: {
@@ -26,6 +27,14 @@ registry.registerPath({
     },
     '400': {
       description: 'Bad request',
+    },
+    '401': {
+      description: 'Unauthorized',
+      content: {
+        'application/json': {
+          schema: errorResponseSchema,
+        },
+      },
     },
   },
 });

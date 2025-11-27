@@ -13,6 +13,10 @@ class SocketService {
 
   private constructor() {}
 
+  /**
+   * Gets the singleton instance of the SocketService.
+   * @returns {SocketService} The singleton instance.
+   */
   public static getInstance(): SocketService {
     if (!SocketService.instance) {
       SocketService.instance = new SocketService();
@@ -20,6 +24,10 @@ class SocketService {
     return SocketService.instance;
   }
 
+  /**
+   * Initializes the Socket.IO server.
+   * @param {HttpServer} server - The HTTP server instance.
+   */
   public init(server: HttpServer): void {
     if (this.io) {
       logger.warn('Socket.IO already initialized.');
@@ -81,6 +89,11 @@ class SocketService {
     logger.info('Socket.IO service initialized.');
   }
 
+  /**
+   * Gets the Socket.IO server instance.
+   * @returns {Server} The Socket.IO server instance.
+   * @throws {Error} If the Socket.IO server is not initialized.
+   */
   public getIO(): Server {
     if (!this.io) {
       throw new Error('Socket.IO not initialized. Call init() first.');
@@ -88,6 +101,13 @@ class SocketService {
     return this.io;
   }
 
+  /**
+   * Emits a socket event to a specific user.
+   * @param {string} userId - The ID of the user to emit the event to.
+   * @param {string} event - The event name.
+   * @param {unknown} data - The data to send with the event.
+   * @returns {boolean} True if the event was emitted, false otherwise.
+   */
   public emitToUser(userId: string, event: string, data: unknown): boolean {
     if (!this.io) {
       logger.error('Socket.IO not initialized. Cannot emit event.');
@@ -98,6 +118,12 @@ class SocketService {
     return this.io.to(room).emit(event, data);
   }
 
+  /**
+   * Emits a socket event to all connected clients.
+   * @param {string} event - The event name.
+   * @param {unknown} data - The data to send with the event.
+   * @returns {boolean} True if the event was emitted, false otherwise.
+   */
   public emitToAll(event: string, data: unknown): boolean {
     if (!this.io) {
       logger.error('Socket.IO not initialized. Cannot emit event.');
@@ -107,6 +133,11 @@ class SocketService {
     return this.io.emit(event, data);
   }
 
+  /**
+   * Checks if a user is currently online (has an active socket connection).
+   * @param {string} userId - The ID of the user to check.
+   * @returns {Promise<boolean>} A promise that resolves to true if the user is online, false otherwise.
+   */
   public async isUserOnline(userId: string): Promise<boolean> {
     if (!this.io) {
       logger.error('Socket.IO not initialized. Cannot check online status.');

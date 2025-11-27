@@ -17,6 +17,12 @@ export const createAuthService = (config: Config) => {
 
   type RegisterUserBody = z.infer<typeof authValidation.register.body>;
 
+  /**
+   * Registers a new user.
+   * @param {RegisterUserBody} userData - The user data for registration.
+   * @returns {Promise<User>} The created user.
+   * @throws {ApiError} If the email or username is already taken.
+   */
   const registerUser = async (userData: RegisterUserBody): Promise<User> => {
     if (await userService.getUserByEmail(userData.email)) {
       throw new ApiError(httpStatus.BAD_REQUEST, 'Email already taken');
@@ -28,6 +34,13 @@ export const createAuthService = (config: Config) => {
     return user;
   };
 
+  /**
+   * Logs in a user with their email and password.
+   * @param {string} email - The user's email.
+   * @param {string} password - The user's password.
+   * @returns {Promise<User>} The logged-in user.
+   * @throws {ApiError} If the email or password is incorrect.
+   */
   const loginUserWithEmailAndPassword = async (email: string, password: string): Promise<User> => {
     const user = await userService.getUserByEmail(email);
 
@@ -52,6 +65,12 @@ export const createAuthService = (config: Config) => {
     return user;
   };
 
+  /**
+   * Logs out a user by deleting their refresh token and blacklisting their access token.
+   * @param {string} refreshToken - The user's refresh token.
+   * @param {string} [accessToken] - The user's access token.
+   * @throws {ApiError} If the refresh token is not provided or not found.
+   */
   const logout = async (refreshToken: string, accessToken?: string): Promise<void> => {
     if (!refreshToken) {
       throw new ApiError(httpStatus.BAD_REQUEST, 'No refresh token provided');
@@ -85,6 +104,11 @@ export const createAuthService = (config: Config) => {
     }
   };
 
+  /**
+   * Generates a password reset token and sends it to the user's email.
+   * @param {string} email - The user's email.
+   * @throws {ApiError} If the user is not found.
+   */
   const generatePasswordResetToken = async (email: string): Promise<void> => {
     const user = await userService.getUserByEmail(email);
     if (!user) {
@@ -113,6 +137,12 @@ export const createAuthService = (config: Config) => {
     await emailService.sendResetPasswordEmail(user.email, opaqueResetToken, config.clientUrl); // Send opaque token in email
   };
 
+  /**
+   * Resets a user's password.
+   * @param {string} opaqueResetToken - The opaque password reset token.
+   * @param {string} newPassword - The new password.
+   * @throws {ApiError} If the token is invalid, expired, or the new password has been used recently.
+   */
   const resetPassword = async (opaqueResetToken: string, newPassword: string): Promise<void> => {
     try {
       const passwordResetTokenDoc = await prisma.passwordResetToken.findUnique({
@@ -174,6 +204,11 @@ export const createAuthService = (config: Config) => {
     }
   };
 
+  /**
+   * Verifies a password reset token.
+   * @param {string} opaqueResetToken - The opaque password reset token.
+   * @throws {ApiError} If the token is invalid or expired.
+   */
   const verifyResetToken = async (opaqueResetToken: string): Promise<void> => {
     const passwordResetTokenDoc = await prisma.passwordResetToken.findUnique({
       where: { opaqueToken: opaqueResetToken },

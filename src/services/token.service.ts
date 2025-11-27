@@ -6,6 +6,13 @@ import ApiError from '../utils/ApiError';
 import { User } from '../generated/prisma';
 
 export const createTokenService = (config: Config) => {
+  /**
+   * Generates a JWT token.
+   * @param {string} userId - The ID of the user.
+   * @param {Date} expires - The expiration date of the token.
+   * @param {string} [secret=config.jwt.secret] - The JWT secret.
+   * @returns {string} The generated JWT token.
+   */
   const generateToken = (
     userId: string,
     expires: Date,
@@ -19,6 +26,12 @@ export const createTokenService = (config: Config) => {
     return jwt.sign(payload, secret);
   };
 
+  /**
+   * Verifies a JWT token.
+   * @param {string} token - The JWT token to verify.
+   * @param {string} [secret=config.jwt.secret] - The JWT secret.
+   * @returns {jwt.JwtPayload | string} The decoded token payload.
+   */
   const verifyToken = (
     token: string,
     secret: string = config.jwt.secret,
@@ -27,6 +40,11 @@ export const createTokenService = (config: Config) => {
     return payload;
   };
 
+  /**
+   * Generates authentication tokens (access and refresh) for a user.
+   * @param {User} user - The user to generate tokens for.
+   * @returns {Promise<object>} A promise that resolves to the authentication tokens.
+   */
   const generateAuthTokens = async (user: User) => {
     const accessTokenExpires = new Date(
       Date.now() + config.jwt.accessExpirationMinutes * 60 * 1000,
@@ -60,6 +78,12 @@ export const createTokenService = (config: Config) => {
     };
   };
 
+  /**
+   * Refreshes authentication tokens using a refresh token.
+   * @param {string} refreshToken - The refresh token.
+   * @returns {Promise<object>} A promise that resolves to the new authentication tokens.
+   * @throws {ApiError} If the refresh token is invalid.
+   */
   const refreshAuthTokens = async (refreshToken: string) => {
     try {
       const refreshTokenPayload = verifyToken(refreshToken) as jwt.JwtPayload;

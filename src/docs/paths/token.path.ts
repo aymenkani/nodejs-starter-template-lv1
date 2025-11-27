@@ -1,4 +1,4 @@
-import { registry } from '../openAPIRegistry';
+import { registry, errorResponseSchema } from '../openAPIRegistry';
 import { authSchemas } from '../../validations/auth.validation';
 
 registry.registerPath({
@@ -17,6 +17,11 @@ registry.registerPath({
     },
     '401': {
       description: 'Unauthorized',
+      content: {
+        'application/json': {
+          schema: errorResponseSchema,
+        },
+      },
     },
   },
 });

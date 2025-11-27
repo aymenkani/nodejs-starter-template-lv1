@@ -10,6 +10,13 @@ export const createEmailService = (config: Config) => {
     sgMail.setApiKey(config.email.sendgridApiKey);
   }
 
+  /**
+   * Sends an email using the configured email provider.
+   * @param {string} to - The recipient's email address.
+   * @param {string} subject - The subject of the email.
+   * @param {string} html - The HTML content of the email.
+   * @throws {ApiError} If the email provider is not configured or fails to send the email.
+   */
   const sendEmail = async (to: string, subject: string, html: string) => {
     if (config.email.provider === 'NODEMAILER') {
       const transporter = nodemailer.createTransport({
@@ -52,6 +59,12 @@ export const createEmailService = (config: Config) => {
     }
   };
 
+  /**
+   * Sends a password reset email to the user.
+   * @param {string} to - The recipient's email address.
+   * @param {string} token - The password reset token.
+   * @param {string} clientUrl - The base URL of the client application.
+   */
   const sendResetPasswordEmail = async (to: string, token: string, clientUrl: string) => {
     const subject = 'Reset your password';
     // In a real application, you would use a proper templating engine
@@ -65,6 +78,11 @@ export const createEmailService = (config: Config) => {
     await sendEmail(to, subject, html);
   };
 
+  /**
+   * Sends a welcome email to the new user.
+   * @param {string} to - The recipient's email address.
+   * @param {string} username - The user's username.
+   */
   const sendWelcomeEmail = async (to: string, username: string) => {
     const subject = 'Welcome!';
     const html = `

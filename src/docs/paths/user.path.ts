@@ -1,4 +1,4 @@
-import { registry } from '../openAPIRegistry';
+import { errorResponseSchema, registry } from '../openAPIRegistry';
 import { userValidation } from '../../validations/user.validation';
 import { authSchemas } from '../../validations/auth.validation';
 import { z } from 'zod';
@@ -28,6 +28,11 @@ registry.registerPath({
     },
     '401': {
       description: 'Unauthorized',
+      content: {
+        'application/json': { 
+          schema: errorResponseSchema
+        }
+      }
     },
   },
 });
@@ -61,6 +66,11 @@ registry.registerPath({
     },
     '401': {
       description: 'Unauthorized',
+      content: {
+        'application/json': { 
+          schema: errorResponseSchema
+        }
+      }
     },
     '404': {
       description: 'User not found',
