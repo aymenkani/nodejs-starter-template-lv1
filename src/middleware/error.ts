@@ -1,9 +1,11 @@
 import { NextFunction, Request, Response } from 'express';
 import httpStatus from 'http-status';
 
-import config from '../config/config';
-import { logger } from '../utils/logger';
+import { getConfig } from '../config/config';
+import logger from '../utils/logger';
 import ApiError from '../utils/ApiError';
+
+const config = getConfig(process.env);
 
 /**
  * Middleware to convert any error to an instance of ApiError.
@@ -17,18 +19,14 @@ import ApiError from '../utils/ApiError';
  * @param {Response} _res - The Express response object.
  * @param {NextFunction} next - The next middleware function.
  */
-export const errorConverter = (
-  err: any,
-  _req: Request,
-  _res: Response,
-  next: NextFunction
-) => {
+export const errorConverter = (err: any, _req: Request, _res: Response, next: NextFunction) => {
   let error = err;
   if (!(error instanceof ApiError)) {
     const statusCode = error.statusCode || httpStatus.INTERNAL_SERVER_ERROR;
-    const message = statusCode === 
-              httpStatus.INTERNAL_SERVER_ERROR ? 
-                    httpStatus[httpStatus.INTERNAL_SERVER_ERROR] : error.message || httpStatus[statusCode];
+    const message =
+      statusCode === httpStatus.INTERNAL_SERVER_ERROR
+        ? httpStatus[httpStatus.INTERNAL_SERVER_ERROR]
+        : error.message || httpStatus[statusCode as keyof typeof httpStatus];
     error = new ApiError(statusCode, message, false, err.stack);
   }
   next(error);
@@ -46,13 +44,8 @@ export const errorConverter = (
  * @param {Response} res - The Express response object.
  * @param {NextFunction} _next - The next middleware function (unused).
  */
-// eslint-disable-next-line no-unused-vars
-export const errorHandler = (
-  err: ApiError,
-  _req: Request,
-  res: Response,
-  _next: NextFunction
-) => {
+
+export const errorHandler = (err: ApiError, _req: Request, res: Response, _next: NextFunction) => {
   let { statusCode, message } = err;
   if (config.env === 'production' && !err.isOperational) {
     statusCode = httpStatus.INTERNAL_SERVER_ERROR;
