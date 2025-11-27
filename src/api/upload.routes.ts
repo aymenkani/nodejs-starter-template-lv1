@@ -3,7 +3,7 @@ import { uploadController } from '../controllers';
 import validate from '../middleware/validate';
 import * as uploadValidation from '../validations/upload.validation';
 import { auth, authorize } from '../middleware/auth.middleware';
-import { Role } from '@/generated/prisma';
+import { Role } from '../generated/prisma';
 
 const router = express.Router();
 
