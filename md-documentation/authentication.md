@@ -25,7 +25,29 @@ JWT (JSON Web Token) is an open standard (RFC 7519) that defines a compact and s
 *   **Passport.js Strategy:** The JWT authentication strategy is configured in `src/config/passport.config.ts`. It defines how to extract the JWT from the request and how to verify its payload.
 *   **Token Service:** `src/services/token.service.ts` handles the creation, verification, and management of access and refresh tokens. It interacts with the database to store refresh tokens and manage their expiration.
 *   **Authentication Middleware:** `src/middleware/auth.middleware.ts` uses Passport.js to authenticate requests. It includes `authenticate` to verify tokens and `authorize` to check user roles against required permissions.
-*   **Token Blacklisting:** Refresh tokens can be blacklisted (e.g., upon logout) to prevent their reuse. This is managed by the `Token` [model in Prisma](./database-prisma.md#1-prisma-schema-prismaschemaprisma).
+*   **Token Blacklisting:** To enhance security, this template implements a token blacklisting mechanism. When a user logs out, their JWT access token is added to a blacklist. This is managed by the `BlacklistedToken` [model in Prisma](./database-prisma.md#1-prisma-schema-prismaschemaprisma).
+
+### Token Blacklisting and Cleanup
+
+To enhance security, this template implements a token blacklisting mechanism. When a user logs out, their JWT access token is added to a blacklist.
+
+**Flow:**
+
+1.  **Logout:** The user initiates a logout request.
+2.  **Blacklist Storage:** The `authService.logout` function adds the user's current access token and its expiration date to the `BlacklistedToken` table in the database.
+3.  **Verification:** The `auth` middleware, which protects secure endpoints, checks every incoming access token against this blacklist.
+4.  **Rejection:** If a token is found on the blacklist, the request is rejected with a `401 Unauthorized` error, effectively preventing its reuse after logout.
+
+This mechanism ensures that even if an access token is compromised after a user has logged out, it cannot be used to access protected resources.
+
+To prevent the `BlacklistedToken` table from growing indefinitely, a background job runs periodically to remove expired tokens.
+
+*   **Scheduled Job:** A cron job is scheduled to run every hour.
+*   **Queueing:** This job adds a `cleanExpiredTokens` task to a BullMQ queue.
+*   **Worker Process:** A BullMQ worker processes this task, deleting all tokens from the `BlacklistedToken` table whose expiration date has passed.
+
+This cleanup process is essential for maintaining the performance and efficiency of the authentication system. For more details on how background jobs are implemented, see the [Background Jobs with BullMQ](./background-jobs-bullmq.md) documentation.
+
 
 ### Configuration
 

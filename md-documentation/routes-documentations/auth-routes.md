@@ -235,7 +235,7 @@ This section provides a detailed breakdown of the authentication API routes, out
 ## 3. Logout User
 
 **Endpoint:** `POST /v1/auth/logout`
-**Description:** Logs out the current user by invalidating their refresh token and blacklisting their access token.
+**Description:** Logs out the current user by invalidating their refresh token and blacklisting their access token to prevent its reuse. For a detailed explanation of the token blacklisting and cleanup process, please see the main [Authentication](./../authentication.md) documentation.
 
 ### Flow Map
 

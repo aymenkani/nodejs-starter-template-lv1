@@ -38,6 +38,7 @@ const connection = {
 // Define your queues
 export const emailQueue = new Queue('emailQueue', { connection });
 export const notificationQueue = new Queue('notificationQueue', { connection });
+export const tokenCleanupQueue = new Queue('tokenCleanupQueue', { connection });
 
 // Add more queues as needed
 ```
@@ -69,6 +70,7 @@ import { Worker } from 'bullmq';
 import config from '../config/config';
 import logger from '../utils/logger';
 import { emailService } from '../services'; // Assuming an email service
+import { prisma } from '../config/db';
 
 const connection = {
   host: config.redis.host,
@@ -99,6 +101,26 @@ export const notificationWorker = new Worker(
   { connection, concurrency: 3 }
 );
 
+// Worker for the tokenCleanupQueue
+export const tokenCleanupWorker = new Worker(
+  'tokenCleanupQueue',
+  async (job) => {
+    logger.info(`Processing token cleanup job ${job.id}: ${job.name}`);
+    if (job.name === 'cleanExpiredTokens') {
+      const { count } = await prisma.blacklistedToken.deleteMany({
+        where: {
+          expires: {
+            lt: new Date(),
+          },
+        },
+      });
+      logger.info(`Cleaned up ${count} expired blacklisted tokens.`);
+    }
+  },
+  { connection, concurrency: 1 }
+);
+
+
 // Handle worker events (optional, but recommended for monitoring)
 emailWorker.on('completed', (job) => {
   logger.info(`Job ${job.id} in emailQueue has completed!`);
@@ -111,7 +133,8 @@ emailWorker.on('failed', (job, err) => {
 // Start all workers
 export const startWorkers = () => {
   emailWorker; // Simply referencing them starts them
-  notificationWorker;
+  notificationQueue;
+  tokenCleanupWorker;
   logger.info('BullMQ workers started.');
 };
 ```
@@ -132,6 +155,33 @@ await emailQueue.add('sendVerificationEmail', {
   text: `Hi ${user.name}, please verify your account by clicking this link: ...`,
   html: `<p>Hi ${user.name}, please verify your account by clicking this link: ...</p>`,
 });
+```
+
+### Token Cleanup Job
+
+The token cleanup job is a recurring task that is added to the `tokenCleanupQueue` by a cron job. This is handled by the `startTokenCleanupJob` function in `src/utils/tokenCleanup.ts`.
+
+**Example (`src/utils/tokenCleanup.ts`):**
+```typescript
+import { Queue } from 'bullmq';
+import { addTokenCleanupJob } from '../jobs/queue';
+import logger from './logger';
+import cron from 'node-cron';
+
+export const startTokenCleanupJob = (tokenCleanupQueue: Queue) => {
+  // Schedule to add a token cleanup job to the queue every 60 minutes
+  cron.schedule(
+    `*/60 * * * *`,
+    async () => {
+      logger.info('Adding token cleanup job to queue.');
+      await addTokenCleanupJob(tokenCleanupQueue, {});
+    },
+    {
+      timezone: 'UTC',
+    },
+  );
+  logger.info(`Token cleanup job scheduled to be added to queue every 60 minutes.`);
+};
 ```
 
 ### Job Options
