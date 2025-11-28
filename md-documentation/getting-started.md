@@ -9,16 +9,13 @@ Before you begin, ensure you have the following software installed on your syste
 *   **Node.js**: Version 18.x or higher. You can download it from [nodejs.org](https://nodejs.org/).
 *   **npm** or **Yarn**: npm comes bundled with Node.js. If you prefer Yarn, you can install it via `npm install -g yarn`.
 *   **Docker & Docker Compose**: Essential for running the database and other services locally. Download Docker Desktop from [docker.com](https://www.docker.com/products/docker-desktop/).
-*   **Git**: For cloning the repository. Download from [git-scm.com](https://git-scm.com/downloads).
 
-## 1. Clone the Repository
+## 1. Unzip the Project
 
-Start by cloning the template repository to your local machine:
+Start by unzipping the downloaded project file. This will create a new directory named `node-template-advanced-1`. Navigate into this new directory to proceed with the setup.
 
-```bash
-git clone https://github.com/your-username/node-template-advanced-1.git
-cd node-template-advanced-1
-```
+After unzipping, you can open the project folder in your code editor and continue with the next steps.
+
 
 ## 2. Install Dependencies
 
