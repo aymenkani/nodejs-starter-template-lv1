@@ -10,7 +10,7 @@ COPY package.json package-lock.json ./
 # We need the schema here because 'npm ci' triggers 'prisma generate' via postinstall
 COPY prisma ./prisma/
 
-RUN npm ci
+RUN HUSKY=0 npm ci
 
 # Copy source code
 COPY . .
