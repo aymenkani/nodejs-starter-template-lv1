@@ -4,21 +4,42 @@
   "description": "A Node.js API with a layered architecture.",
   "main": "dist/server.js",
   "scripts": {
-    "build": "tsc && cpr src/generated dist/generated -o",
-    "start": "npm run build && npm run prisma:generate && npm run prisma:migrate:deploy && node dist/server.js",
+    "--- LIFECYCLE ---": "Standard lifecycle hooks",
+    "postinstall": "npm run prisma:generate",
+    "prepare": "husky",
+
+    "--- BUILD & PROD ---": "Scripts for building and running in production",
+    "build": "npm run prisma:generate && tsc && tsc prisma/seed.ts --outDir dist/prisma && cpr src/generated dist/generated -o",
+    "start": "node dist/server.js",
+    "start:with-db": "npm run prisma:migrate:deploy && npm run seed:prod && node dist/server.js",
+
+    "--- DEV ---": "Scripts for local development",
     "dev": "ts-node src/server.ts",
-    "dev:watch:local": "dotenv -e .env.local -- nodemon --watch 'src/**/*.ts' --exec ts-node src/server.ts",
     "dev:watch": "nodemon --watch 'src/**/*.ts' --exec ts-node src/server.ts",
-    "test": "dotenv -e .env.test --  jest --detectOpenHandles",
+    "dev:watch:local": "dotenv -e .env.local -- npm run dev:watch",
+
+    "--- SETUP ---": "The 'Magic' command for new users",
+    "setup": "npm install && cp .env.example .env && npm run prisma:migrate:dev && npm run seed",
+
+    "--- DOCKER ---": "Modular Docker commands (Postgres + App)",
+    "docker:up": "docker compose -f docker-compose.yml -f docker-compose.postgres.yml -f docker-compose.override.yml up --build",
+    "docker:up:detached": "docker compose -f docker-compose.yml -f docker-compose.postgres.yml -f docker-compose.override.yml up -d --build",
+    "docker:down": "docker compose -f docker-compose.yml -f docker-compose.postgres.yml down",
+    "docker:logs": "docker compose -f docker-compose.yml -f docker-compose.postgres.yml logs -f",
+
+    "--- PRISMA ---": "Database management",
     "prisma:generate": "prisma generate",
     "prisma:migrate:dev": "dotenv -e .env.local -- prisma migrate dev",
     "prisma:migrate:deploy": "prisma migrate deploy",
     "prisma:studio": "dotenv -e .env.local -- prisma studio",
-    "seed": "dotenv -e .env.local -- ts-node prisma/seed.ts",
+    "seed": "ts-node prisma/seed.ts",
+    "seed:prod": "node dist/prisma/seed.js",
+
+    "--- QUALITY ---": "Linting and Testing",
+    "test": "dotenv -e .env.test -- jest --detectOpenHandles",
     "lint": "eslint -c eslint.config.mjs src/**/*.ts",
     "type-check": "tsc --noEmit",
-    "format": "prettier --write src/**/*.ts",
-    "prepare": "husky"
+    "format": "prettier --write src/**/*.ts"
   },
   "lint-staged": {
     "src/**/*.ts": [

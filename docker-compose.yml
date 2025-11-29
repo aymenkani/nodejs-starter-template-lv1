@@ -19,7 +19,10 @@ services:
     volumes:
       - /app/node_modules # Exclude node_modules from host mount
     depends_on:
-      - redis
+      redis:
+          condition: service_started
+      db:
+          condition: service_healthy
 
   redis:
     image: redis:7-alpine

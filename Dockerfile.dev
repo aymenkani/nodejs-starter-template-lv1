@@ -12,6 +12,10 @@ RUN npm install
 # 3. Copy the rest of the application code
 COPY . .
 
+# Copy the entrypoint script
+COPY docker-entrypoint.dev.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/docker-entrypoint.dev.sh
+
 # Expose the application port
 EXPOSE 5001
 
