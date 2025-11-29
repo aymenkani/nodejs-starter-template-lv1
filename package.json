@@ -9,7 +9,7 @@
     "prepare": "husky",
 
     "--- BUILD & PROD ---": "Scripts for building and running in production",
-    "build": "npm run prisma:generate && tsc && tsc prisma/seed.ts --outDir dist/prisma && cpr src/generated dist/generated -o",
+    "build": "npm run prisma:generate && tsc && tsc prisma/seed.ts --outDir dist/prisma --target ES2022 --module CommonJS --moduleResolution node --esModuleInterop --skipLibCheck && cpr src/generated dist/generated -o",
     "start": "node dist/server.js",
     "start:with-db": "npm run prisma:migrate:deploy && npm run seed:prod && node dist/server.js",
 
