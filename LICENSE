@@ -1,21 +1,36 @@
-MIT License
+# COMMERCIAL LICENSE AGREEMENT
 
-Copyright (c) 2025 Your Name or Company
+This License Agreement ("Agreement") is made and entered into by and between **Aymen El kani** ("Licensor") and the purchaser ("Licensee").
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+By purchasing, downloading, or using the **Kani Catalyst Kit** ("Software"), the Licensee agrees to be bound by the terms of this Agreement.
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+## 1. GRANT OF LICENSE
+Subject to the terms and conditions of this Agreement, Licensor grants Licensee a non-exclusive, non-transferable, and perpetual license to use the Software.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+**1.1 Permitted Uses:**
+* **Personal & Commercial Projects:** Licensee may use the Software to create an unlimited number of End Products (e.g., web applications, SaaS platforms, websites) for their own use or for their clients.
+* **Modification:** Licensee may modify, adapt, and customize the source code to fit the requirements of their End Products.
+
+## 2. RESTRICTIONS
+The rights granted in Section 1 are subject to the following restrictions.
+
+**2.1 No Redistribution of Source Code:**
+Licensee may not redistribute, resell, lease, license, sub-license, or offer the Software "as is" to any third party. This includes hosting the unmodified source code on public repositories (e.g., GitHub, GitLab) where it can be downloaded for free.
+
+**2.2 No Competing Products:**
+Licensee may not use the Software to create a derivative product that competes with the Software itself, such as another "Starter Kit," "Template," "Boilerplate," or "Theme."
+
+**2.3 Client Use:**
+If the Licensee uses the Software to create a project for a client, the Licensee may transfer the End Product to the client, provided that the client does not resell the Software source code as a standalone product.
+
+## 3. INTELLECTUAL PROPERTY
+The Software is the intellectual property of the Licensor. This Agreement does not transfer any ownership rights to the Licensee. All rights not expressly granted to the Licensee are reserved by the Licensor.
+
+## 4. DISCLAIMER OF WARRANTY
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NONINFRINGEMENT. IN NO EVENT SHALL THE LICENSOR BE LIABLE FOR ANY CLAIM, DAMAGES, OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT, OR OTHERWISE, ARISING FROM, OUT OF, OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+## 5. TERMINATION
+This license is effective until terminated. Your rights under this license will terminate automatically without notice from the Licensor if you fail to comply with any term(s) of this license. Upon termination, you shall cease all use of the Software and destroy all copies, full or partial, of the Software.
+
+---
+**Copyright © [2025] [Aymen El Kani]. All Rights Reserved.**

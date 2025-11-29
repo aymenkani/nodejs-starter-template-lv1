@@ -35,11 +35,3 @@ Key documents include:
 *   **[Authentication](./md-documentation/authentication.md)**
 *   **[Database with Prisma](./md-documentation/database-prisma.md)**
 *   **[Background Jobs with BullMQ](./md-documentation/background-jobs-bullmq.md)**
-
-## Contributing
-
-Contributions are welcome! Please read the **[Contributing Guide](./md-documentation/contributing.md)** for details on our code of conduct and the process for submitting pull requests.
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](./LICENSE) file for details.
