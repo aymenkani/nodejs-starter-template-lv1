@@ -161,7 +161,7 @@ async function stopServer(
 
   // 4. Close the worker and wait for any active jobs to finish
   logger.info('Attempting to close token cleanup worker...');
-  await worker.close();
+  await worker.close(config.env === 'test' ? true : false);
   logger.info('Token cleanup worker closed.');
 
   // 5. Finally, disconnect from the database
