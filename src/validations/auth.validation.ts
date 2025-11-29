@@ -63,7 +63,8 @@ const registerBodySchema = registry.register(
       .min(8, { message: 'Password must be at least 8 characters' })
       .regex(/^(?=.*[A-Za-z])(?=.*\d).*$/, {
         message: 'Password must contain at least one letter and one number',
-      }),
+      })
+      .default('password123'),
     username: z.string(),
   }),
 );
