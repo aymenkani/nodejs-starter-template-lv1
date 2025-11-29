@@ -5,6 +5,11 @@ WORKDIR /app
 
 # Install all dependencies including devDependencies
 COPY package.json package-lock.json ./
+
+# Copy the Prisma folder (CRITICAL STEP)
+# We need the schema here because 'npm ci' triggers 'prisma generate' via postinstall
+COPY prisma ./prisma/
+
 RUN npm ci
 
 # Copy source code
@@ -17,9 +22,6 @@ FROM development AS builder
 # A dummy URL is sufficient for 'prisma generate' as it doesn't connect to the DB.
 ARG DATABASE_URL="postgresql://dummy:dummy@dummy:5432/dummy"
 ENV DATABASE_URL=${DATABASE_URL}
-
-# Generate Prisma client
-RUN npx prisma generate
 
 # Build the application
 RUN npm run build
@@ -45,6 +47,12 @@ COPY --from=builder /app/package-lock.json ./package-lock.json
 
 # Install production dependencies only
 RUN npm ci --omit=dev --ignore-scripts
+
+# Because we ignored scripts, the Prisma Client wasn't generated.
+# We must copy the generated client from the builder stage.
+COPY --from=builder /app/node_modules/.prisma ./node_modules/.prisma
+COPY --from=builder /app/node_modules/@prisma ./node_modules/@prisma
+# --
 
 # Ensure ownership is set by root
 USER root

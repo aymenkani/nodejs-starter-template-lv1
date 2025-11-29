@@ -5,11 +5,18 @@ WORKDIR /app
 # 1. Copy package files FIRST
 COPY package.json package-lock.json ./
 
+# Copy the Prisma folder (CRITICAL STEP)
+# We need the schema here because 'npm ci' triggers 'prisma generate' via postinstall
+COPY prisma ./prisma/
+
+# Accept DATABASE_URL as a build argument.
+# A dummy URL is sufficient for 'prisma generate' as it doesn't connect to the DB.
+ARG DATABASE_URL="postgresql://dummy:dummy@dummy:5432/dummy"
+ENV DATABASE_URL=${DATABASE_URL}
 # 2. Install dependencies
 # This layer is now cached and will only re-run if package*.json changes.
 RUN npm install
 
-# 3. Copy the rest of the application code
 COPY . .
 
 # Copy the entrypoint script
