@@ -1,12 +1,20 @@
 import { PrismaClient, Role } from '../src/generated/prisma';
 import bcrypt from 'bcryptjs';
+import { getConfig } from '../src/config/config';
 
 const prisma = new PrismaClient();
+const config = getConfig(process.env);
 
 async function main() {
-  // Create an admin user
-  const adminEmail = 'admin@example.com';
-  const adminPassword = 'adminpassword'; // Change this to a strong password
+  // Use Environment variables with fallbacks for local dev
+  const adminEmail = config.admin.email || 'admin@example.com';
+  const adminPassword = config.admin.password || 'adminpassword123';
+
+
+  // Safety Check: Warn if using default password in production
+  if (process.env.NODE_ENV === 'production' && adminPassword === 'adminpassword123') {
+    console.warn('⚠️  WARNING: You are seeding the default "adminpassword123" in production. Please set ADMIN_PASSWORD env var.');
+  }
 
   const existingAdmin = await prisma.user.findUnique({
     where: { email: adminEmail },
@@ -23,7 +31,8 @@ async function main() {
         passwordHistory: [hashedPassword],
       },
     });
-    console.log('Admin user created successfully!');
+    
+    console.log(`Admin user (${adminEmail}) created successfully!`);
   } else {
     console.log('Admin user already exists.');
   }

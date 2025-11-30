@@ -4,6 +4,13 @@ const envVarsSchema = z
   .object({
     NODE_ENV: z.enum(['production', 'development', 'test']),
     PORT: z.coerce.number().default(3000),
+    ADMIN_EMAIL: z.email('Admin email must be a valid email address'),
+    ADMIN_PASSWORD: z
+      .string()
+      .min(8, { message: 'Password must be at least 8 characters' })
+      .regex(/^(?=.*[A-Za-z])(?=.*\d).*$/, {
+        message: 'Password must contain at least one letter and one number',
+      }),
     JWT_SECRET: z.string().min(1, 'JWT secret key is required'),
     JWT_ACCESS_EXPIRATION_MINUTES: z.coerce.number().default(30),
     JWT_REFRESH_EXPIRATION_DAYS: z.coerce.number().default(30),
@@ -33,6 +40,10 @@ const envVarsSchema = z
 export type Config = {
   env: 'production' | 'development' | 'test';
   port: number;
+  admin: {
+    email: string;
+    password: string;
+  };
   jwt: {
     secret: string;
     accessExpirationMinutes: number;
@@ -93,6 +104,10 @@ export function getConfig(processEnv: NodeJS.ProcessEnv): Config {
   return {
     env: envVars.NODE_ENV,
     port: envVars.PORT,
+    admin: {
+      email: envVars.ADMIN_EMAIL,
+      password: envVars.ADMIN_PASSWORD,
+    },
     jwt: {
       secret: envVars.JWT_SECRET,
       accessExpirationMinutes: envVars.JWT_ACCESS_EXPIRATION_MINUTES,
