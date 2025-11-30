@@ -23,7 +23,7 @@ export const swaggerSpec = generator.generateDocument({
   },
   servers: [
     {
-      url: `http://localhost:${process.env.PORT || 5001}`,
+      url: '/api/v1',
       description: 'Development server',
     },
   ],
