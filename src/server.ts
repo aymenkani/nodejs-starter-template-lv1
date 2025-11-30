@@ -79,11 +79,6 @@ app.get('/docs/json', (req: Request, res: Response) => {
   res.send(swaggerSpec);
 });
 
-// Health check route for deployment services like Render
-app.get('/api/health', (req: Request, res: Response) => {
-  res.status(200).send('OK');
-});
-
 app.use('/api/v1', apiRoutes);
 
 app.get('/', (req: Request, res: Response) => {

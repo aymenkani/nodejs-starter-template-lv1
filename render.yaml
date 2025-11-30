@@ -6,7 +6,7 @@ services:
     name: app
     env: docker
     plan: free
-    healthCheckPath: /v1/health
+    healthCheckPath: api/v1/health
     # 1. The Migration & Seed Command (Runs ONCE before deployment)
     preDeployCommand: "sh -c 'npx prisma migrate deploy && npm run seed:prod'"
 
