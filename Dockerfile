@@ -73,4 +73,8 @@ ENV PORT=5001
 # Expose the application port
 EXPOSE 5001
 
-CMD ["node", "dist/server.js"]
+# Using Render?: Use this command if you have paid plan on Render
+#CMD ["node", "dist/server.js"]
+
+# Using Render?: Use this command if you have Free plan on Render > Run migrations, then seed, then start the server
+CMD ["sh", "-c", "npx prisma migrate deploy && npm run seed:prod && node dist/server.js"]

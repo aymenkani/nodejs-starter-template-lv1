@@ -7,13 +7,15 @@ services:
     env: docker
     plan: free
     healthCheckPath: /api/v1/health
-    # 1. The Migration & Seed Command (Runs ONCE before deployment)
-    preDeployCommand: "sh -c 'npx prisma migrate deploy && npm run seed:prod'"
+    # 1. The Migration & Seed Command (Runs ONCE before deployment) (PAID render Feature)
+    # Uncomment this only if you have paid render subscription
+    #preDeployCommand: "sh -c 'npx prisma migrate deploy && npm run seed:prod'"
 
-    # 2. The Actual Start Command (Runs on EVERY replica)
+    # 2. The Actual Start Command (Runs on EVERY replica)  (PAID render Feature)
     # Since we moved the logic to preDeploy, we can revert to the simple start.
     # Note: For Docker, this usually overrides the CMD in the Dockerfile.
-    dockerCommand: "node dist/server.js"
+    # Uncomment this only if you have paid render subscription
+    #dockerCommand: "node dist/server.js"
     envVars:
       - key: DATABASE_URL
         fromDatabase:
