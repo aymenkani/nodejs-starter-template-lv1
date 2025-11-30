@@ -77,4 +77,4 @@ EXPOSE 5001
 #CMD ["node", "dist/server.js"]
 
 # Using Render?: Use this command if you have Free plan on Render > Run migrations, then seed, then start the server
-CMD ["sh", "-c", "npx prisma migrate deploy && npm run seed:prod && node dist/server.js"]
+CMD ["sh", "-c", "ls -R dist && npx prisma migrate deploy && npm run seed:prod && node dist/server.js"]
