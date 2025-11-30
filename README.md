@@ -35,3 +35,17 @@ Key documents include:
 *   **[Authentication](./md-documentation/authentication.md)**
 *   **[Database with Prisma](./md-documentation/database-prisma.md)**
 *   **[Background Jobs with BullMQ](./md-documentation/background-jobs-bullmq.md)**
+
+## Deploying to Render
+
+This template includes a `render.yaml` file to easily deploy the application to [Render](https://render.com/) using Blueprints.
+
+### Free Tier Limitations
+
+When using Render's free tier, please be aware of the following limitations:
+
+*   **Redis Data Loss:** The `redis` service on the free plan is ephemeral. If your instance restarts for any reason, all data stored in Redis (such as session information and cached data) will be permanently lost. This is acceptable for testing and development, but it is highly recommended to upgrade to a paid plan for production environments to ensure data persistence.
+
+*   **PostgreSQL Database:** The free PostgreSQL database is subject to limitations, including expiration after 90 days of inactivity or limited usage quotas. For production applications requiring long-term data storage, consider upgrading to a paid database plan.
+
+*   **`repo` Field in `render.yaml`:** The `repo` field in the `render.yaml` file is typically not required if you create the Blueprint directly from the Render dashboard while connected to your GitHub account. Render automatically associates the repository. Removing this line can make the configuration more generic and portable for your customers.

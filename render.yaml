@@ -1,24 +1,13 @@
-# This file defines the services for deploying the application to Render.
-# To deploy, connect your repo to Render Blueprints.
-
-# 1. APPLICATION SERVICES
 services:
   # ------------------
-  # Web Service (Your Node.js App)
+  # Web Service
   # ------------------
   - type: web
     name: app
     env: docker
-    plan: free 
-    # 🔴 IMPORTANT: Render automatically picks up the repo linked to the Blueprint, 
-    # so 'repo' is usually not required unless pointing to a different one.
-    
-    healthCheckPath: /v1/health # Ensure this matches your actual route (e.g., /api/health or /v1/health)
-    
-    # 🟢 UPDATED COMMAND: Migration + Seeding + Start
-    # We use "seed:prod" because we don't have ts-node in production
-    startCommand: "npx prisma migrate deploy && npm run seed:prod && node dist/server.js"
-    
+    plan: free
+    healthCheckPath: /v1/health
+    # startCommand REMOVED - logic moved to Dockerfile CMD
     envVars:
       - key: DATABASE_URL
         fromDatabase:
@@ -38,22 +27,22 @@ services:
         generateValue: true
       - key: NODE_ENV
         value: production
-        
+
   # ------------------
-  # Redis Instance
+  # Redis Service
   # ------------------
-  # Redis is considered a "service" in Render Blueprints, not a "database"
   - type: redis
     name: redis
-    plan: free # Note: Free Redis on Render is not persistent (data clears on restart)
+    plan: free
+    # Fix: Explicitly disallow public access
+    ipAllowList: []
 
-# 2. DATABASES (Moved here!)
 databases:
   # ------------------
   # PostgreSQL Database
   # ------------------
   - name: db
-    plan: free 
-    databaseName: myapp_db # Optional: specific DB name
-    user: admin # Optional: specific user
+    plan: free
+    databaseName: myapp_db
+    user: admin
     postgresMajorVersion: 16
