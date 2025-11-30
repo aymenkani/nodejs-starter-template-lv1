@@ -50,6 +50,11 @@ app.use(
     },
   }),
 );
+
+app.get('/api/v1/health', async (req: Request, res: Response) => {
+  res.status(200).json({ status: 'UP' });
+});
+
 const limiter = rateLimit({
   windowMs: 10 * 60 * 1000,
   max: 100,
@@ -64,7 +69,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(morgan('dev'));
 
 // Serve static files from the 'public' directory
-app.use(express.static('public'));
+app.use('/client', express.static('public'));
 
 app.use(
   '/api-docs',
