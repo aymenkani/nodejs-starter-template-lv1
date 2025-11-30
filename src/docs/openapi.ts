@@ -23,7 +23,7 @@ export const swaggerSpec = generator.generateDocument({
   },
   servers: [
     {
-      url: '/api/v1',
+      url: '/',
       description: 'Development server',
     },
   ],
