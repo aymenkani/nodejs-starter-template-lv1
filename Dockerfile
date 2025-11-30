@@ -73,5 +73,4 @@ ENV PORT=5001
 # Expose the application port
 EXPOSE 5001
 
-# New CMD: Run migrations -> Seed -> Start Server
-CMD ["sh", "-c", "npx prisma migrate deploy && npm run seed:prod && node dist/server.js"]
+CMD ["node", "dist/server.js"]

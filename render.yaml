@@ -7,7 +7,13 @@ services:
     env: docker
     plan: free
     healthCheckPath: /v1/health
-    # startCommand REMOVED - logic moved to Dockerfile CMD
+    # 1. The Migration & Seed Command (Runs ONCE before deployment)
+    preDeployCommand: "sh -c 'npx prisma migrate deploy && npm run seed:prod'"
+
+    # 2. The Actual Start Command (Runs on EVERY replica)
+    # Since we moved the logic to preDeploy, we can revert to the simple start.
+    # Note: For Docker, this usually overrides the CMD in the Dockerfile.
+    dockerCommand: "node dist/server.js"
     envVars:
       - key: DATABASE_URL
         fromDatabase:
