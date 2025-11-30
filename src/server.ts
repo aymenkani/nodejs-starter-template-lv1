@@ -24,6 +24,7 @@ import { tokenCleanupQueueName } from './jobs/queue';
 import { prisma } from './config/db';
 import { PrismaClient } from '@prisma/client/extension';
 import { socketService } from './services/socket.service';
+import path from 'path';
 
 const config = getConfig(process.env);
 
@@ -69,7 +70,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(morgan('dev'));
 
 // Serve static files from the 'public' directory
-app.use('/client', express.static('public'));
+app.use('/client', express.static(path.join(__dirname, '../public')));
 
 app.use(
   '/api-docs',
