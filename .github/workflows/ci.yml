@@ -109,6 +109,8 @@ jobs:
       SMTP_USER: 'test-smtp-username'
       SMTP_PASS: 'test-smtp-password'
       SENDGRID_API_KEY: 'SG.test-sendgrid-api-key'
+      ADMIN_EMAIL: 'admin@example.com'
+      ADMIN_PASSWORD: 'adminpassword123'
 
     steps:
       - uses: actions/checkout@v4
