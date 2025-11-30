@@ -5,7 +5,7 @@ import jwt from 'jsonwebtoken';
 import ApiError from '../utils/ApiError';
 import httpStatus from 'http-status';
 import { prisma } from '../config/db'; // Import prisma
-import { Role } from '../generated/prisma';
+import { Role } from '@prisma/client';
 
 // Middleware to protect routes
 const auth = async (req: Request, res: Response, next: NextFunction) => {

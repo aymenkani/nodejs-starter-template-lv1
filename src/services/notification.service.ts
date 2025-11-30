@@ -1,5 +1,5 @@
 import { prisma } from '../config/db';
-import { Notification } from '../generated/prisma';
+import { Notification } from '@prisma/client';
 import { socketService } from './socket.service';
 
 /**

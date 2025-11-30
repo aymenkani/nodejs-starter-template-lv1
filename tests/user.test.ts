@@ -2,7 +2,7 @@ import supertest from 'supertest';
 import { app } from '../src/server';
 import { prisma } from '../src/config/db';
 import { userService } from '../src/services';
-import { Role } from '../src/generated/prisma';
+import { Role } from '@prisma/client';
 import bcrypt from 'bcryptjs';
 
 describe('User Endpoints & Protected Routes', () => {

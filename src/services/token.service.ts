@@ -3,7 +3,7 @@ import httpStatus from 'http-status';
 import { Config } from '../config/config';
 import { prisma } from '../config/db';
 import ApiError from '../utils/ApiError';
-import { User } from '../generated/prisma';
+import { User } from '@prisma/client';
 
 export const createTokenService = (config: Config) => {
   /**

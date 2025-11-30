@@ -1,4 +1,4 @@
-import { PrismaClient } from '../src/generated/prisma';
+import { PrismaClient } from '@prisma/client';
 import { execSync } from 'child_process';
 
 const prisma = new PrismaClient();

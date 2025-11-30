@@ -2,7 +2,7 @@ import request from 'supertest';
 import { app } from '../src/server';
 import { prisma } from '../src/config/db';
 import { tokenService } from '../src/services';
-import { User } from '../src/generated/prisma/client';
+import { User } from '@prisma/client';
 
 describe('Token Routes', () => {
   let user: User;

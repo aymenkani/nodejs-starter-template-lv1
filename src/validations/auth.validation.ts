@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import { registry } from '../docs/openAPIRegistry';
 import { extendZodWithOpenApi } from '@asteasolutions/zod-to-openapi'; // 1. Import this
-import { Role } from '../generated/prisma';
+import { Role } from '@prisma/client';
 
 extendZodWithOpenApi(z); // Call this IMMEDIATELLY
 

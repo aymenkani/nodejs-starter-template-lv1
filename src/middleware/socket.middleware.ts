@@ -1,6 +1,6 @@
 import { Socket } from 'socket.io';
 import passport from 'passport';
-import { User } from '../generated/prisma';
+import { User } from '@prisma/client';
 import { ExtendedSocket } from '../types/express';
 import logger from '../utils/logger';
 import { IncomingMessage } from 'http';

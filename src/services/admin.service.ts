@@ -1,7 +1,7 @@
 import bcrypt from 'bcryptjs';
 import httpStatus from 'http-status';
 import { prisma } from '../config/db';
-import { User } from '../generated/prisma';
+import { User } from '@prisma/client';
 import ApiError from '../utils/ApiError';
 
 /**

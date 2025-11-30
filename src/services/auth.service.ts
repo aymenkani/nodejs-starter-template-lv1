@@ -4,7 +4,7 @@ import jwt from 'jsonwebtoken';
 import { prisma } from '../config/db';
 import ApiError from '../utils/ApiError';
 import { userService } from './user.service';
-import { User } from '../generated/prisma';
+import { User } from '@prisma/client';
 import { v4 as uuidv4 } from 'uuid';
 import { createEmailService } from './email.service';
 import { Config } from '../config/config';

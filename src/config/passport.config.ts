@@ -1,10 +1,10 @@
 import { Strategy as JwtStrategy, ExtractJwt } from 'passport-jwt';
-import { User } from '../generated/prisma';
+import { User } from '@prisma/client';
 import passport from 'passport';
 import { Strategy as GoogleStrategy, Profile } from 'passport-google-oauth20';
 import { prisma } from './db';
 import { getConfig } from './config';
-import { AuthProvider } from '../generated/prisma';
+import { AuthProvider } from '@prisma/client';
 
 const config = getConfig(process.env);
 

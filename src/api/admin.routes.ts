@@ -4,7 +4,7 @@ import { auth, authorize } from '../middleware/auth.middleware';
 import validate from '../middleware/validate';
 import { adminValidation } from '../validations/admin.validation';
 import { notificationValidation } from '../validations/notification.validation';
-import { Role } from '../generated/prisma';
+import { Role } from '@prisma/client';
 
 const router = Router();
 

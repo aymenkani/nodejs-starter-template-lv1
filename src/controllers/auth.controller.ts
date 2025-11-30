@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import httpStatus from 'http-status'; // Added import
 import { authService, tokenService, userService } from '../services';
-import { User } from '../generated/prisma';
+import { User } from '@prisma/client';
 import ApiError from '../utils/ApiError'; // Added import
 
 const register = async (req: Request, res: Response, next: NextFunction) => {
