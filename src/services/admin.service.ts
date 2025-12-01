@@ -2,7 +2,7 @@ import bcrypt from 'bcryptjs';
 import httpStatus from 'http-status';
 import { prisma } from '../config/db';
 import { User } from '@prisma/client';
-import ApiError from '../utils/ApiError';
+import ApiError from '@/utils/ApiError';
 
 /**
  * Get all users.
