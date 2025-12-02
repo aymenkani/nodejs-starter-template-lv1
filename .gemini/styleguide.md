@@ -80,9 +80,9 @@ Database (Prisma):
 
 All DB operations go through prisma.
 
-After schema changes, ALWAYS run npx prisma generate to update types.
+After schema changes, ALWAYS run npm prisma:generate to update types.
 
-Use npx prisma migrate dev for schema changes.
+Use `npm prisma:migrate:dev` for schema changes.
 
 Authentication:
 

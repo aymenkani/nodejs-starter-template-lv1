@@ -27,9 +27,9 @@ Before you begin, ensure you have the following installed:
     # Install MkDocs and any themes/plugins specified in mkdocs.yml
     pip install -r requirements.txt
     ```
-    *Note: If `requirements.txt` does not exist, you might need to install `mkdocs` and `mkdocs-material` manually:*
+    *Note: If `requirements.txt` does not exist, you might need to install `mkdocs`, `pymdown-extensions` and `mkdocs-material` manually:*
     ```bash
-    pip install mkdocs mkdocs-material
+    pip install mkdocs mkdocs-material pymdown-extensions
     ```
 
 ## Running the Documentation Locally

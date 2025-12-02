@@ -18,7 +18,48 @@ JWT (JSON Web Token) is an open standard (RFC 7519) that defines a compact and s
 6.  **Token Verification:** The API verifies the access token's signature and expiration. If valid, the request is authorized.
 7.  **Token Refresh:** When the access token expires, the client sends the refresh token to a dedicated refresh endpoint. If the refresh token is valid, a new access token (and optionally a new refresh token) is issued.
 
-> **Suggestion:** A sequence diagram illustrating the JWT authentication and refresh flow would be highly beneficial here for visual learners.
+# Authentication Flow
+
+Here is how the Refresh Token rotation and logout process works:
+
+```mermaid
+sequenceDiagram
+    autonumber
+    participant User
+    participant API
+    participant DB
+
+    %% -- Login Flow --
+    User->>API: POST /api/v1/auth/login (Email/Pass)
+    API->>DB: Validate credentials
+    DB-->>API: User is valid
+    API->>DB: Delete old refresh tokens for user
+    API->>DB: Create and store new Refresh Token
+    DB-->>API: OK
+    API-->>User: Access Token (in JSON response) + New Refresh Token (in HttpOnly Cookie)
+    
+    Note over User, API: Later, when Access Token is expired...
+    
+    %% -- Refresh Token Flow --
+    User->>API: POST /api/v1/token/refresh (with Refresh Token Cookie)
+    API->>DB: Find and verify Refresh Token
+    DB-->>API: Token is valid
+    API->>DB: Delete the used Refresh Token
+    DB-->>API: OK
+    API->>DB: Create and store another new Refresh Token
+    DB-->>API: OK
+    API-->>User: New Access Token (in JSON response) + Another New Refresh Token (in HttpOnly Cookie)
+
+    Note over User, API: Later, when user logs out...
+
+    %% -- Logout Flow --
+    User->>API: POST /api/v1/auth/logout (with Access Token and Refresh Token Cookie)
+    API->>DB: Delete Refresh Token from DB
+    DB-->>API: OK
+    API->>DB: Add Access Token to blacklist
+    DB-->>API: OK
+    API-->>User: 204 No Content (clears cookie)
+```
 
 ### Implementation Details
 

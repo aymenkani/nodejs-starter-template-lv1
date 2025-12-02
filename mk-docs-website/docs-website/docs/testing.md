@@ -1,164 +1,162 @@
 # Testing
 
-This template comes with a comprehensive testing setup using [Jest](https://jestjs.io/) to ensure code quality, reliability, and maintainability. It includes configurations for both unit and integration tests, with a focus on database interaction testing using Prisma.
+This template comes with a comprehensive testing setup using [Jest](https://jestjs.io/) and [Supertest](https://github.com/ladjs/supertest) to ensure code quality, reliability, and maintainability. It is configured for end-to-end API testing, with a focus on database interaction testing using Prisma.
 
 ## Why Testing?
 
-*   **Reliability:** Ensures that your code works as expected and prevents regressions when changes are introduced.
+*   **Reliability:** Ensures that your API endpoints work as expected and prevents regressions.
 *   **Maintainability:** Well-tested code is easier to refactor and extend with confidence.
 *   **Collaboration:** Provides a safety net for teams, allowing multiple developers to work on the codebase without breaking existing functionality.
-*   **Documentation:** Tests can serve as living documentation, demonstrating how different parts of the application are intended to be used.
+*   **Documentation:** Tests serve as living documentation, demonstrating how the API is intended to be used.
 
 ## 1. Test Setup
 
-The testing environment is configured with Jest and integrates with TypeScript and Prisma.
+The testing environment is configured to run the entire application, including the server and database connections, to simulate a real-world scenario.
 
 *   **Test Runner:** Jest
-*   **TypeScript Support:** `ts-jest` for transpiling TypeScript files during tests.
-*   **Database Testing:** Custom setup to manage Prisma Client and database state for tests.
+*   **HTTP Requests:** Supertest is used to make requests to the running application.
+*   **TypeScript Support:** `ts-jest` for transpiling TypeScript files.
+*   **Database Testing:** The setup uses a dedicated test database and manages the schema with Prisma Migrate.
 
 ### Key Configuration Files
 
-*   `jest.config.js`: The main Jest configuration file. It defines test patterns, transformations, environment, and setup files.
-*   `tests/jest.setup.ts`: Runs before all tests, typically for global setups like initializing the Prisma Client or setting up environment variables.
-*   `tests/globalSetup.ts`: A global setup file that runs once before all test suites, useful for tasks like starting test databases.
-*   `tests/globalTeardown.ts`: A global teardown file that runs once after all test suites, used for cleaning up resources (e.g., stopping test databases).
-*   `tests/prismaSetup.ts`: Contains utilities for managing Prisma Client instances and cleaning the database between tests.
+*   `jest.config.js`: The main Jest configuration file. It defines the test environment, setup files, and global setup/teardown scripts.
+*   `tests/globalSetup.ts`: A crucial script that runs once before all test suites. It starts the Express server on a dedicated test port and initializes global variables for the server instance, Prisma client, and background jobs.
+*   `tests/globalTeardown.ts`: Runs once after all tests are complete. It gracefully shuts down the server and other resources started in `globalSetup.ts`.
+*   `tests/jest.setup.ts`: This file runs before each test file. It sets the `NODE_ENV` to `test`, loads environment variables from `.env.test`, and can be used for mocking modules.
+*   `tests/prismaSetup.ts`: This file runs after `jest.setup.ts` but before the tests in a file. It ensures the test database schema is up-to-date by executing `prisma migrate deploy` and manages the Prisma Client connection.
 
 ## 2. Running Tests
 
-You can run all tests or specific test suites using npm/yarn scripts.
+You can run all tests or specific test suites using npm scripts.
 
 ### Run All Tests
 
 ```bash
 npm run test
 ```
-This command loads `.env.test` (connecting to the test DB) and runs Jest tests.
+This command loads `.env.test` (connecting to the test DB) and runs all Jest tests found in the `tests/` directory.
 
 ### Run Tests in Watch Mode
 
 ```bash
 npm run test -- --watch
-# or
-yarn test -- --watch
 ```
 This will run tests in an interactive watch mode, re-running tests when file changes are detected.
 
 ### Run Specific Test Files
 
-To run tests only for a specific file or pattern:
+To run tests only for a specific file:
 
 ```bash
 npm run test -- tests/user.test.ts
-# or
-yarn test -- tests/auth.test.ts
 ```
 
 ### Run Tests by Name
 
-To run tests that match a specific name or pattern:
+To run tests that match a specific name or pattern within a file:
 
 ```bash
 npm run test -- -t "should register a new user"
-# or
-yarn test -- -t "user service"
 ```
 
 ## 3. Writing Tests
 
-Tests are typically organized in the `tests/` directory, mirroring the structure of the `src/` directory.
-
-### Unit Tests
-
-Unit tests focus on testing individual functions, classes, or modules in isolation.
-
-**Example (Unit test for a utility function - `tests/utils/some-util.test.ts`):**
-
-```typescript
-// src/utils/some-util.ts
-export const add = (a: number, b: number) => a + b;
-
-// tests/utils/some-util.test.ts
-import { add } from '../../src/utils/some-util';
-
-describe('add', () => {
-  it('should add two numbers correctly', () => {
-    expect(add(1, 2)).toBe(3);
-    expect(add(-1, 1)).toBe(0);
-    expect(add(0, 0)).toBe(0);
-  });
-});
-```
+Tests are located in the `tests/` directory. The convention is to create a `*.test.ts` file for each feature or route module.
 
 ### Integration Tests
 
-Integration tests verify the interaction between different components (e.g., routes, controllers, services, and the database). They often involve making actual HTTP requests to your API.
+Integration tests are the primary focus of this template. They test the full request-response cycle of your API endpoints, including database interactions.
 
 **Example (Integration test for user registration - `tests/auth.test.ts`):**
 
 ```typescript
-import request from 'supertest';
-import httpStatus from 'http-status';
-import app from '../src/server'; // Your Express app instance
-import { prisma } from '../src/config/db'; // Your Prisma client instance
-import { setupTestDB } from './prismaSetup'; // Utility to clean DB
+import supertest from 'supertest';
+import { app } from '../src/server'; // The running Express app
+import { prisma } from '../src/config/db'; // The Prisma client
 
-setupTestDB(); // Cleans and resets the database before each test suite
+describe('Auth Endpoints', () => {
+  // Create an agent to make requests to the app
+  const request = supertest(app);
+  let userEmail: string;
 
-describe('Auth routes', () => {
-  let newUser: any;
+  // Set up test-specific data before each test
+  beforeEach(async () => {
+    const uniqueUsername = `testuser_${Date.now()}`;
+    userEmail = `${uniqueUsername}@example.com`;
 
-  beforeEach(() => {
-    newUser = {
-      name: 'Test User',
-      email: 'test@example.com',
+    // Pre-register a user to test login, logout, etc.
+    await request.post('/api/v1/auth/register').send({
+      username: uniqueUsername,
+      email: userEmail,
       password: 'password123',
-    };
-  });
-
-  describe('POST /v1/auth/register', () => {
-    it('should return 201 and successfully register user if data is ok', async () => {
-      const res = await request(app)
-        .post('/v1/auth/register')
-        .send(newUser)
-        .expect(httpStatus.CREATED);
-
-      expect(res.body.user).not.toHaveProperty('password');
-      expect(res.body.user).toHaveProperty('id');
-      expect(res.body.user.email).toEqual(newUser.email);
-      expect(res.body.tokens).toBeDefined();
-
-      const dbUser = await prisma.user.findUnique({ where: { email: newUser.email } });
-      expect(dbUser).toBeDefined();
-      expect(dbUser?.email).toEqual(newUser.email);
-    });
-
-    it('should return 400 if email is already taken', async () => {
-      await prisma.user.create({ data: newUser }); // Create user first
-
-      await request(app)
-        .post('/v1/auth/register')
-        .send(newUser)
-        .expect(httpStatus.BAD_REQUEST);
     });
   });
 
-  // ... other auth tests (login, logout, refresh token, etc.)
+  // Clean up the database after each test to ensure isolation
+  afterEach(async () => {
+    await prisma.refreshToken.deleteMany({});
+    await prisma.user.deleteMany({});
+  });
+
+  it('should register a new user with valid data', async () => {
+    const uniqueUserEmail = `register-${Date.now()}@example.com`;
+    const res = await request
+      .post('/api/v1/auth/register')
+      .send({
+        username: 'newuser',
+        email: uniqueUserEmail,
+        password: 'password123',
+      });
+
+    expect(res.statusCode).toEqual(201);
+    expect(res.body).toHaveProperty('user');
+    expect(res.body.user.email).toBe(uniqueUserEmail);
+    expect(res.body).toHaveProperty('access'); // Check for access token
+  });
+
+  it('should login a user with correct credentials', async () => {
+    const loginRes = await request
+      .post('/api/v1/auth/login')
+      .send({
+        email: userEmail,
+        password: 'password123',
+      });
+    expect(loginRes.statusCode).toEqual(200);
+    expect(loginRes.body).toHaveProperty('user');
+    expect(loginRes.body).toHaveProperty('access');
+  });
+
+  it('should return 401 for login with wrong password', async () => {
+    const loginRes = await request
+      .post('/api/v1/auth/login')
+      .send({
+        email: userEmail,
+        password: 'wrongpassword',
+      });
+    expect(loginRes.statusCode).toEqual(401);
+  });
 });
 ```
 
-## 4. Database Testing Strategy (`tests/prismaSetup.ts`)
+## 4. Database Testing Strategy
 
-Testing with a database requires careful management of the database state to ensure tests are isolated and repeatable.
+To ensure tests are reliable and independent, the state of the database must be managed carefully.
 
-*   **`setupTestDB()`:** This utility (defined in `tests/prismaSetup.ts`) is typically called in a `beforeAll` or `beforeEach` hook in your test files. Its purpose is to:
-*   Connect to a dedicated test database (defined by `TEST_DATABASE_URL` in your [Configuration Management](./core-concepts.md#8-configuration-management) settings).
-*   Clear all data from the database before each test or test suite.
-*   Optionally, re-run migrations to ensure the schema is up-to-date.
-*   **Separate Test Database:** It's highly recommended to use a separate database for testing to avoid data corruption in your development or production databases. Configure `DATABASE_URL` in `.env.test` to point to this test database.
+*   **Separate Test Database:** A separate database is essential. The connection string for this database should be set as `DATABASE_URL` in the `.env.test` file.
+*   **Automatic Migrations:** The `tests/prismaSetup.ts` file automatically runs `npx prisma migrate deploy` before tests begin. This ensures your test database schema is always in sync with your Prisma schema.
+*   **Data Cleanup:** Tests are responsible for cleaning up the data they create. The most common strategy is to use an `afterEach` hook to delete all records from the tables affected during the test. This isolates each test case.
 
-By following these testing guidelines, you can build confidence in your application's functionality and ensure a stable development process.
+    ```typescript
+    // Example from auth.test.ts
+    afterEach(async () => {
+      // Delete records from tables modified in the tests
+      await prisma.refreshToken.deleteMany({});
+      await prisma.user.deleteMany({});
+    });
+    ```
+
+This approach guarantees a clean slate for every test, preventing failures due to leftover data from previous tests.
 
 ## 5. Code Quality and Formatting
 
@@ -176,3 +174,23 @@ Beyond testing, this template includes scripts to ensure code quality and consis
     ```bash
     npm run format
     ```
+
+## 6. Troubleshooting
+
+### Prisma-related Test Failures
+
+Sometimes, `npm run test` might fail with an error related to the Prisma Client not being in sync with the schema (e.g., "The table `main.User` does not exist in the current database"). This can happen if you've made changes to your `schema.prisma` file.
+
+To fix this, you need to regenerate the Prisma Client and apply migrations to your **local development database**. Ensure your database server (e.g., via Docker) is running, and then execute the following commands:
+
+1.  **Generate Prisma Client:** This updates the client based on your schema.
+    ```bash
+    npm run prisma:generate
+    ```
+
+2.  **Run Development Migrations:** This applies any new migrations to your database.
+    ```bash
+    npm run prisma:migrate:dev
+    ```
+
+After completing these steps, the test setup script (`prismaSetup.ts`) will be able to correctly apply the migrations to the separate test database, and your tests should run successfully.
