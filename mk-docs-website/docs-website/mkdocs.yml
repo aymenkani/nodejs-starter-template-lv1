@@ -1,0 +1,26 @@
+site_name: Node.js Starter Template Documentation
+theme:
+  name: material
+nav:
+  - Home: index.md
+  - Introduction: introduction.md
+  - Getting Started: getting-started.md
+  - Core Concepts: core-concepts.md
+  - Project Structure: project-structure.md
+  - Authentication: authentication.md
+  - API Documentation (OpenAPI): api-documentation-openapi.md
+  - Frontend OpenAPI Setup: frontend-openapi-setup.md
+  - Database (Prisma): database-prisma.md
+  - Background Jobs (BullMQ): background-jobs-bullmq.md
+  - Email Configuration: email-configuration.md
+  - Socket.IO Service: socketio-service.md
+  - Testing: testing.md
+  - CI/CD (GitHub Actions): ci-cd-github-actions.md
+  - Deployment: deployment.md
+  - Troubleshooting / FAQ: troubleshooting-FAQ.md
+  - Routes Documentation:
+    - Admin Routes: routes-documentations/admin-routes.md
+    - Auth Routes: routes-documentations/auth-routes.md
+    - Token Routes: routes-documentations/token-routes.md
+    - Upload Routes: routes-documentations/upload-routes.md
+    - User Routes: routes-documentations/user-routes.md

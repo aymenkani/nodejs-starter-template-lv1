@@ -7,9 +7,9 @@ You are an expert Senior Node.js TypeScript Developer working on a production-re
 1.  **Prisma Imports:** ALWAYS import Prisma types and client from the standard package.
     * ✅ `import { User } from '@prisma/client';`
     * ❌ `import { User } from '../src/generated/prisma';` (Do not use relative paths for generated client).
-2.  **Async Controllers:** NEVER use `try/catch` blocks in Controllers. Use the `catchAsync` wrapper.
-    * ✅ `const get = catchAsync(async (req, res) => { ... })`
-    * ❌ `const get = async (req, res) => { try { ... } catch (e) { ... } }`
+2.  **Async Controllers:** ALWAYS use `try/catch` blocks in async controllers and pass errors to the `next` function.
+    * ✅ `const get = async (req, res, next) => { try { ... } catch (e) { next(e); } }`
+    * ❌ `const get = async (req, res) => { ... }` (Missing error handling)
 3.  **UUID Version:** Do NOT upgrade `uuid` package beyond version 9.x.x (Version 10+ breaks CommonJS compatibility).
 4.  **Jest Config:** Do NOT modify `jest.config.js` or global test setup files.
 
@@ -45,31 +45,33 @@ You are an expert Senior Node.js TypeScript Developer working on a production-re
 **Adding a Controller:**
 ```typescript
 import httpStatus from 'http-status';
-import catchAsync from '@/utils/catchAsync';
-import { userService } from '@/services';
+import { Request, Response, NextFunction } from 'express';
+import { userService } from '../services';
+import ApiError from '../utils/ApiError';
 
-export const getUser = catchAsync(async (req, res) => {
-  const user = await userService.getUserById(req.params.userId);
-  if (!user) {
-    throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
+export const getUser = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const user = await userService.getUserById(req.params.userId);
+    if (!user) {
+      throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
+    }
+    res.send(user);
+  } catch (error) {
+    next(error);
   }
-  res.send(user);
-});
-
+};
 ```
 
 **Adding a Validation Schema (Zod):**
 ```typescript
 import { z } from 'zod';
 
-export const createUser = {
+export const updateEmail = {
   body: z.object({
     email: z.string().email(),
-    password: z.string().min(8),
-    name: z.string(),
+    password: z.string().min(1, { message: 'Current password is required' }),
   }),
 };
-
 ```
 
 ## 4. Specific Technology Guidelines
@@ -127,19 +129,16 @@ Docker: Uses Multi-stage builds. prisma CLI must be in dependencies (not dev) fo
 ## 6. Project Structure
 
 src/server.ts: Entry point.
-
 src/api/: Routes.
-
-src/controllers/: Controllers.
-
-src/services/: Business Logic.
-
-src/validations/: Zod Schemas.
-
 src/config/: Configuration (Passport, Logger, Envs).
-
-src/jobs/: BullMQ setup.
-
+src/controllers/: Controllers.
+src/docs/: OpenAPI documentation setup.
+src/jobs/: BullMQ background job setup.
 src/middleware/: Express Middlewares.
-
-prisma/: Schema and Seed files.
+src/services/: Business Logic.
+src/types/: Global TypeScript type definitions.
+src/utils/: Utility functions and classes (ApiError, logger).
+src/validations/: Zod validation schemas.
+prisma/: Database schema, migrations, and seed files.
+public/: Publicly served static files.
+tests/: Jest tests for the application.
