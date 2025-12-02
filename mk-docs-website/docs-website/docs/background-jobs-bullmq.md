@@ -23,6 +23,33 @@ The template includes a cron job that runs every hour to clean out the `Blacklis
 
 This entire flow is already set up and requires no additional configuration.
 
+## Visual Flow of Background Jobs
+
+The following diagram illustrates how both scheduled and event-driven jobs are handled by the BullMQ system.
+
+```mermaid
+sequenceDiagram
+    autonumber
+    participant Service as API Service
+    participant Cron as Cron Scheduler
+    participant Queue as BullMQ Queue (Redis)
+    participant Worker as Worker Process
+    participant DB as Database
+    participant Email as Email Provider
+
+    Note over Service, Email: Hypothetical Flow: Sending a Welcome Email
+    Service->>Queue: 1. Add 'sendEmail' job
+    Worker->>Queue: 2. Listen for jobs
+    Queue-->>Worker: 3. Dequeue 'sendEmail' job
+    Worker->>Email: 4. Process job (sends email via provider)
+
+    Note over Cron, DB: Existing Flow: Cleaning Expired Tokens
+    Cron->>Queue: 1. Add 'cleanExpiredTokens' job (hourly)
+    Worker->>Queue: 2. Listen for jobs
+    Queue-->>Worker: 3. Dequeue 'cleanExpiredTokens' job
+    Worker->>DB: 4. Process job (deletes tokens from DB)
+```
+
 ## 2. Extending with a New Job (Example)
 
 While the template only includes the token cleanup job, it is structured to be easily extensible. Let's walk through an example of how to add a new job for sending a welcome email after a user registers.

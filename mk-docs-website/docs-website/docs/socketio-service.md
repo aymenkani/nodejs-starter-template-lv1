@@ -59,3 +59,43 @@ The system ensures reliable notification delivery through a combination of real-
 6.  **Delivery and Cleanup**: Any found pending notifications are sent to the user, and then promptly deleted from the database to prevent re-sending.
 
 This robust mechanism guarantees that users receive important messages regardless of their real-time connectivity status.
+
+## Notification Flow Diagram
+
+The following diagram illustrates the complete lifecycle of a notification, covering online, offline, and reconnection scenarios.
+
+```mermaid
+sequenceDiagram
+    participant Admin
+    participant API
+    participant NotificationService
+    participant SocketService
+    participant DB as Database
+    participant Client
+
+    Note over Admin, Client: Scenario 1: User is Online
+    Admin->>API: Send notification to User A
+    API->>NotificationService: createNotificationsForUserIds([UserA])
+    NotificationService->>SocketService: isUserOnline('UserA')?
+    SocketService-->>NotificationService: true
+    NotificationService->>SocketService: emitToUser('UserA', 'new_notification', data)
+    SocketService->>Client: (WebSocket) 'new_notification'
+
+    Note over Admin, Client: Scenario 2: User is Offline
+    Admin->>API: Send notification to User B
+    API->>NotificationService: createNotificationsForUserIds([UserB])
+    NotificationService->>SocketService: isUserOnline('UserB')?
+    SocketService-->>NotificationService: false
+    NotificationService->>DB: prisma.notification.createMany(...)
+    DB-->>NotificationService: Notification stored
+
+    Note over Admin, Client: Scenario 3: Offline User Reconnects
+    Client->>SocketService: (WebSocket) Connects with auth token
+    SocketService->>NotificationService: getNotificationsForUser('UserB')
+    NotificationService->>DB: prisma.notification.findMany(...)
+    DB-->>NotificationService: Returns pending notifications
+    NotificationService-->>SocketService: Pending notifications
+    SocketService->>Client: (WebSocket) 'pending_notifications'
+    SocketService->>NotificationService: deleteNotifications(...)
+    NotificationService->>DB: prisma.notification.deleteMany(...)
+```

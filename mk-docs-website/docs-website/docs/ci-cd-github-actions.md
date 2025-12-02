@@ -26,6 +26,23 @@ The CI workflow is triggered on every push to the repository and on pull request
 5.  **Run Tests:** Executes Jest tests (unit and integration tests). Refer to [Testing](./testing.md).
 6.  **Build Application:** Compiles the TypeScript source code into JavaScript, preparing it for production.
 
+```mermaid
+sequenceDiagram
+    autonumber
+    participant Dev as Developer
+    participant Repo as GitHub Repository
+    participant Runner as GitHub Actions Runner
+
+    Dev->>Repo: Push code or create PR
+    Repo->>Runner: Trigger CI Workflow
+    Runner->>Runner: 1. Checkout Code
+    Runner->>Runner: 2. Setup Node.js
+    Runner->>Runner: 3. Install Dependencies (npm ci)
+    Runner->>Runner: 4. Run Lint & Tests
+    Runner->>Runner: 5. Build Project
+    Runner-->>Repo: Report status (Success/Failure)
+```
+
 **Example (`.github/workflows/ci.yml` - simplified):**
 
 ```yaml
@@ -77,6 +94,25 @@ The CD workflow is typically triggered on pushes to specific branches (e.g., `ma
 2.  **Login to Docker Hub (or other registry):** Authenticates with your container registry.
 3.  **Build Docker Image:** Builds the Docker image using your `Dockerfile`.
 4.  **Tag and Push Image:** Tags the image with appropriate versioning (e.g., `latest`, commit SHA) and pushes it to the registry.
+
+```mermaid
+sequenceDiagram
+    autonumber
+    participant Dev as Developer
+    participant Repo as GitHub Repository
+    participant Runner as GitHub Actions Runner
+    participant Registry as Docker Registry
+
+    Dev->>Repo: Push to 'main' branch
+    Repo->>Runner: Trigger CD Workflow
+    Runner->>Runner: 1. Checkout Code
+    Runner->>Registry: 2. Login to Docker Hub
+    Registry-->>Runner: Login Success
+    Runner->>Runner: 3. Build Docker Image
+    Runner->>Registry: 4. Push Docker Image
+    Registry-->>Runner: Push Success
+    Runner-->>Repo: Report status (Success)
+```
 
 **Example (`.github/workflows/publish.yml` - simplified for Docker Hub):**
 

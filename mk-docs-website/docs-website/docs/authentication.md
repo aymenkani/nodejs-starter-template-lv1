@@ -114,6 +114,27 @@ The template supports authentication via Google OAuth2.0, allowing users to log 
 *   If not, a new user account is created in your database using the information from Google.
 7.  **JWT Issuance:** Your application then issues its own JWT (access and refresh tokens) to the client, similar to the local login strategy.
 
+```mermaid
+sequenceDiagram
+    participant Client as User's Browser
+    participant API as Your API Server
+    participant Google as Google's Auth Server
+
+    Client->>API: GET /v1/auth/google (or clicks 'Login with Google')
+    API-->>Client: 302 Redirect to Google's consent screen
+    
+    Client->>Google: Follows redirect, authenticates, and grants consent
+    Google-->>Client: 302 Redirect to your API's callback URL with an authorization code
+    
+    Client->>API: GET /v1/auth/google/callback?code=...
+    API->>Google: Exchange authorization code for Google tokens
+    Google-->>API: Returns Google Access Token + Profile Info
+    
+    API->>API: Find or create user in local database
+    API->>API: Generate internal JWTs (Access & Refresh Tokens)
+    API-->>Client: Return internal JWTs (Access Token in JSON, Refresh Token in Cookie)
+```
+
 ### Implementation Details
 
 *   **Passport-Google-OAuth20 Strategy:** Configured in `src/config/passport.config.ts`, this strategy handles the communication with Google's OAuth servers.
@@ -139,6 +160,37 @@ The template includes a secure mechanism for users to reset their forgotten pass
 3.  **Email Delivery:** An email containing a link with the password reset token is sent to the user's registered email address.
 4.  **Reset Password:** The user clicks the link, which directs them to a page where they can enter a new password. The client sends the new password along with the reset token to the API.
 5.  **Token Verification & Password Update:** The API verifies the reset token's validity and expiration. If valid, the user's password is updated, and the reset token is invalidated.
+
+```mermaid
+sequenceDiagram
+    participant User
+    participant API
+    participant DB as Database
+    participant EmailService as Email Service
+
+    User->>API: POST /v1/auth/request-password-reset (with email)
+    API->>DB: Find user by email
+    DB-->>API: User found
+    API->>API: Generate Opaque Token & Hashed JWT
+    API->>DB: Store Hashed JWT and Opaque Token with expiry
+    DB-->>API: Token stored
+    API->>EmailService: Send email with Opaque Token
+    EmailService-->>User: Password Reset Email
+
+    Note over User, API: Later, user clicks link in email...
+
+    User->>API: POST /v1/auth/reset-password (with Opaque Token & new password)
+    API->>DB: Find token record by Opaque Token
+    DB-->>API: Token record found (and not expired)
+    API->>DB: Find user by userId from token record
+    DB-->>API: User found
+    API->>API: Hash new password & check against password history
+    API->>DB: Update user's password & password history
+    DB-->>API: User updated
+    API->>DB: Delete all refresh tokens for user (force logout)
+    API->>DB: Delete the used password reset token
+    API-->>User: 200 OK (Password reset successfully)
+```
 
 ### Implementation Details
 

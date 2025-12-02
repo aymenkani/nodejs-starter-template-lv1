@@ -2,6 +2,41 @@
 
 Understanding the project's directory structure is crucial for navigating the codebase, locating specific functionalities, and contributing effectively. This template follows a clear and modular organization to promote maintainability and scalability.
 
+## Request Lifecycle Flow
+
+The following diagram illustrates how a typical HTTP request flows through the different layers of the application architecture.
+
+```mermaid
+sequenceDiagram
+    autonumber
+    participant Client
+    participant Server as Express Server
+    participant Middleware
+    participant Router
+    participant Controller
+    participant Service
+    participant DB as Database
+
+    Client->>Server: HTTP Request
+    Server->>Middleware: Process global middleware (CORS, etc.)
+    Middleware-->>Server: next()
+    Server->>Router: Match route in `api/index.ts`
+    Router->>Controller: Execute handler from `*.routes.ts`
+    Controller->>Service: Call business logic function
+    Service->>DB: Query data via Prisma Client
+    DB-->>Service: Return data
+    Service-->>Controller: Return result
+    Controller-->>Server: Send HTTP Response
+    Server-->>Client: HTTP Response
+
+    alt Error Occurs During Processing
+        Service->>Controller: throw Error
+        Controller->>Server: next(error)
+        Server->>Middleware: Global Error Handler (`error.ts`)
+        Middleware-->>Client: Formatted Error Response
+    end
+```
+
 Here's an overview of the main directories and files:
 
 ```

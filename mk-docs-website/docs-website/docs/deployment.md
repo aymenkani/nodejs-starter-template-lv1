@@ -114,6 +114,31 @@ By default, the `Dockerfile` and `render.yaml` are configured for the Render Fre
 ### How to Upgrade to Render Pro
 By default, this template uses the `start:with-db` logic inside the Docker image. If you upgrade to a Paid Plan (Starter/Standard) and want to scale to multiple instances (replicas), you must change this behavior to prevent **Database Locking** (multiple instances trying to migrate simultaneously).
 
+The diagram below illustrates the key difference between the two strategies:
+
+```mermaid
+sequenceDiagram
+    autonumber
+    participant Dev as Developer
+    participant Repo as GitHub
+    participant Render
+    participant Instance as Render Instance
+
+    Note over Dev, Instance: Strategy 1: Render Free Tier
+    Dev->>Repo: Push to git repo
+    Repo->>Render: Trigger deploy
+    Render->>Instance: Start container with `start:with-db` command
+    Instance->>Instance: Run Migrations & Seed (inside container)
+    Instance->>Instance: Start Node.js Server
+
+    Note over Dev, Instance: Strategy 2: Render Pro Tier (for Scaling)
+    Dev->>Repo: Push to git repo
+    Repo->>Render: Trigger deploy
+    Render->>Render: Run `preDeployCommand` (Migrations & Seed)
+    Render->>Instance: Start container with `start` command
+    Instance->>Instance: Start Node.js Server
+```
+
 **Steps to configure for Scaling:**
 
 1.  Open `render.yaml`.
