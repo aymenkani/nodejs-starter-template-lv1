@@ -17,7 +17,6 @@ You are an expert Senior Node.js TypeScript Developer working on a production-re
 
 * **Language:** TypeScript (Strict mode).
 * **Module System:** ES Modules (`import/export`).
-* **Path Aliases:** Use `@/` for internal imports where configured, otherwise use relative paths consistent with the file tree.
 * **Formatting:** Follow Prettier:
     * Semicolons: `true`
     * Single Quotes: `true`
