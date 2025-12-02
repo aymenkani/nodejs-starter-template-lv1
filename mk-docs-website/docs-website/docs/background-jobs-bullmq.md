@@ -2,207 +2,175 @@
 
 This template integrates [BullMQ](https://docs.bullmq.io/) for handling background jobs and asynchronous tasks. BullMQ is a fast, robust, and Redis-backed queueing system that allows you to offload time-consuming operations from your main application thread, improving responsiveness and scalability.
 
+The template comes pre-configured with one background job: a recurring task to clean up expired blacklisted JWTs from the database.
+
 ## Why Use Background Jobs?
 
-Background jobs are essential for:
-
-*   **Improving User Experience:** Offload long-running tasks (e.g., sending emails, processing images, generating reports) so that API requests can return quickly.
+*   **Improving User Experience:** Offload long-running tasks (e.g., sending emails, processing images) so API requests can return quickly.
+*   **Reliability & Scheduling:** Run tasks on a schedule or ensure they are processed even if the main application crashes, with features like retries and persistent queues.
 *   **Scalability:** Distribute workloads across multiple worker processes or servers.
-*   **Reliability:** Ensure tasks are processed even if the main application crashes, with features like retries and persistent queues.
-*   **Decoupling:** Separate concerns by allowing different parts of your application to communicate asynchronously.
 
-## 1. Queue Setup (`src/jobs/queue.ts`)
+## 1. The Existing Job: Token Cleanup
 
-The `src/jobs/queue.ts` file is responsible for defining and initializing your BullMQ queues. Each queue is typically used for a specific type of task.
+The template includes a cron job that runs every hour to clean out the `BlacklistedToken` table. This prevents the table from growing indefinitely.
 
-**Location:** `src/jobs/queue.ts`
+### How It Works
 
-**Implementation Details:**
+1.  **Scheduler (`src/utils/tokenCleanup.ts`):** A `node-cron` scheduler is configured to run every 60 minutes.
+2.  **Add Job to Queue:** On schedule, the cron job calls `addTokenCleanupJob` from `src/jobs/queue.ts`, which adds a `cleanExpiredTokens` job to the `tokenCleanup` queue.
+3.  **Worker Processes Job (`src/jobs/worker.ts`):** The BullMQ worker, which is listening to the `tokenCleanup` queue, picks up the job.
+4.  **Execute Logic:** The worker executes `processTokenCleanupJob`, which runs a Prisma query to `deleteMany` tokens where the `expires` date is in the past.
 
-*   **Redis Connection:** BullMQ requires a Redis connection. The connection details are usually pulled from environment variables.
-*   **Queue Instances:** Each `Queue` instance represents a distinct queue where jobs are added.
+This entire flow is already set up and requires no additional configuration.
 
-**Example (`src/jobs/queue.ts`):**
+## 2. Extending with a New Job (Example)
+
+While the template only includes the token cleanup job, it is structured to be easily extensible. Let's walk through an example of how to add a new job for sending a welcome email after a user registers.
+
+### Step 1: Define a New Queue
+
+In `src/jobs/queue.ts`, define and export a new queue for emails.
 
 ```typescript
-import { Queue } from 'bullmq';
-import config from '../config/config'; // Assuming config has Redis connection details
+// src/jobs/queue.ts
 
-// Redis connection options
-const connection = {
-  host: config.redis.host,
-  port: config.redis.port,
-  password: config.redis.password,
+// ... existing redisConnection and defaultQueueOptions
+
+export const tokenCleanupQueueName = 'tokenCleanup';
+export const emailQueueName = 'emailQueue'; // 1. Add new queue name
+
+// ... existing addTokenCleanupJob function
+
+// 2. Create a function to add jobs to the new email queue
+export const addSendEmailJob = async (queue: Queue, data: { to: string; subject: string; text: string }) => {
+  await queue.add('sendEmail', data, defaultQueueOptions.defaultJobOptions);
 };
-
-// Define your queues
-export const emailQueue = new Queue('emailQueue', { connection });
-export const notificationQueue = new Queue('notificationQueue', { connection });
-export const tokenCleanupQueue = new Queue('tokenCleanupQueue', { connection });
-
-// Add more queues as needed
 ```
 
-### Configuration
+### Step 2: Add Logic to the Worker
 
-Relevant [environment variables](./core-concepts.md#8-configuration-management) in your `.env` file for Redis:
-
-*   `REDIS_HOST`: Redis server host (e.g., `localhost`, `redis`).
-*   `REDIS_PORT`: Redis server port (e.g., `6379`).
-*   `REDIS_PASSWORD`: Redis server password (if any).
-
-## 2. Workers (`src/jobs/worker.ts`)
-
-Workers are processes that listen to queues and execute the jobs they receive. You can have multiple workers processing jobs from the same queue, allowing for parallel processing.
-
-**Location:** `src/jobs/worker.ts`
-
-**Implementation Details:**
-
-*   **`Worker` Instance:** A `Worker` instance is created for each queue you want to process.
-*   **Job Processor:** The worker defines a processor function that contains the logic to execute for each job. This function receives the `job` object as an argument.
-*   **Concurrency:** You can configure the `concurrency` option for a worker to specify how many jobs it can process simultaneously.
-
-**Example (`src/jobs/worker.ts`):**
+In `src/jobs/worker.ts`, update the worker process to handle jobs from the new `emailQueue`. Since the worker logic can get complex, it's best to handle different job names.
 
 ```typescript
-import { Worker } from 'bullmq';
-import config from '../config/config';
-import logger from '../utils/logger';
-import { emailService } from '../services'; // Assuming an email service
+// src/jobs/worker.ts
+import { Job } from 'bullmq';
 import { prisma } from '../config/db';
+import logger from '../utils/logger';
+import dotenv from 'dotenv';
+// Hypothetical email service
+import { emailService } from '../services'; 
 
-const connection = {
-  host: config.redis.host,
-  port: config.redis.port,
-  password: config.redis.password,
+dotenv.config();
+
+// Main processing function
+export const processJob = async (job: Job) => {
+  logger.info(`Processing job ${job.id} of type ${job.name} from queue ${job.queueName}`);
+
+  switch (job.queueName) {
+    case 'tokenCleanup':
+      if (job.name === 'cleanExpiredTokens') {
+        return processTokenCleanupJob(job);
+      }
+      break;
+    
+    case 'emailQueue': // 1. Handle the new queue
+      if (job.name === 'sendEmail') {
+        return processSendEmailJob(job);
+      }
+      break;
+
+    default:
+      throw new Error(`No processor for queue ${job.queueName}`);
+  }
 };
 
-// Worker for the emailQueue
-export const emailWorker = new Worker(
-  'emailQueue',
-  async (job) => {
-    logger.info(`Processing email job ${job.id}: ${job.name}`);
-    const { to, subject, text, html } = job.data;
-    await emailService.sendEmail(to, subject, text, html);
-    logger.info(`Email job ${job.id} completed.`);
-  },
-  { connection, concurrency: 5 } // Process up to 5 email jobs concurrently
-);
+// Existing token cleanup logic
+async function processTokenCleanupJob(job: Job) {
+  try {
+    const { count } = await prisma.blacklistedToken.deleteMany({
+      where: { expires: { lt: new Date() } },
+    });
+    logger.info(`Cleaned up ${count} expired blacklisted tokens.`);
+    return { cleanedCount: count };
+  } catch (error) {
+    logger.error(error, 'Error cleaning up expired tokens in worker:');
+    throw error;
+  }
+}
 
-// Worker for the notificationQueue
-export const notificationWorker = new Worker(
-  'notificationQueue',
-  async (job) => {
-    logger.info(`Processing notification job ${job.id}: ${job.name}`);
-    // Logic to send notifications
-    logger.info(`Notification job ${job.id} completed.`);
-  },
-  { connection, concurrency: 3 }
-);
-
-// Worker for the tokenCleanupQueue
-export const tokenCleanupWorker = new Worker(
-  'tokenCleanupQueue',
-  async (job) => {
-    logger.info(`Processing token cleanup job ${job.id}: ${job.name}`);
-    if (job.name === 'cleanExpiredTokens') {
-      const { count } = await prisma.blacklistedToken.deleteMany({
-        where: {
-          expires: {
-            lt: new Date(),
-          },
-        },
-      });
-      logger.info(`Cleaned up ${count} expired blacklisted tokens.`);
-    }
-  },
-  { connection, concurrency: 1 }
-);
-
-
-// Handle worker events (optional, but recommended for monitoring)
-emailWorker.on('completed', (job) => {
-  logger.info(`Job ${job.id} in emailQueue has completed!`);
-});
-
-emailWorker.on('failed', (job, err) => {
-  logger.error(`Job ${job?.id} in emailQueue has failed with error: ${err.message}`);
-});
-
-// Start all workers
-export const startWorkers = () => {
-  emailWorker; // Simply referencing them starts them
-  notificationQueue;
-  tokenCleanupWorker;
-  logger.info('BullMQ workers started.');
-};
+// 2. Create a new function for the email job
+async function processSendEmailJob(job: Job) {
+  try {
+    const { to, subject, text } = job.data;
+    // Assuming you have an emailService that can send emails
+    await emailService.sendEmail(to, subject, text);
+    logger.info(`Sent email to ${to}`);
+    return { status: 'ok' };
+  } catch (error) {
+    logger.error(error, `Error sending email to ${job.data.to}:`);
+    throw error;
+  }
+}
 ```
 
-## 3. Adding Jobs to a Queue
+### Step 3: Instantiate the New Queue and Worker
 
-Jobs are added to queues from your application's services or controllers whenever an asynchronous task needs to be performed.
-
-**Example (from a service, e.g., `src/services/auth.service.ts`):**
+In `src/server.ts`, where the application is initialized, you need to create the new queue and worker instances.
 
 ```typescript
-import { emailQueue } from '../jobs/queue';
+// src/server.ts
+// ... other imports
+import { Queue, Worker } from 'bullmq';
+import { tokenCleanupQueueName, emailQueueName } from './jobs/queue'; // Import new queue name
+import { processJob } from './jobs/worker'; // Import the main processor
 
-// ... inside an async function, e.g., after user registration
-await emailQueue.add('sendVerificationEmail', {
-  to: user.email,
-  subject: 'Verify Your Account',
-  text: `Hi ${user.name}, please verify your account by clicking this link: ...`,
-  html: `<p>Hi ${user.name}, please verify your account by clicking this link: ...</p>`,
-});
+// ... inside startServer function
+
+// Initialize BullMQ Queues
+const tokenCleanupQueue = new Queue(tokenCleanupQueueName, { connection: redisConnection });
+const emailQueue = new Queue(emailQueueName, { connection: redisConnection }); // 1. Instantiate new queue
+
+// Initialize BullMQ Workers
+const worker = new Worker(
+  [tokenCleanupQueueName, emailQueueName], // 2. Listen to both queues
+  processJob, 
+  { connection: redisConnection }
+);
+
+// ... worker event listeners
+
+// Start the cron job for token cleanup
+startTokenCleanupJob(tokenCleanupQueue);
 ```
 
-### Token Cleanup Job
+### Step 4: Add the Job from Your Service
 
-The token cleanup job is a recurring task that is added to the `tokenCleanupQueue` by a cron job. This is handled by the `startTokenCleanupJob` function in `src/utils/tokenCleanup.ts`.
+Finally, trigger the job from your business logic. For example, after a user is created in `src/services/auth.service.ts`.
 
-**Example (`src/utils/tokenCleanup.ts`):**
 ```typescript
+// src/services/auth.service.ts
+// ... other imports
+import { addSendEmailJob } from '../jobs/queue';
 import { Queue } from 'bullmq';
-import { addTokenCleanupJob } from '../jobs/queue';
-import logger from './logger';
-import cron from 'node-cron';
 
-export const startTokenCleanupJob = (tokenCleanupQueue: Queue) => {
-  // Schedule to add a token cleanup job to the queue every 60 minutes
-  cron.schedule(
-    `*/60 * * * *`,
-    async () => {
-      logger.info('Adding token cleanup job to queue.');
-      await addTokenCleanupJob(tokenCleanupQueue, {});
-    },
-    {
-      timezone: 'UTC',
-    },
-  );
-  logger.info(`Token cleanup job scheduled to be added to queue every 60 minutes.`);
+// This is a simplified example. In a real app, you would inject the queue
+// or use a singleton pattern to access it.
+const emailQueue = new Queue('emailQueue', { connection: { host: '...', port: ... } });
+
+// ... inside registerUser function, after user is created
+const registerUser = async (userData: RegisterUserBody): Promise<User> => {
+  // ... existing logic to create user
+  const user = await userService.createUser(userData);
+
+  // Add a job to the email queue
+  await addSendEmailJob(emailQueue, {
+    to: user.email,
+    subject: 'Welcome!',
+    text: `Hi ${user.username}, welcome to our platform!`,
+  });
+
+  return user;
 };
 ```
 
-### Job Options
-
-When adding a job, you can provide various options:
-
-*   `jobId`: A unique identifier for the job.
-*   `delay`: Delay the job's execution by a specified number of milliseconds.
-*   `attempts`: Number of times the job should be retried if it fails.
-*   `backoff`: Strategy for retrying failed jobs (e.g., `fixed`, `exponential`).
-*   `removeOnComplete`: Whether to remove the job from the queue upon successful completion.
-*   `removeOnFail`: Whether to remove the job from the queue upon failure.
-
-## 4. Monitoring BullMQ
-
-BullMQ provides a UI called [Bull Dashboard](https://github.com/felixmosh/bull-board) (or similar tools) to monitor your queues, jobs, and workers. While not directly integrated into this template's Express app, you can easily set it up as a separate service or integrate it into an admin panel.
-
-## 5. Running Workers
-
-Workers are typically run as separate processes from your main API server. In a production environment, you might deploy them as separate Docker containers or processes.
-
-For local development, you can start them alongside your API server or in a separate terminal. If you choose to run them within the same process for simplicity during local development, ensure `startWorkers()` is called in `src/server.ts`. However, for production, running workers in dedicated processes is highly recommended for better resource management and fault isolation.
-
-By utilizing BullMQ, this template ensures that your application remains responsive and can handle complex asynchronous workflows efficiently.
+This example demonstrates how the existing BullMQ setup can be extended to accommodate new background tasks in a structured and scalable way.

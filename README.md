@@ -24,6 +24,34 @@ This template is ideal for developers and teams looking to kickstart new API pro
 *   **Testing:** Comprehensive testing setup with Jest for unit and integration tests, including database testing strategies.
 *   **CI/CD:** Pre-configured GitHub Actions workflows for continuous integration (linting, testing, building) and continuous deployment.
 
+## Comprehensive Documentation
+
+This project includes a full documentation website built with **MkDocs** and the Material theme, located in the `mk-docs-website/` directory. This website contains detailed explanations of every part of the template, from setup to deployment, and includes a powerful search feature to help you find information quickly.
+
+### How to Run the Documentation Website
+
+To view the documentation locally, follow these steps:
+
+1.  **Navigate to the docs directory:**
+    ```bash
+    cd mk-docs-website/docs-website
+    ```
+
+2.  **Install dependencies:**
+    You'll need Python and pip installed. Install the required packages using the `requirements.txt` file.
+    ```bash
+    pip install -r ../requirements.txt
+    ```
+
+3.  **Start the MkDocs server:**
+    This command will start a local server, and you can view the documentation in your browser.
+    ```bash
+    mkdocs serve
+    ```
+
+4.  **Open in your browser:**
+    By default, the site will be available at [http://127.0.0.1:8000](http://127.0.0.1:8000).
+
 ## Core Technologies Stack
 
 *   **Runtime:** Node.js
