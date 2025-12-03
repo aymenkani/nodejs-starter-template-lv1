@@ -1,0 +1,13 @@
+[build]
+  # 1. Enter this directory before doing anything
+  base = "documentation"
+
+  # 2. Run this command inside the 'base' directory
+  command = "mkdocs build"
+
+  # 3. This is the folder Netlify should serve to the public
+  # (Relative to the 'base' directory defined above)
+  publish = "site"
+
+[context.production.environment]
+  PYTHON_VERSION = "3.8"
