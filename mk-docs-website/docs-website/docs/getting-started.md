@@ -164,7 +164,7 @@ docker compose -f docker-compose.yml -f docker-compose.override.yml -f docker-co
 
 ### Option 2: Running Manually
 
-If you prefer to manage the application process directly on your host machine, ensure your database is running first. See [step 4: database setup](#step-4-database-setup) for details.
+If you prefer to manage the application process directly on your host machine, ensure your database is running first. See [step 4: database setup](#step-3-database-setup) for details.
 
 #### Development Mode
 

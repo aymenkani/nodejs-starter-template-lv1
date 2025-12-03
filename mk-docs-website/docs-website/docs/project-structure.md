@@ -175,7 +175,7 @@ Contains all [test files](./testing.md) for the application. Tests are organized
 *   `Dockerfile`: Instructions for building a Docker image of your application for production deployment.
 *   `Dockerfile.dev`: Instructions for building a Docker image of your application for development.
 *   `eslint.config.mjs`: Configuration file for ESLint, a tool for identifying and reporting on patterns found in ECMAScript/JavaScript code.
-*   `package.json`: Contains project metadata, dependencies, and a variety of scripts for development, building, testing, and more. For a detailed breakdown of all available scripts, see the [npm scripts section in the Getting Started guide](./getting-started.md#3-available-npm-scripts).
+*   `package.json`: Contains project metadata, dependencies, and a variety of scripts for development, building, testing, and more. For a detailed breakdown of all available scripts, see the [npm scripts section in the Getting Started guide](./getting-started.md#4-available-npm-scripts).
 *   `prisma.config.ts`: Configuration for Prisma, often used for custom Prisma Client generation or data proxy settings.
 *   `README.md`: The main README file for the project, providing a quick overview.
 *   `render.yaml`: Configuration file for deploying the application to Render.

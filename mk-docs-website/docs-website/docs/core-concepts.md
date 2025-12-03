@@ -87,7 +87,7 @@ Services encapsulate the application's business logic. They interact with data s
 *   **Location:** `src/services/`
 *   **Purpose:**
 *   Contain reusable business logic.
-*   Interact with the database ([Prisma Client](./database-prisma.md#4-interacting-with-prisma-client)).
+*   Interact with the database ([Prisma Client](./database-prisma.md#5-interacting-with-prisma-client)).
 *   Perform data transformations.
 *   Handle complex operations that might involve multiple data models or external integrations.
 *   **Principle:** Services should be independent of the HTTP request/response cycle.
