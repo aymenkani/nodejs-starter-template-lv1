@@ -26,7 +26,7 @@ This template is ideal for developers and teams looking to kickstart new API pro
 
 ## Comprehensive Documentation
 
-This project includes a full documentation website built with **MkDocs** and the Material theme, located in the `mk-docs-website/` directory. This website contains detailed explanations of every part of the template, from setup to deployment, and includes a powerful search feature to help you find information quickly.
+This project includes a full documentation website built with **MkDocs** and the Material theme, located in the `documentation/` directory. This website contains detailed explanations of every part of the template, from setup to deployment, and includes a powerful search feature to help you find information quickly.
 
 ### How to Run the Documentation Website
 

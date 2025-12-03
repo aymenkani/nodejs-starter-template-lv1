@@ -142,4 +142,4 @@ src/validations/: Zod validation schemas.
 prisma/: Database schema, migrations, and seed files.
 public/: Publicly served static files.
 tests/: Jest tests for the application.
-mk-docs-website/: The Nodejs Advanced Starter Template documentation powered by MkDocs.
+documentation/: The Nodejs Advanced Starter Template documentation powered by MkDocs.
