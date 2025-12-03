@@ -1,58 +1,71 @@
 
+# Welcome to the Documentation
 
+This documentation provides a comprehensive guide to the Node.js Advanced Starter Template. It covers everything from initial setup and core concepts to deployment and advanced features, helping you build, test, and deploy your API with confidence.
 
+## 🚀 Overview
 
+This template is a feature-rich foundation for building scalable and maintainable Node.js applications. It integrates best-in-class tools for authentication, database management, background jobs, and more, allowing you to focus on your business logic instead of boilerplate code.
 
+## ✨ Key Features
 
+- **Modern Architecture**: Built with TypeScript and a layered design (Service, Controller, Route).
+- **Authentication**: JWT and Google OAuth 2.0 support out-of-the-box.
+- **Database**: Prisma ORM for type-safe database access (PostgreSQL & MySQL).
+- **Background Jobs**: Asynchronous task processing with BullMQ and Redis.
+- **API Documentation**: Automatic OpenAPI (Swagger) generation.
+- **Containerization**: Dockerized for consistent development and production environments.
+- **Testing**: Ready-to-use testing suite with Jest.
+- **CI/CD**: GitHub Actions for automated testing and deployment.
 
+---
 
-# Introduction and Project Overview
+## 💎 Exclusive Student Offer
 
+This template is sold publicly for **$49** to agencies and freelancers.
 
-Welcome to the Node.js Advanced Starter Template documentation! This template is designed to provide a robust, scalable, and feature-rich foundation for building modern Node.js API applications. It integrates a selection of industry-standard tools and best practices to accelerate your development process and ensure high-quality, maintainable code.
+However, as a thank you for taking my course, you get access to the **Student License**.
 
-## What is this Template For?
+* ✅ **Lifetime Updates** (Node versions, Security patches)
+* ✅ **Commercial Use Allowed** (Use it for client work)
+* ✅ **Private Discord Access**
 
-This template is ideal for developers and teams looking to kickstart new API projects with a solid architectural base. It abstracts away much of the initial setup and configuration, allowing you to focus on developing your core business logic. Whether you're building a microservice, a backend for a web application, or a standalone API, this template provides the necessary infrastructure to get started quickly and efficiently.
+<div style="text-align: center; margin: 40px 0;">
+  <a href="https://gumroad.com/YOUR-LINK-HERE" style="background-color: #7c3aed; color: white; padding: 15px 30px; border-radius: 5px; text-decoration: none; font-weight: bold; font-size: 1.2em;">
+    Get the Template (80% OFF for Students) ➔
+  </a>
+  <p style="margin-top: 10px; font-size: 0.9em; color: #666;">
+    Use code <code>UDEMY-VIP</code> at checkout
+  </p>
+</div>
 
-## Key Features
+---
 
-*   **Authentication & Authorization:** Secure your API with JSON Web Tokens (JWT) and integrate with third-party providers like Google OAuth2.0. Includes robust password reset functionality.
-*   **Database Management:** Seamless integration with Prisma ORM, supporting PostgreSQL and MySQL databases. Features include schema definition, migrations, and seeding.
-*   **Background Job Processing:** Efficiently handle long-running tasks and asynchronous operations using BullMQ, a powerful Redis-backed queueing system.
-*   **API Documentation:** Automatically generate and serve interactive API documentation using OpenAPI (Swagger UI), making your API easy to understand and consume.
-*   **Input Validation:** Ensure data integrity and improve API reliability with schema-based validation using Zod.
-*   **Error Handling:** Centralized and consistent error handling with custom `ApiError` classes and global middleware.
-*   **Structured Logging:** Implement effective monitoring and debugging with structured logging using Pino.
-*   **Configuration Management:** Flexible environment variable management for different deployment environments.
-*   **Development & Production Ready:** Includes Docker support for containerization, making local development consistent and deployment straightforward.
-*   **Containerization Strategy:** Implemented a Multi-Stage Dockerfile (`Dev` -> `Builder` -> `Runner`) to create lean, secure, and efficient production images while maintaining a feature-rich development environment.
-*   **Code Quality & Maintainability:** Enforced code style with ESLint and Prettier, along with pre-commit hooks using Husky.
-*   **Testing:** Comprehensive testing setup with Jest for unit and integration tests, including database testing strategies.
-*   **CI/CD:** Pre-configured GitHub Actions workflows for continuous integration (linting, testing, building) and continuous deployment.
+## 📚 Getting Started
 
-## Core Technologies Stack
+To get started, explore the following sections:
 
-*   **Runtime:** Node.js
-*   **Web Framework:** Express.js
-*   **Language:** TypeScript
-*   **ORM:** Prisma
-*   **Authentication:** Passport.js (JWT, Google OAuth2.0)
-*   **Job Queue:** BullMQ (with Redis)
-*   **API Documentation:** OpenAPI (Swagger UI)
-*   **Validation:** Zod
-*   **Logging:** Pino
-*   **Containerization:** Docker
-*   **Testing:** Jest
-*   **Code Quality:** ESLint, Prettier, Husky
-*   **CI/CD:** GitHub Actions
+- **[Introduction](introduction.md)**: A high-level overview of the template.
+- **[Core Concepts](core-concepts.md)**: Understand the foundational principles of the architecture.
+- **[Getting Started](getting-started.md)**: A step-by-step guide to setting up your project.
 
-## Target Audience
+## 🛠️ Running the Documentation Locally
 
-This template is designed for:
+You can run this documentation site on your local machine to have a live-reloading server for easy browsing.
 
-*   **Backend Developers:** Who want a modern, opinionated Node.js API boilerplate.
-*   **Full-stack Developers:** Looking for a robust backend foundation to pair with their frontend applications.
-*   **Teams:** Aiming for consistency and best practices across their Node.js projects.
+1.  **Navigate to the `documentation` directory:**
+    ```bash
+    cd documentation
+    ```
 
-By leveraging this template, you can significantly reduce setup time and focus on delivering value faster, with confidence in the underlying architecture.
+2.  **Install dependencies:**
+    ```bash
+    pip install -r requirements.txt
+    ```
+
+3.  **Start the server:**
+    ```bash
+    mkdocs serve
+    ```
+
+The site will be available at `http://127.0.0.1:8000`.
