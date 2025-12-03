@@ -44,7 +44,7 @@ Here's an overview of the main directories and files:
 ├───.github/                      # GitHub Actions workflows for CI/CD
 ├───.husky/                       # Git hooks for pre-commit checks
 ├───dist/                         # Compiled JavaScript output (generated from src/)
-├───mk-docs-website/              # The Nodejs Advanced Starter Template documentation powered by MkDocs
+├───documentation/              # The Nodejs Advanced Starter Template documentation powered by MkDocs
 ├───node_modules/                 # Installed Node.js dependencies
 ├───prisma/                       # Prisma schema, migrations, and seed script
 ├───public/                       # Static files served by the application (e.g., client-side HTML, JS)
