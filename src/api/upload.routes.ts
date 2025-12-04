@@ -8,7 +8,7 @@ import { Role } from '@prisma/client';
 const router = express.Router();
 
 // All routes in this file are protected
-router.use(auth, authorize([Role.USER]));
+router.use(auth, authorize([Role.USER, Role.ADMIN]));
 
 router.post(
   '/generate-signed-url',

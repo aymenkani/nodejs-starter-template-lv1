@@ -8,6 +8,7 @@ import { User } from '@prisma/client';
 import { v4 as uuidv4 } from 'uuid';
 import { createEmailService } from './email.service';
 import { Config } from '../config/config';
+import logger from '../utils/logger';
 
 import { z } from 'zod';
 import { authValidation } from '../validations/auth.validation';
@@ -99,7 +100,7 @@ export const createAuthService = (config: Config) => {
         }
       } catch (error) {
         // Log the error but don't prevent logout if access token is malformed
-        console.error('Error blacklisting access token:', error);
+        logger.error(`Error blacklisting access token: ${error} `);
       }
     }
   };
