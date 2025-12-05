@@ -216,10 +216,12 @@ These are for working on your machine without Docker.
 ### 🐳 Docker (Modular)
 These handle your complex multi-file Docker setup.
 
-*   `docker:up`: Combines `docker-compose.yml` (App), `postgres.yml` (DB), and `override.yml` (Dev config) to start the stack in the foreground.
-*   `docker:up:detached`: Same as above, but runs in the background (`-d`), freeing up your terminal.
-*   `docker:down`: Stops and removes all containers defined in your compose files.
-*   `docker:logs`: Follows the logs of all running containers.
+*   `docker:up:build`: Starts all services (app, Redis, PostgreSQL) defined in `docker-compose.yml`, `docker-compose.redis.yml`, `docker-compose.postgres.yml`, and `docker-compose.override.yml`, rebuilding images if necessary.
+*   `docker:up`: Starts all services (app, Redis, PostgreSQL) defined in `docker-compose.yml`, `docker-compose.redis.yml`, `docker-compose.postgres.yml`, and `docker-compose.override.yml` in the foreground.
+*   `docker:up:detached`: Starts all services (app, Redis, PostgreSQL) in the background (`-d`), freeing up your terminal.
+*   `docker:down`: Stops and removes the app and PostgreSQL containers.
+*   `docker:logs`: Follows the logs of the app and PostgreSQL containers.
+*   `docker:redis:postgres:up`: Starts only the Redis and PostgreSQL services, rebuilding their images if necessary.
 
 ### 🗄️ Database (Prisma)
 Wrappers for Prisma CLI tools.
