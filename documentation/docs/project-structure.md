@@ -164,6 +164,7 @@ Contains all [test files](./testing.md) for the application. Tests are organized
 
 ## Root Level Files
 
+*   `.cursorrules` & `.gemini/GEMINI.md`: These files contain a set of rules and guidelines for AI assistants (like Cursor or Gemini) to follow when working on this project. They define the architectural patterns, coding standards, and critical "must-follow" rules to ensure that AI-generated code is consistent with the project's design. They are not used by the application itself but are crucial for maintaining code quality when using AI-powered development tools.
 *   `.env.example`: A template file for environment variables. Copy this to `.env` and fill in your specific configurations.
 *   `.gitignore`: Specifies files and directories that Git should ignore.
 *   `.prettierrc.js`: Configuration file for Prettier, ensuring consistent code formatting.
