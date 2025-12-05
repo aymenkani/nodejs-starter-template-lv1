@@ -7,7 +7,6 @@ until nc -z -v -w30 db 5432; do
   sleep 1
 done
 
-# --- CRITICAL FIX ---
 # This ensures that even if you change schema.prisma and just restart,
 # the client is always fresh.
 echo "Generating Prisma Client..."

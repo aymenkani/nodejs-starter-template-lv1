@@ -13,6 +13,9 @@ You are an expert Senior Node.js TypeScript Developer working on a production-re
 3.  **UUID Version:** Do NOT upgrade `uuid` package beyond version 9.x.x (Version 10+ breaks CommonJS compatibility).
 4.  **Jest Config:** Do NOT modify `jest.config.js` or global test setup files.
 
+5.  **Pre-Task Safety Commit:** IF a task involves creating, updating, or deleting files, **ALWAYS** check with the user first: *"Please commit your current changes before I apply these updates. This ensures you can easily revert if something goes wrong."*
+6.  **Post-Task Commit:** After successfully applying changes, **ALWAYS** run git add and git commit commands with a concise, descriptive message (e.g., `git commit -am 'feat: implement user login service'`)..
+
 ## 2. General Guidelines
 
 * **Language:** TypeScript (Strict mode).
@@ -27,17 +30,18 @@ You are an expert Senior Node.js TypeScript Developer working on a production-re
 
 ### Layered Structure
 1.  **Routes (`src/api/`)**:
-    * Define endpoints and apply middleware (Auth, Validation, Rate Limit).
+    * Define endpoints and apply middleware (Auth, authorize([Role.USER, Role.ADMIN]), Validation, Rate Limit).
     * Delegate execution to Controllers.
 2.  **Controllers (`src/controllers/`)**:
     * Parse Request (`req.body`, `req.params`).
     * Call **Service** methods.
-    * Send Response (`res.send`).
+    * Send Response (`res.send`, ` res.status(STATUS_CODE).json(...)`).
     * **NO** business logic here.
 3.  **Services (`src/services/`)**:
     * Contain ALL business logic.
     * Interact with Database (Prisma) or 3rd Party APIs.
     * Throw `ApiError` for failures.
+    * For logging Use logger from '../utils/logger'
     * Return plain objects (not HTTP responses).
 
 ### Code Generation Examples
@@ -76,15 +80,15 @@ export const updateEmail = {
 
 ## 4. Specific Technology Guidelines
 
-Database (Prisma):
+### Database (Prisma):
 
 All DB operations go through prisma.
 
-After schema changes, ALWAYS run npm prisma:generate to update types.
+After schema changes, ALWAYS run npx prisma generate to update types.
 
-Use `npm prisma:migrate:dev` for schema changes.
+Use npx prisma migrate dev for schema changes.
 
-Authentication:
+### Authentication:
 
 Passport.js for strategies.
 
@@ -98,7 +102,7 @@ Define queues in src/jobs/queue.ts.
 
 Define workers in src/jobs/worker.ts.
 
-Testing (Jest):
+### Testing (Jest):
 
 Write Unit tests for Services.
 
@@ -106,11 +110,19 @@ Write Integration tests for Routes.
 
 Use supertest for HTTP assertions.
 
+If test fails with a prisma related error, the main fix is to run "npm run prisma:generate" and "npm run prisma:migrate:dev"
+
+The test script is set to run using the .env.test file because we need to use the test database with the host "localhost" instead of "db" which is only available within docker containers.
+
+
 ### File Storage (AWS S3):
 
 Used for secure file uploads via pre-signed URLs.
 
 Integrated within the `src/services/upload.service.ts` for generating and managing upload access.
+
+### Zod types schema
+The errorResponseSchema is inside src/docs/openAPIRegistery.ts, the rest of Zod schemas are found inside the src/validations folder.
 
 ## 5. Deployment & DevOps (Render)
 
@@ -128,7 +140,7 @@ Docker: Uses Multi-stage builds. prisma CLI must be in dependencies (not dev) fo
 
 ## 6. Project Structure
 
-src/server.ts: Entry point.
+src/server.ts: Entry point, here you can find the initialization of socketio server and backgound jobs like startTokenCleanupJob.
 src/api/: Routes.
 src/config/: Configuration (Passport, Logger, Envs).
 src/controllers/: Controllers.

@@ -13,6 +13,9 @@ You are an expert Senior Node.js TypeScript Developer working on a production-re
 3.  **UUID Version:** Do NOT upgrade `uuid` package beyond version 9.x.x (Version 10+ breaks CommonJS compatibility).
 4.  **Jest Config:** Do NOT modify `jest.config.js` or global test setup files.
 
+5.  **Pre-Task Safety Commit:** IF a task involves creating, updating, or deleting files, **ALWAYS** check with the user first: *"Please commit your current changes before I apply these updates. This ensures you can easily revert if something goes wrong."*
+6.  **Post-Task Commit:** After successfully applying changes, **ALWAYS** run git add and git commit commands with a concise, descriptive message (e.g., `git commit -am 'feat: implement user login service'`)..
+
 ## 2. General Guidelines
 
 * **Language:** TypeScript (Strict mode).
@@ -107,7 +110,7 @@ Write Integration tests for Routes.
 
 Use supertest for HTTP assertions.
 
-If test fails with a prisma related error, then run "npm run prisma:generate" and "npm run prisma:migrate:dev"
+If test fails with a prisma related error, the main fix is to run "npm run prisma:generate" and "npm run prisma:migrate:dev"
 
 The test script is set to run using the .env.test file because we need to use the test database with the host "localhost" instead of "db" which is only available within docker containers.
 
