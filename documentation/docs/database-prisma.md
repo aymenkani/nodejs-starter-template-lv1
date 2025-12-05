@@ -73,6 +73,14 @@ Here are the relevant scripts:
 *   `prisma:migrate:dev`: Creates a new migration file based on schema changes (for development). Uses `.env.local` to connect.
 *   `prisma:migrate:deploy`: Applies pending migrations to the database (for production/CI).
 
+> **Note on Local Development:**
+> When running the application locally (not in a full Docker environment), it's crucial to ensure your database is running before you attempt to run migrations.
+>
+> 1.  Start your database and Redis services: `npm run docker:redis:postgres:up`
+> 2.  Then, run your migration: `npm run prisma:migrate:dev`
+>
+> For a complete guide on the local development workflow, see the **[Getting Started](./getting-started.md#option-2-running-the-app-locally-hybrid-approach)** documentation.
+
 ## 3. Seeding the Database (`prisma/seed.ts`)
 
 Database seeding is the process of populating your database with initial data. This is particularly useful for development, testing, or for pre-populating lookup tables.

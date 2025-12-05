@@ -112,72 +112,99 @@ This command will pull the database image and start a container in the backgroun
 
 ## 3. Running the Application
 
-You have two main options for running the application: with Docker (recommended for a consistent environment) or manually on your host machine.
+You have two main ways to run the application for development.
 
-### Option 1: Running with Docker (Recommended)
+### Option 1: Running Everything with Docker (Recommended)
 
-We've added convenient `npm` scripts and a smart entrypoint to fully automate the Docker Compose setup. When you run the `docker:up` command, the entrypoint script will automatically:
+This is the simplest method. It uses Docker Compose to build and run the Node.js application, the database (PostgreSQL), and Redis in a unified, isolated environment.
+
+We've added convenient `npm` scripts to automate this process. The entrypoint script will automatically:
 - Wait for the database to be ready.
 - Run database migrations.
 - Seed the database with initial data.
 - Start the application with hot-reloading.
 
 *   **To start the app and all services (Postgres, Redis):**
-```bash
-npm run docker:up
-```
-Your application will be available at `http://localhost:5001`.
+    ```bash
+    npm run docker:up
+    ```
+    Your application will be available at `http://localhost:5001`.
 
 *   **To run in the background:**
-```bash
-npm run docker:up:detached
-```
+    ```bash
+    npm run docker:up:detached
+    ```
 
-*   **To stop the services:**
-```bash
-npm run docker:down
-```
+*   **To stop all services:**
+    ```bash
+    npm run docker:down
+    ```
 
 *   **To view logs:**
-```bash
-npm run docker:logs
-```
+    ```bash
+    npm run docker:logs
+    ```
 
-<details>
-<summary><b>Alternative: Using `docker-compose` directly</b></summary>
+> **Note on Docker commands:** The `npm run dev` and `npm run dev:watch` commands are designed to be run *inside* the Docker container. They rely on the `.env` file, which uses Docker network hostnames like `db` and `redis`. They are not meant for local development directly on your host machine.
 
-If you need more control, you can use `docker-compose` commands directly. The setup is modular, so you combine the base `docker-compose.yml` with an override and a database file.
+### Option 2: Running the App Locally (Hybrid Approach)
 
-> **What does `docker-compose.override.yml` do?**
-> It contains development-specific settings. It tells Docker to use `Dockerfile.dev` for a development-focused build, enables hot-reloading by running `npm run dev:watch`, and mounts your local code into the container so your changes are reflected live.
+This method is for developers who want to run the Node.js application directly on their host machine (e.g., for easier debugging) while still using Docker to manage the database and Redis.
 
-</br>
-*   **For PostgreSQL:**
-```bash
-docker compose -f docker-compose.yml -f docker-compose.override.yml -f docker-compose.postgres.yml up --build
-```
-*   **For MySQL:**
-```bash
-docker compose -f docker-compose.yml -f docker-compose.override.yml -f docker-compose.mysql.yml up --build
-```
-</details>
+#### Step 1: Start Background Services with Docker
 
-### Option 2: Running Manually
-
-If you prefer to manage the application process directly on your host machine, ensure your database is running first. See [step 4: database setup](#step-3-database-setup) for details.
-
-#### Development Mode
-
-To run the application in development mode with hot-reloading:
+Before you can run the application locally, the database and Redis must be running.
 
 ```bash
-npm run dev:watch
-# or
-yarn dev:watch
+# This command starts ONLY the PostgreSQL and Redis containers
+npm run docker:redis:postgres:up
 ```
+
+This command uses Docker to make the database and Redis available on `localhost`.
+
+> **CRITICAL STEP:** You **must** run this command before starting the local server. The application will fail to start if it cannot connect to the database and Redis.
+
+#### Step 2: Run the Application on Your Host Machine
+
+Once the background services are running, open a new terminal and start the application using the local-specific script:
+
+```bash
+npm run dev:watch:local
+```
+
+This command does two important things:
+1.  It uses `ts-node` to run the app with hot-reloading.
+2.  It loads the `.env.local` file, which is configured to connect to `localhost` for the database and Redis.
+
 The API server will start on `http://localhost:5001`.
 
-## 4. Available npm Scripts
+---
+
+## 4. Troubleshooting Local Development
+
+### Prisma Errors After Setup
+
+If you run into Prisma-related errors (e.g., `PrismaClient is not a constructor`, schema mismatches) when running the app locally, it often means the Prisma Client is out of sync with your database schema.
+
+**Important:** Ensure your database is running before you proceed. If it's not, run `npm run docker:redis:postgres:up`.
+
+To fix this, run the following commands in order:
+
+1.  **Generate the Prisma Client:**
+    This command reads your `prisma/schema.prisma` and generates the type-safe client.
+    ```bash
+    npm run prisma:generate
+    ```
+
+2.  **Run Database Migrations:**
+    This command applies any pending migrations to your database to ensure the schema is up to date.
+    ```bash
+    npm run prisma:migrate:dev
+    ```
+
+After completing these steps, try starting the application again with `npm run dev:watch:local`.
+
+## 5. Available npm Scripts
 
 
 Here is the breakdown of your package.json scripts, explained section by section. This acts as a perfect reference for your documentation.
@@ -239,7 +266,7 @@ Wrappers for Prisma CLI tools.
 *   `type-check`: Runs the TypeScript compiler (`tsc`) without emitting files. Useful to check for type errors without actually building.
 *   `format`: Uses Prettier to automatically format your code to look consistent.
 
-## 4. Initial API Interaction
+## 6. Initial API Interaction
 
 Once the server is running, you can verify its status by accessing the health endpoint:
 

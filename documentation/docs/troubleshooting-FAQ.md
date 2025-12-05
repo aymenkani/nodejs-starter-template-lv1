@@ -54,6 +54,33 @@ COPY --from=builder /app/dist ./dist
 
 ## 🐳 **2. Docker & Local Development Errors**
 
+### 🏃 **Issues Running the App Locally**
+
+- 🚨 **Error:**
+  Application fails to start with errors like `ECONNREFUSED`, `Can't reach database server`, or other Prisma-related issues when running `npm run dev:watch:local`.
+
+- 🧐 **Cause:**
+  This typically happens for one of two reasons:
+  1.  The required background services (Database, Redis) are not running.
+  2.  The Prisma Client is not generated or the database schema is out of date.
+
+- ✅ **Solution:**
+  A detailed guide for local development setup and troubleshooting is available in the **[Getting Started](./getting-started.md#option-2-running-the-app-locally-hybrid-approach)** documentation.
+
+  **Quick Checklist:**
+  1.  **Are the database and Redis running?** Before starting the app, you **must** run `npm run docker:redis:postgres:up`.
+  2.  **Is Prisma up to date?** If the database is running but you still have errors, run these commands in order:
+      ```bash
+      # 1. Regenerate the Prisma Client
+      npm run prisma:generate
+
+      # 2. Apply latest database migrations
+      npm run prisma:migrate:dev
+      ```
+  3.  Then, try starting the app again: `npm run dev:watch:local`.
+
+---
+
 ### 🔌 **PrismaClientInitializationError**
 
 - 🚨 **Error:**
