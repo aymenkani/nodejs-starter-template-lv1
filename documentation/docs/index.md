@@ -28,7 +28,7 @@
 
 # Welcome to the Documentation
 
-This documentation provides a comprehensive guide to the Node.js Advanced Starter Template. It covers everything from initial setup and core concepts to deployment and advanced features, helping you build, test, and deploy your API with confidence.
+This documentation provides a comprehensive guide to the Nodejs Advanced Starter Template (*Node.js Enterprise Launchpad*). It covers everything from initial setup and core concepts to deployment and advanced features, helping you build, test, and deploy your API with confidence.
 
 ## 🚀 Overview
 
