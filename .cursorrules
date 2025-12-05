@@ -14,7 +14,15 @@ You are an expert Senior Node.js TypeScript Developer working on a production-re
 4.  **Jest Config:** Do NOT modify `jest.config.js` or global test setup files.
 
 5.  **Pre-Task Safety Commit:** IF a task involves creating, updating, or deleting files, **ALWAYS** check with the user first: *"Please commit your current changes before I apply these updates. This ensures you can easily revert if something goes wrong."*
-6.  **Post-Task Commit:** After successfully applying changes, **ALWAYS** run git add and git commit commands with a concise, descriptive message (e.g., `git commit -am 'feat: implement user login service'`)..
+6.  **Post-Task Commit:** After successfully applying changes, **ALWAYS** run git add and git commit commands with a concise, descriptive message (e.g., `git commit -am 'feat: implement user login service'`).
+7.  **Documentation Maintenance:** IF a task involves adding a new feature, modifying existing behavior, or creating a new API route, **ALWAYS** update the corresponding documentation in the `documentation/docs/` directory. Code and docs must stay in sync.
+8. **Scope & Safety Boundaries:**
+
+Implicit Scope: You ARE authorized to modify files directly related to the user's request (e.g., if asked to "add a route," you may create the Controller, Service, and Validation files without asking).
+
+Configuration Lock: Do NOT modify critical configuration files (e.g., tsconfig.json, package.json, .env, docker-compose.yml) unless the prompt explicitly asks for a configuration change.
+
+Deletion Guard: NEVER delete a file without first asking the user for explicit permission.
 
 ## 2. General Guidelines
 
@@ -90,17 +98,29 @@ Use npx prisma migrate dev for schema changes.
 
 ### Authentication:
 
-Passport.js for strategies.
+- Passport.js for strategies.
 
-JWT for Access Tokens.
+- JWT for Access Tokens.
 
-Opaque tokens in DB for Refresh Tokens.
+- Opaque tokens in DB for Refresh Tokens.
 
-Background Jobs (BullMQ):
+- Background Jobs (BullMQ):
 
-Define queues in src/jobs/queue.ts.
+- Define queues in src/jobs/queue.ts.
 
-Define workers in src/jobs/worker.ts.
+- Define workers in src/jobs/worker.ts.
+
+- Use `auth` middleware for protecting routes and `authorize` middleware for asigning roles. example :
+```typescript
+import { auth, authorize } from '../middleware/auth.middleware';
+import { Role } from '@prisma/client';
+import express from 'express';
+const router = express.Router();
+
+// All routes in this file are protected
+router.use(auth, authorize([Role.USER]));
+```
+
 
 ### Testing (Jest):
 
@@ -155,3 +175,25 @@ prisma/: Database schema, migrations, and seed files.
 public/: Publicly served static files.
 tests/: Jest tests for the application.
 documentation/: The Nodejs Advanced Starter Template documentation powered by MkDocs.
+
+## 7. Documentation Workflow
+The project uses MkDocs for documentation, located in the documentation/ directory.
+
+Adding a New Route
+When you create a new API route (e.g., a new resource like products), you must document its workflow.
+
+Create a new Markdown file in documentation/docs/routes-documentation/ (e.g., products.md).
+
+Document the endpoints, required permissions, request body schema, and expected responses.
+
+Add a link to this new file in the nav section of documentation/mkdocs.yml under a "Routes Documentation" category.
+
+### Updating Documentation
+**Adding/Modifying Features**
+When you add a significant new feature (e.g., a new background job, a third-party integration) or modify an existing one:
+
+Identify the relevant documentation file in documentation/docs/ (e.g., background-jobs-bullmq.md, authentication.md).
+
+Update the file to reflect the changes, adding code snippets or configuration examples as needed.
+
+If it's a completely new concept, create a new .md file in documentation/docs/ and add it to mkdocs.yml.
