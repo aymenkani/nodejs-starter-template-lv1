@@ -1,3 +1,30 @@
+<!-- Email Subscription Section -->
+<div style="background-color: #f9fafb; border: 1px solid #e5e7eb; border-radius: 8px; padding: 24px; margin-bottom: 32px; text-align: center; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);">
+  <h2 style="font-size: 1.875rem; font-weight: 800; color: #111827; margin-top: 0; margin-bottom: 12px;">🚀 Stay Ahead of the Curve!</h2>
+  <p style="font-size: 1.125rem; color: #4b5563; margin-top: 0; margin-bottom: 24px;">
+    Subscribe to get new updates about this template, plus early access to new tools, courses, and free resources that will help you succeed in the new era of technology and software engineering.
+  </p>
+  <!-- Gumroad Form -->
+  <style>
+    #gumroad-follow-form-embed {
+      display: flex;
+      gap: 8px;
+      max-width: 480px;
+      margin: 0 auto;
+    }
+    #gumroad-follow-form-embed-input {
+      flex: 1 1 0%;
+    }
+  </style>
+  <form action="https://gumroad.com/follow_from_embed_form" method="post" id="gumroad-follow-form-embed">
+    <input type="hidden" name="seller_id" value="8461277886488"/>
+    <input id="gumroad-follow-form-embed-input" type="email" placeholder="you@example.com" name="email" required style="flex-grow: 1; padding: 12px 16px; border: 1px solid #d1d5db; border-radius: 6px; font-size: 1rem; color: #111827; background-color: #ffffff; box-shadow: inset 0 2px 4px 0 rgba(0,0,0,0.05);">
+    <button type="submit" id="gumroad-follow-form-embed-button" style="background-color: #7c3aed; color: white; padding: 12px 24px; border-radius: 6px; text-decoration: none; font-weight: 600; font-size: 1rem; border: none; cursor: pointer; transition: background-color 0.3s ease;">
+      Subscribe
+    </button>
+  </form>
+  <p style="font-size: 0.875rem; color: #6b7280; margin-top: 16px;">No spam, just high-value content. Unsubscribe at any time.</p>
+</div>
 
 # Welcome to the Documentation
 
@@ -62,15 +89,25 @@ However, as a thank you for taking my course, you get access to the **Student Li
 
 * ✅ **Lifetime Updates** (Node versions, Security patches)
 * ✅ **Commercial Use Allowed** (Use it for client work)
-* ✅ **Private Discord Access**
-
 <div style="text-align: center; margin: 40px 0;">
-  <a href="https://gumroad.com/YOUR-LINK-HERE" style="background-color: #7c3aed; color: white; padding: 15px 30px; border-radius: 5px; text-decoration: none; font-weight: bold; font-size: 1.2em;">
-    Get the Template (80% OFF for Students) ➔
+  <a href="https://gumroad.com/YOUR-LINK-HERE" style="background-color: #7c3aed; color: white; padding: 15px 30px; border-radius: 5px; text-decoration: none; font-weight: bold; font-size: 1.2em; display: inline-block; transition: background-color 0.3s ease;">
+    Get the Template for <s style="color: #e70303ff;">$49</s> $12.25 <span style="font-weight: normal; font-size: 0.9em; opacity: 0.9;">(75% OFF)</span> ➔
   </a>
-  <p style="margin-top: 10px; font-size: 0.9em; color: #666;">
-    Use code <code>UDEMY-VIP</code> at checkout
+  <p style="margin-top: 15px; font-size: 0.95em; color: #555;">
+    Original Price: <s style="color: #999;">$49</s> &nbsp;|&nbsp; Use code <code>UDEMY-VIP</code>
   </p>
+  <p style="font-size: 1.125rem; color: #4b5563; margin-top: 0; margin-bottom: 24px;">
+    Subscribe to get new updates about this template, plus early access to new tools, courses, and free resources that will help you succeed in the new era of technology and software engineering.
+  </p>
+  <!-- Gumroad Form -->
+  <form action="https://gumroad.com/follow_from_embed_form" method="post" id="gumroad-follow-form-embed">
+    <input type="hidden" name="seller_id" value="8461277886488"/>
+    <input id="gumroad-follow-form-embed-input" type="email" placeholder="you@example.com" name="email" required style="flex-grow: 1; padding: 12px 16px; border: 1px solid #d1d5db; border-radius: 6px; font-size: 1rem; color: #111827; background-color: #ffffff; box-shadow: inset 0 2px 4px 0 rgba(0,0,0,0.05);">
+    <button type="submit" id="gumroad-follow-form-embed-button" style="background-color: #7c3aed; color: white; padding: 12px 24px; border-radius: 6px; text-decoration: none; font-weight: 600; font-size: 1rem; border: none; cursor: pointer; transition: background-color 0.3s ease;">
+      Subscribe
+    </button>
+  </form>
+  <p style="font-size: 0.875rem; color: #6b7280; margin-top: 16px;">No spam, just high-value content. Unsubscribe at any time.</p>
 </div>
 
 ---

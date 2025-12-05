@@ -22,10 +22,12 @@
     "setup": "npm install && cp .env.example .env && npm run prisma:migrate:dev && npm run seed",
 
     "--- DOCKER ---": "Modular Docker commands (Postgres + App)",
-    "docker:up": "docker compose -f docker-compose.yml -f docker-compose.postgres.yml -f docker-compose.override.yml up --build",
-    "docker:up:detached": "docker compose -f docker-compose.yml -f docker-compose.postgres.yml -f docker-compose.override.yml up -d --build",
+    "docker:up:build": "docker compose -f docker-compose.yml -f docker-compose.redis.yml  -f docker-compose.postgres.yml -f docker-compose.override.yml up --build",
+    "docker:up": "docker compose -f docker-compose.yml -f docker-compose.redis.yml  -f docker-compose.postgres.yml -f docker-compose.override.yml up",
+    "docker:up:detached": "docker compose -f docker-compose.yml -f docker-compose.redis.yml -f docker-compose.postgres.yml -f docker-compose.override.yml up -d --build",
     "docker:down": "docker compose -f docker-compose.yml -f docker-compose.postgres.yml down",
     "docker:logs": "docker compose -f docker-compose.yml -f docker-compose.postgres.yml logs -f",
+    "docker:redis:postgres:up": "docker compose -f docker-compose.redis.yml  -f docker-compose.postgres.yml up --build",
 
     "--- PRISMA ---": "Database management",
     "prisma:generate": "prisma generate",

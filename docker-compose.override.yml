@@ -13,5 +13,8 @@ services:
           target: /app
     volumes:
       - .:/app
+      - ./docker-entrypoint.dev.sh:/usr/local/bin/docker-entrypoint.dev.sh
+    env_file:
+      - .env
     environment:
       - NODE_ENV=development
