@@ -95,6 +95,10 @@ The `seed.ts` file contains TypeScript code that uses the Prisma Client to inser
     ```bash
     npm run seed
     ```
+*   `seed:local`: Runs the seed script using the `.env.local` file. Use this for local development.
+    ```bash
+    npm run seed:local
+    ```
 *   `seed:prod`: Runs the Compiled JavaScript seed file (`dist/prisma/seed.js`). Does NOT require `ts-node` (Production only).
     ```bash
     npm run seed:prod

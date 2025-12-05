@@ -16,25 +16,7 @@ Before you begin, ensure you have the following software installed on your syste
 Start by unzipping the downloaded project file. This will create a new directory named `node-template-advanced-1`. Navigate into this new directory to proceed with the setup.
 
 
-## 1. The "Magic" Setup Command (Recommended)
-
-It will:
-- Installs all `npm` dependencies.
-- Copies the `.env.example` file to `.env`.
-- Runs database migrations to set up your schema.
-- Seeds the database with initial data.
-
-Just run this single command in your terminal:
-
-```bash
-npm run setup
-```
-
-After the script finishes, your environment is ready! You can then start the application using Docker or run it manually.
-
----
-
-## 2. Manual Installation
+## 1. Manual Installation
 
 If you prefer to set up the project step-by-step, follow the instructions below.
 
@@ -47,6 +29,7 @@ npm install
 # or if you use yarn
 yarn install
 ```
+This will also automatically trigger `npx prisma generate` because of the `postinstall` script in `package.json`.
 
 ### Step 2: Environment Variables Configuration
 
@@ -57,6 +40,12 @@ The project uses environment variables for configuration. A `.env.example` file 
     cp .env.example .env
     ```
 2.  Open the newly created `.env` file and update the variables as needed. Pay close attention to database connection strings, JWT secrets, and any third-party API keys (e.g., Google OAuth credentials, SendGrid API key).
+
+3. Create a `.env.local` file by copying the `.env.example` file. This file is used for the local development setup.
+    ```bash
+    cp .env.example .env.local
+    ```
+4. Open the `.env.local` file and make sure the `DATABASE_URL` and `REDIS_URL` are pointing to `localhost`.
 
 **Example `.env` (excerpt):**
 ```yaml
@@ -89,28 +78,24 @@ This template uses Docker Compose to manage local database instances (PostgreSQL
     
 ```bash
 # For PostgreSQL
-docker compose -f docker-compose.postgres.yml up -d
-
-# Or for MySQL
-docker compose -f docker-compose.mysql.yml up -d
+npm run docker:redis:postgres:up
 ```
 This command will pull the database image and start a container in the background.
 
-2.  **Create Prisma client and Run Prisma Migrations:**
+2.  **Run Prisma Migrations:**
     Once your database container is running, apply the Prisma migrations to set up your database schema:
     ```bash
-    npm run prisma:generate
     npm run prisma:migrate:dev
     ```
 
 3.  **Seed the Database (Optional):**
     You can populate your database with initial data using the Prisma seed script:
     ```bash
-    npm run seed
+    npm run seed:local
     ```
     Review `prisma/seed.ts` to understand what data will be added.
 
-## 3. Running the Application
+## 2. Running the Application
 
 You have two main ways to run the application for development.
 
@@ -126,7 +111,7 @@ We've added convenient `npm` scripts to automate this process. The entrypoint sc
 
 *   **To start the app and all services (Postgres, Redis):**
     ```bash
-    npm run docker:up
+    npm run docker:up:build
     ```
     Your application will be available at `http://localhost:5001`.
 
@@ -180,7 +165,7 @@ The API server will start on `http://localhost:5001`.
 
 ---
 
-## 4. Troubleshooting Local Development
+## 3. Troubleshooting Local Development
 
 ### Prisma Errors After Setup
 
@@ -204,7 +189,7 @@ To fix this, run the following commands in order:
 
 After completing these steps, try starting the application again with `npm run dev:watch:local`.
 
-## 5. Available npm Scripts
+## 4. Available npm Scripts
 
 
 Here is the breakdown of your package.json scripts, explained section by section. This acts as a perfect reference for your documentation.
@@ -230,15 +215,7 @@ These are for working on your machine without Docker.
 
 *   `dev`: Runs the server directly using `ts-node`. Good for a quick check.
 *   `dev:watch`: The main dev command. Uses `nodemon` to restart the server automatically whenever you save a file.
-*   `dev:watch:local`: Same as above, but forces `dotenv` to load variables from `.env.local`. Useful if you have a specific local config that differs from the default `.env`.
-
-### ✨ Onboarding
-*   `setup`: The "One-Click" command for new users.
-    - Installs dependencies.
-    - Copies `.env.example` to `.env`.
-    - Runs migrations.
-    - Seeds the database.
-    > "Just run npm run setup and you are ready to code!"
+*   `dev:watch:local`: Same as above, but forces `dotenv` to load variables from `.env.local`. This is the primary command for local development.
 
 ### 🐳 Docker (Modular)
 These handle your complex multi-file Docker setup.
@@ -246,18 +223,19 @@ These handle your complex multi-file Docker setup.
 *   `docker:up:build`: Starts all services (app, Redis, PostgreSQL) defined in `docker-compose.yml`, `docker-compose.redis.yml`, `docker-compose.postgres.yml`, and `docker-compose.override.yml`, rebuilding images if necessary.
 *   `docker:up`: Starts all services (app, Redis, PostgreSQL) defined in `docker-compose.yml`, `docker-compose.redis.yml`, `docker-compose.postgres.yml`, and `docker-compose.override.yml` in the foreground.
 *   `docker:up:detached`: Starts all services (app, Redis, PostgreSQL) in the background (`-d`), freeing up your terminal.
-*   `docker:down`: Stops and removes the app and PostgreSQL containers.
-*   `docker:logs`: Follows the logs of the app and PostgreSQL containers.
+*   `docker:down`: Stops and removes the app, redis and PostgreSQL containers.
+*   `docker:logs`: Follows the logs of the app, redis and PostgreSQL containers.
 *   `docker:redis:postgres:up`: Starts only the Redis and PostgreSQL services, rebuilding their images if necessary.
 
 ### 🗄️ Database (Prisma)
 Wrappers for Prisma CLI tools.
 
-*   `prisma:generate`: Reads `schema.prisma` and updates `node_modules/@prisma/client`.
+*   `prisma:generate`: Reads `schema.prisma` and updates `node_modules/@prisma/client`. This is now run automatically on `npm install`.
 *   `prisma:migrate:dev`: Creates a new migration file based on schema changes (for development). Uses `.env.local` to connect.
 *   `prisma:migrate:deploy`: Applies pending migrations to the database (for production/CI).
 *   `prisma:studio`: Opens the GUI to view/edit your database data.
 *   `seed`: Runs the TypeScript seed file (`prisma/seed.ts`). Requires `ts-node` (Dev only).
+*   `seed:local`: Runs the seed script using the `.env.local` file. Use this for local development.
 *   `seed:prod`: Runs the Compiled JavaScript seed file (`dist/prisma/seed.js`). Does NOT require `ts-node` (Production only).
 
 ### ✅ Quality & Testing
@@ -266,7 +244,7 @@ Wrappers for Prisma CLI tools.
 *   `type-check`: Runs the TypeScript compiler (`tsc`) without emitting files. Useful to check for type errors without actually building.
 *   `format`: Uses Prettier to automatically format your code to look consistent.
 
-## 6. Initial API Interaction
+## 5. Initial API Interaction
 
 Once the server is running, you can verify its status by accessing the health endpoint:
 

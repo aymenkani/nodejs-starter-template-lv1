@@ -18,23 +18,21 @@
     "dev:watch": "nodemon --watch 'src/**/*.ts' --exec ts-node src/server.ts",
     "dev:watch:local": "dotenv -e .env.local -- npm run dev:watch",
 
-    "--- SETUP ---": "The 'Magic' command for new users",
-    "setup": "npm install && cp .env.example .env && npm run prisma:migrate:dev && npm run seed",
-
     "--- DOCKER ---": "Modular Docker commands (Postgres + App)",
     "docker:up:build": "docker compose -f docker-compose.yml -f docker-compose.redis.yml  -f docker-compose.postgres.yml -f docker-compose.override.yml up --build",
     "docker:up": "docker compose -f docker-compose.yml -f docker-compose.redis.yml  -f docker-compose.postgres.yml -f docker-compose.override.yml up",
     "docker:up:detached": "docker compose -f docker-compose.yml -f docker-compose.redis.yml -f docker-compose.postgres.yml -f docker-compose.override.yml up -d --build",
-    "docker:down": "docker compose -f docker-compose.yml -f docker-compose.postgres.yml down",
-    "docker:logs": "docker compose -f docker-compose.yml -f docker-compose.postgres.yml logs -f",
+    "docker:down": "docker compose -f docker-compose.yml -f docker-compose.redis.yml  -f docker-compose.postgres.yml -f docker-compose.override.yml down",
+    "docker:logs": "docker compose -f docker-compose.yml -f docker-compose.redis.yml  -f docker-compose.postgres.yml -f docker-compose.override.yml logs -f",
     "docker:redis:postgres:up": "docker compose -f docker-compose.redis.yml  -f docker-compose.postgres.yml up --build",
 
     "--- PRISMA ---": "Database management",
-    "prisma:generate": "prisma generate",
+    "prisma:generate": "npx prisma generate",
     "prisma:migrate:dev": "dotenv -e .env.local -- prisma migrate dev",
     "prisma:migrate:deploy": "prisma migrate deploy",
     "prisma:studio": "dotenv -e .env.local -- prisma studio",
     "seed": "ts-node prisma/seed.ts",
+    "seed:local": "dotenv -e .env.local -- ts-node prisma/seed.ts",
     "seed:prod": "node dist/prisma/seed.js",
 
     "--- QUALITY ---": "Linting and Testing",
