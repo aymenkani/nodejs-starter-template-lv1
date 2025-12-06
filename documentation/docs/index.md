@@ -90,7 +90,7 @@ However, as a thank you for taking my course, you get access to the **Student Li
 * ✅ **Lifetime Updates** (Node versions, Security patches)
 * ✅ **Commercial Use Allowed** (Use it for client work)
 <div style="text-align: center; margin: 40px 0;">
-  <a href="https://gumroad.com/YOUR-LINK-HERE" style="background-color: #7c3aed; color: white; padding: 15px 30px; border-radius: 5px; text-decoration: none; font-weight: bold; font-size: 1.2em; display: inline-block; transition: background-color 0.3s ease;">
+  <a href="https://aymenkani.gumroad.com/l/nodejs-enterprise-launchpad/UDEMY-VIP" style="background-color: #7c3aed; color: white; padding: 15px 30px; border-radius: 5px; text-decoration: none; font-weight: bold; font-size: 1.2em; display: inline-block; transition: background-color 0.3s ease;">
     Get the Template for <s style="color: #e70303ff;">$49</s> $12.25 <span style="font-weight: normal; font-size: 0.9em; opacity: 0.9;">(75% OFF)</span> ➔
   </a>
   <p style="margin-top: 15px; font-size: 0.95em; color: #555;">

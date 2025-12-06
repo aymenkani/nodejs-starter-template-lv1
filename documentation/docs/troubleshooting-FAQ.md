@@ -198,6 +198,25 @@ RUN DATABASE_URL="dummy" npm install
 
 - ✅ **Solution:**
   Run `npx prisma generate` and restart your IDE or TypeScript server.
-  ```bash
-  npx prisma generate
-  ```
+    ```bash
+    npx prisma generate
+    ```
+  
+  ---
+  
+  ## 🧪 **4. Testing Errors**
+  
+  ### ⚡ **PrismaClientKnownRequestError in Tests**
+  
+  - 🚨 **Error:**
+    `PrismaClientKnownRequestError: An operation failed because it depends on one or more records that were required but not found.`
+  
+  - 🧐 **Cause:**
+    This error often occurs when running tests (`npm test`) if the test database is not in sync with the Prisma schema. The test setup might be trying to access or manipulate data that doesn't match the expected structure.
+  
+  - ✅ **Solution:**
+    Reset and re-apply your database migrations for the test environment. This ensures the test database schema is up-to-date.
+    ```bash
+    npm run prisma:migrate:dev
+    ```
+  
