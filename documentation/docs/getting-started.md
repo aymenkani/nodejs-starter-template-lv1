@@ -249,7 +249,7 @@ Wrappers for Prisma CLI tools.
 Once the server is running, you can verify its status by accessing the health endpoint:
 
 *   Open your web browser or an API client and navigate to:
-    `http://localhost:5001/v1/health`
+    `http://localhost:5001/api/v1/health`
 
 You should receive a JSON response indicating the API's health.
 
