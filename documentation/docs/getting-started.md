@@ -70,7 +70,7 @@ EMAIL_FROM=support@example.com
 
 ### Step 3: Database Setup
 
-**Note:** You can launch the entire application stack, including the database and Redis server, with a single command. Please refer to the [Running with Docker (Recommended)](#option-1-running-with-docker-recommended) section.
+**Note:** You can launch the entire application stack, including the database and Redis server, with a single command. Please refer to the [Running with Docker (Recommended)](#option-1-running-everything-with-docker-recommended) section.
 
 This template uses Docker Compose to manage local database instances (PostgreSQL or MySQL).
 

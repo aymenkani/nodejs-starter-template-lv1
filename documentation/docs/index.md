@@ -81,11 +81,7 @@ This isn't just a folder structure; it's a complete ecosystem.
 
 ---
 
-## 💎 Exclusive Student Offer
-
-This template is sold publicly for **$49** to agencies and freelancers.
-
-However, as a thank you for taking my course, you get access to the **Student License**.
+## 💎 I’m saving you 20 hours of setup (Free Download)
 
 * ✅ **Lifetime Updates** (Node versions, Security patches)
 * ✅ **Commercial Use Allowed** (Use it for client work)
@@ -94,8 +90,8 @@ However, as a thank you for taking my course, you get access to the **Student Li
 * ✅ Quality Suite: Pre-configured Jest, ESLint, Prettier & TypeScript.
 
 <div style="text-align: center; margin: 40px 0;">
-  <a href="https://aymenkani.gumroad.com/l/nodejs-enterprise-launchpad/UDEMY-VIP" style="background-color: #7c3aed; color: white; padding: 15px 30px; border-radius: 5px; text-decoration: none; font-weight: bold; font-size: 1.2em; display: inline-block; transition: background-color 0.3s ease;">
-    Get the <span style="font-weight: normal; font-size: 0.9em; opacity: 0.9;">Free</span> Production DevOps Foundation (The Skeleton) ➔
+  <a href="https://aymenkani.gumroad.com/l/nodejs-enterprise-launchpad/UDEMY-VIP?option=jO9w7s3jkf48MobF50pBTw%3D%3D&_gl=1*1cidzeq*_ga*NTYyNDU1Mjc4LjE3NjA5NzUzNDg.*_ga_6LJN6D94N6*czE3NjUxMTE4MjUkbzcwJGcxJHQxNzY1MTE1ODgwJGo2MCRsMCRoMA.." style="background-color: #7c3aed; color: white; padding: 15px 30px; border-radius: 5px; text-decoration: none; font-weight: bold; font-size: 1.2em; display: inline-block; transition: background-color 0.3s ease; margin-bottom: 2rem;" target="_blank" rel="noopener noreferrer">
+    Get the <span style="font-weight: normal; font-size: 1.3em; opacity: 0.9;">FREE</span> Production DevOps Foundation (The Skeleton) ➔
   </a>
   <p style="font-size: 1.125rem; color: #4b5563; margin-top: 0; margin-bottom: 24px;">
     Subscribe to get new updates about this template, plus early access to new tools, courses, and free resources that will help you succeed in the new era of technology and software engineering.
