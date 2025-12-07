@@ -89,13 +89,14 @@ However, as a thank you for taking my course, you get access to the **Student Li
 
 * ✅ **Lifetime Updates** (Node versions, Security patches)
 * ✅ **Commercial Use Allowed** (Use it for client work)
+* ✅ DevOps-Ready: Docker Compose for App, Redis, & Postgres.
+* ✅ CI/CD Pipeline: GitHub Actions for testing & linting.
+* ✅ Quality Suite: Pre-configured Jest, ESLint, Prettier & TypeScript.
+
 <div style="text-align: center; margin: 40px 0;">
   <a href="https://aymenkani.gumroad.com/l/nodejs-enterprise-launchpad/UDEMY-VIP" style="background-color: #7c3aed; color: white; padding: 15px 30px; border-radius: 5px; text-decoration: none; font-weight: bold; font-size: 1.2em; display: inline-block; transition: background-color 0.3s ease;">
-    Get the Template for <s style="color: #e70303ff;">$49</s> $12.25 <span style="font-weight: normal; font-size: 0.9em; opacity: 0.9;">(75% OFF)</span> ➔
+    Get the <span style="font-weight: normal; font-size: 0.9em; opacity: 0.9;">Free</span> Production DevOps Foundation (The Skeleton) ➔
   </a>
-  <p style="margin-top: 15px; font-size: 0.95em; color: #555;">
-    Original Price: <s style="color: #999;">$49</s> &nbsp;|&nbsp; Use code <code>UDEMY-VIP</code>
-  </p>
   <p style="font-size: 1.125rem; color: #4b5563; margin-top: 0; margin-bottom: 24px;">
     Subscribe to get new updates about this template, plus early access to new tools, courses, and free resources that will help you succeed in the new era of technology and software engineering.
   </p>
