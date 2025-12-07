@@ -82,7 +82,7 @@ This isn't just a folder structure; it's a complete ecosystem.
 ---
 
 ## 💎 I’m saving you 20 hours of setup (Free Download)
-
+## exclusive-student-offer
 * ✅ **Lifetime Updates** (Node versions, Security patches)
 * ✅ **Commercial Use Allowed** (Use it for client work)
 * ✅ DevOps-Ready: Docker Compose for App, Redis, & Postgres.
