@@ -20,7 +20,12 @@ import { errorConverter, errorHandler } from './middleware/error';
 import logger from './utils/logger';
 import { startTokenCleanupJob } from './utils/tokenCleanup';
 import { processTokenCleanupJob } from './jobs/worker';
-import { tokenCleanupQueueName, ingestionQueueName } from './jobs/queue';
+import {
+  tokenCleanupQueue,
+  ingestionQueue,
+  tokenCleanupQueueName,
+  ingestionQueueName,
+} from './jobs/queue';
 import { processJob as processIngestionJob } from './jobs/ingestion.worker';
 import { prisma } from './config/db';
 import { PrismaClient } from '@prisma/client/extension';
@@ -98,21 +103,10 @@ app.use(errorHandler);
 async function startServer(port?: number) {
   await connectDB();
 
-  // Create new instances of Queue and Worker inside startServer
-  const tokenCleanupQueue = new Queue(tokenCleanupQueueName, {
-    connection: {
-      host: config.redis.host,
-      port: config.redis.port,
-    },
-  });
-  const tokenCleanupWorker = new Worker(tokenCleanupQueueName, processTokenCleanupJob, {
-    connection: {
-      host: config.redis.host,
-      port: config.redis.port,
-    },
-  });
+  // Initialize Workers
+  // Note: Queues are singleton imported from jobs/queue.ts
 
-  const ingestionQueue = new Queue(ingestionQueueName, {
+  const tokenCleanupWorker = new Worker(tokenCleanupQueueName, processTokenCleanupJob, {
     connection: {
       host: config.redis.host,
       port: config.redis.port,
@@ -126,7 +120,7 @@ async function startServer(port?: number) {
     },
   });
 
-  const cronJob = startTokenCleanupJob(tokenCleanupQueue);
+  const cronJob = startTokenCleanupJob();
 
   const server: Server = app.listen(port || config.port, () =>
     logger.info(`Server running on port ${port || config.port}`),
@@ -141,9 +135,7 @@ async function startServer(port?: number) {
     prisma,
     cronJob,
     tokenCleanupWorker,
-    tokenCleanupQueue,
     ingestionWorker,
-    ingestionQueue,
   };
 }
 
@@ -152,10 +144,9 @@ async function stopServer(
   prisma: PrismaClient,
   cronJob: ScheduledTask,
   worker: Worker,
-  queue: Queue,
   ingestionWorker: Worker,
-  ingestionQueue: Queue,
 ) {
+  // Use imported tokenCleanupQueue and ingestionQueue directly
   logger.info('Attempting to stop server...');
 
   // 1. Stop new jobs from being scheduled
@@ -183,7 +174,7 @@ async function stopServer(
 
   // 3. Close the queue to prevent new jobs from being processed
   logger.info('Attempting to close token cleanup queue...');
-  await queue.close();
+  await tokenCleanupQueue.close();
   logger.info('Token cleanup queue closed.');
 
   // 4. Close the worker and wait for any active jobs to finish
@@ -193,9 +184,13 @@ async function stopServer(
 
   // Close ingestion queue/worker
   logger.info('Closing ingestion queue...');
-  await ingestionQueue.close();
+  if (ingestionQueue) {
+    await ingestionQueue.close();
+  }
   logger.info('Closing ingestion worker...');
-  await ingestionWorker.close(config.env === 'test' ? true : false);
+  if (ingestionWorker) {
+    await ingestionWorker.close(config.env === 'test' ? true : false);
+  }
 
   // 5. Finally, disconnect from the database
   logger.info('Attempting to disconnect Prisma...');

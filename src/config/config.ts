@@ -34,6 +34,7 @@ const envVarsSchema = z
     REDIS_HOST: z.string().min(1, 'Redis host is required'),
     REDIS_PORT: z.coerce.number().min(1, 'Redis port is required'),
     SOCKET_CORS_ORIGIN: z.string().default('http://localhost:3000'),
+    AWS_ENDPOINT: z.string().min(1, 'AWS endpoint is required'),
   })
   .loose();
 
@@ -59,6 +60,7 @@ export type Config = {
     s3: {
       bucket: string;
     };
+    endpoint: string;
   };
   google: {
     clientId: string;
@@ -123,6 +125,7 @@ export function getConfig(processEnv: NodeJS.ProcessEnv): Config {
       s3: {
         bucket: envVars.AWS_S3_BUCKET,
       },
+      endpoint: envVars.AWS_ENDPOINT,
     },
     google: {
       clientId: envVars.GOOGLE_CLIENT_ID,

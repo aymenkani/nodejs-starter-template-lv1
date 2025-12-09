@@ -24,15 +24,14 @@ declare global {
   // eslint-disable-next-line no-var
   var __TOKEN_CLEANUP_WORKER__: Worker;
   // eslint-disable-next-line no-var
-  var __TOKEN_CLEANUP_QUEUE__: Queue;
+  var __INGESTION_WORKER__: Worker;
 }
 
-
 module.exports = async () => {
-  const { server, prisma, cronJob, tokenCleanupWorker, tokenCleanupQueue } = await startServer(5002); // Use a specific port for tests
+  const { server, prisma, cronJob, tokenCleanupWorker, ingestionWorker } = await startServer(5002); // Use a specific port for tests
   global.__SERVER__ = server;
   global.__PRISMA__ = prisma;
   global.__CRONJOB__ = cronJob;
   global.__TOKEN_CLEANUP_WORKER__ = tokenCleanupWorker;
-  global.__TOKEN_CLEANUP_QUEUE__ = tokenCleanupQueue;
+  global.__INGESTION_WORKER__ = ingestionWorker;
 };

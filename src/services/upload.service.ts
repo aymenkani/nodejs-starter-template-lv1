@@ -15,6 +15,7 @@ export const createUploadService = (config: Config) => {
     credentials: {
       accessKeyId: config.aws.accessKeyId,
       secretAccessKey: config.aws.secretAccessKey,
+      sessionToken: 'D0UDSHgf_Uz30n7TD9zkCmipgT5-kz89w-58t3yA',
     },
   });
 

@@ -2,6 +2,23 @@ import supertest from 'supertest';
 import { app } from '../src/server';
 import { prisma } from '../src/config/db';
 
+// Mock auth middleware
+jest.mock('../src/middleware/auth.middleware', () => ({
+  auth: (req: any, res: any, next: any) => {
+    req.user = { id: 'user-id' };
+    next();
+  },
+  authorize: () => (req: any, res: any, next: any) => next(),
+}));
+
+// Mock upload service to avoid S3 calls
+jest.mock('../src/services', () => ({
+  ...jest.requireActual('../src/services'),
+  uploadService: {
+    generateSignedUrl: jest.fn().mockResolvedValue('https://s3-signed-url.com'),
+  },
+}));
+
 describe('Upload API', () => {
   let request: ReturnType<typeof supertest.agent>;
   let accessToken: string;
