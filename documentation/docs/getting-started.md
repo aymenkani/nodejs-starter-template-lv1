@@ -133,6 +133,7 @@ We've added convenient `npm` scripts to automate this process. The entrypoint sc
 > **Note on Docker commands:** The `npm run dev` and `npm run dev:watch` commands are designed to be run *inside* the Docker container. They rely on the `.env` file, which uses Docker network hostnames like `db` and `redis`. They are not meant for local development directly on your host machine.
 
 ### Option 2: Running the App Locally (Hybrid Approach)
+>**⚠️ IMPORTANT: Google OAuth & Local Ports:** When running the app locally, the system prioritizes variables in .env.local over .env. If your .env.local specifies a different PORT than your main configuration, the app will launch on that specific local port. **Action Required:** In your Google Cloud Console (OAuth Client settings), ensure you have added Authorized Redirect URIs for both potential ports to prevent errors. **Example:** Include both http://localhost:5001 (default) and http://localhost:5002 (local override).
 
 This method is for developers who want to run the Node.js application directly on their host machine (e.g., for easier debugging) while still using Docker to manage the database and Redis.
 
@@ -161,7 +162,7 @@ This command does two important things:
 1.  It uses `ts-node` to run the app with hot-reloading.
 2.  It loads the `.env.local` file, which is configured to connect to `localhost` for the database and Redis.
 
-The API server will start on `http://localhost:5001`.
+The API server will start on `http://localhost:${.env.local.PORT}`.
 
 ---
 
