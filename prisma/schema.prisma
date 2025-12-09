@@ -28,6 +28,7 @@ model User {
   refreshTokens RefreshToken[]
   passwordResetTokens PasswordResetToken[]
   notifications Notification[]
+  documents     Document[]
 }
 
 model RefreshToken {
@@ -71,8 +72,20 @@ enum Role {
   ADMIN
 }
 
+
 enum AuthProvider {
   LOCAL
   GOOGLE
 }
 
+model Document {
+  id        String                 @id @default(uuid())
+  content   String
+  metadata  Json?
+  userId    String
+  user      User                   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  embedding Unsupported("vector(768)")?
+  createdAt DateTime               @default(now())
+
+  @@index([userId])
+}

@@ -16,4 +16,10 @@ router.post(
   uploadController.generateSignedUrl,
 );
 
+router.post(
+  '/confirm',
+  // validation middleware if needed
+  uploadController.confirmUpload,
+);
+
 export default router;

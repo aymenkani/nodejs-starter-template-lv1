@@ -1,24 +1,19 @@
-import { createAuthService } from './auth.service';
-import { createTokenService } from './token.service';
-import { userService } from './user.service';
-import { adminService } from './admin.service'; // Added adminService import
 import { createUploadService } from './upload.service';
 import { getConfig } from '../config/config';
-import { socketService } from './socket.service';
-import { notificationService } from './notification.service';
+import { createAuthService } from './auth.service';
+import { createTokenService } from './token.service';
+import { createEmailService } from './email.service';
 
 const config = getConfig(process.env);
 
-const authService = createAuthService(config);
-const tokenService = createTokenService(config);
-const uploadService = createUploadService(config);
+export const uploadService = createUploadService(config);
+export const authService = createAuthService(config);
+export const tokenService = createTokenService(config);
+export const emailService = createEmailService(config);
 
-export {
-  authService,
-  tokenService,
-  userService,
-  adminService, // Added adminService to exports
-  uploadService,
-  socketService,
-  notificationService,
-};
+export * from './user.service';
+export * from './socket.service';
+export * from './admin.service';
+export * from './notification.service';
+// export * from './upload.service'; // Replaced by instance export
+export * from './ingestion.service';

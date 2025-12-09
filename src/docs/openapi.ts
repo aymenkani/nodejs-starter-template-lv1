@@ -5,6 +5,7 @@ import './paths/token.path'; // Import all path definitions
 import './paths/upload.path'; // Import all path definitions
 import './paths/user.path'; // Import all path definitions
 import './paths/admin.path'; // Import all path definitions
+import './paths/agent.paths'; // Import all path definitions
 
 registry.registerComponent('securitySchemes', 'bearerAuth', {
   type: 'http',

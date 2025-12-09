@@ -11,6 +11,7 @@ import ApiError from '../utils/ApiError';
 export const createUploadService = (config: Config) => {
   const s3Client = new S3Client({
     region: config.aws.region,
+    endpoint: process.env.AWS_ENDPOINT, // Using Cloudflare. Remove this if you want to use AWS directly (NOT free tier compatible)
     credentials: {
       accessKeyId: config.aws.accessKeyId,
       secretAccessKey: config.aws.secretAccessKey,
@@ -30,7 +31,14 @@ export const createUploadService = (config: Config) => {
     fileType: string,
     fileSize: number,
   ): Promise<string> => {
-    const allowedFileTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+    const allowedFileTypes = [
+      'image/jpeg',
+      'image/png',
+      'image/gif',
+      'image/webp',
+      'application/pdf',
+      'text/plain',
+    ];
     const maxFileSize = 5 * 1024 * 1024; // 5MB
 
     if (!allowedFileTypes.includes(fileType)) {

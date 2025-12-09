@@ -20,7 +20,8 @@ import { errorConverter, errorHandler } from './middleware/error';
 import logger from './utils/logger';
 import { startTokenCleanupJob } from './utils/tokenCleanup';
 import { processTokenCleanupJob } from './jobs/worker';
-import { tokenCleanupQueueName } from './jobs/queue';
+import { tokenCleanupQueueName, ingestionQueueName } from './jobs/queue';
+import { processJob as processIngestionJob } from './jobs/ingestion.worker';
 import { prisma } from './config/db';
 import { PrismaClient } from '@prisma/client/extension';
 import { socketService } from './services/socket.service';
@@ -111,6 +112,20 @@ async function startServer(port?: number) {
     },
   });
 
+  const ingestionQueue = new Queue(ingestionQueueName, {
+    connection: {
+      host: config.redis.host,
+      port: config.redis.port,
+    },
+  });
+
+  const ingestionWorker = new Worker(ingestionQueueName, processIngestionJob, {
+    connection: {
+      host: config.redis.host,
+      port: config.redis.port,
+    },
+  });
+
   const cronJob = startTokenCleanupJob(tokenCleanupQueue);
 
   const server: Server = app.listen(port || config.port, () =>
@@ -120,7 +135,16 @@ async function startServer(port?: number) {
   // Initialize Socket.IO service
   socketService.init(server);
 
-  return { app, server, prisma, cronJob, tokenCleanupWorker, tokenCleanupQueue };
+  return {
+    app,
+    server,
+    prisma,
+    cronJob,
+    tokenCleanupWorker,
+    tokenCleanupQueue,
+    ingestionWorker,
+    ingestionQueue,
+  };
 }
 
 async function stopServer(
@@ -129,6 +153,8 @@ async function stopServer(
   cronJob: ScheduledTask,
   worker: Worker,
   queue: Queue,
+  ingestionWorker: Worker,
+  ingestionQueue: Queue,
 ) {
   logger.info('Attempting to stop server...');
 
@@ -164,6 +190,12 @@ async function stopServer(
   logger.info('Attempting to close token cleanup worker...');
   await worker.close(config.env === 'test' ? true : false);
   logger.info('Token cleanup worker closed.');
+
+  // Close ingestion queue/worker
+  logger.info('Closing ingestion queue...');
+  await ingestionQueue.close();
+  logger.info('Closing ingestion worker...');
+  await ingestionWorker.close(config.env === 'test' ? true : false);
 
   // 5. Finally, disconnect from the database
   logger.info('Attempting to disconnect Prisma...');

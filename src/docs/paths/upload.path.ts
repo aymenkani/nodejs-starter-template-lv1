@@ -1,5 +1,10 @@
 import { registry, errorResponseSchema } from '../openAPIRegistry';
-import { generateSignedUrl, signedUrlResponseSchema } from '../../validations/upload.validation';
+import {
+  generateSignedUrl,
+  signedUrlResponseSchema,
+  confirmUpload,
+  confirmUploadResponseSchema,
+} from '../../validations/upload.validation';
 
 registry.registerPath({
   method: 'post',
@@ -27,6 +32,49 @@ registry.registerPath({
     },
     '400': {
       description: 'Bad request',
+    },
+    '401': {
+      description: 'Unauthorized',
+      content: {
+        'application/json': {
+          schema: errorResponseSchema,
+        },
+      },
+    },
+  },
+});
+
+registry.registerPath({
+  method: 'post',
+  path: '/api/v1/upload/confirm',
+  summary: 'Confirm file upload and start ingestion',
+  tags: ['Upload'],
+  security: [{ bearerAuth: [] }],
+  request: {
+    body: {
+      content: {
+        'application/json': {
+          schema: confirmUpload.body,
+        },
+      },
+    },
+  },
+  responses: {
+    '200': {
+      description: 'Ingestion started successfully',
+      content: {
+        'application/json': {
+          schema: confirmUploadResponseSchema,
+        },
+      },
+    },
+    '400': {
+      description: 'Bad request',
+      content: {
+        'application/json': {
+          schema: errorResponseSchema,
+        },
+      },
     },
     '401': {
       description: 'Unauthorized',

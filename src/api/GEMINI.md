@@ -1,4 +1,4 @@
-# Gemini Guide: Creating New API Routes
+# Guide: Creating New API Routes
 
 This document provides a guide for the Gemini AI agent on how to create new API routes in this project.
 
@@ -140,5 +140,8 @@ router.use('/posts', postRoutes); // 2. Add the new routes to the router
 
 export default router;
 ```
+### 5. Add a new Swagger documentation
+after you finish create a new route with all its controllers and services, you need to document that route inside the swagger UI by adding new path inside the docs/paths folder either by creating a new file (e.g. newroute.path.ts) or updating an existing one.
+
 
 By following these steps, you can add new routes to the API in a consistent and maintainable way.
