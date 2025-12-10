@@ -40,6 +40,8 @@ export const createUploadService = (config: Config) => {
       'image/webp',
       'application/pdf',
       'text/plain',
+      'text/markdown',
+      'text/csv',
     ];
     const maxFileSize = 5 * 1024 * 1024; // 5MB
 

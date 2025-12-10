@@ -19,6 +19,8 @@ const generateSignedUrlBodySchema = registry.register(
             'image/webp',
             'application/pdf',
             'text/plain',
+            'text/markdown',
+            'text/csv',
           ].includes(val),
         {
           message: 'Invalid file type. Only JPEG, PNG, GIF, WEBP, PDF, and TEXT files are allowed.',
@@ -42,6 +44,7 @@ const confirmUploadBodySchema = registry.register(
   z.object({
     fileKey: z.string().min(1),
     mimeType: z.string().min(1),
+    originalName: z.string().min(1),
   }),
 );
 

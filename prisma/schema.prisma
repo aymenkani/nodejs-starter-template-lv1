@@ -29,6 +29,7 @@ model User {
   passwordResetTokens PasswordResetToken[]
   notifications Notification[]
   documents     Document[]
+  files         File[]
 }
 
 model RefreshToken {
@@ -72,20 +73,47 @@ enum Role {
   ADMIN
 }
 
+enum FileStatus {
+  PENDING
+  PROCESSING
+  COMPLETED
+  FAILED
+  DUPLICATE
+}
 
 enum AuthProvider {
   LOCAL
   GOOGLE
 }
 
+model File {
+  id           String     @id @default(uuid())
+  fileKey      String
+  originalName String
+  fileHash     String?
+  mimeType     String
+  status       FileStatus @default(PENDING)
+  userId       String
+  user         User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  documents    Document[]
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+
+  @@index([fileHash])
+  @@index([userId])
+}
+
 model Document {
   id        String                 @id @default(uuid())
   content   String
-  metadata  Json?
+  metadata  Json
+  embedding Unsupported("vector(768)")?
   userId    String
   user      User                   @relation(fields: [userId], references: [id], onDelete: Cascade)
-  embedding Unsupported("vector(768)")?
+  fileId    String
+  file      File                   @relation(fields: [fileId], references: [id], onDelete: Cascade)
   createdAt DateTime               @default(now())
 
   @@index([userId])
 }
+

@@ -1,9 +1,10 @@
 import { Job, Worker } from 'bullmq';
-import { S3Client, GetObjectCommand } from '@aws-sdk/client-s3';
+import { S3Client, GetObjectCommand, DeleteObjectCommand } from '@aws-sdk/client-s3';
 import { getConfig } from '../config/config';
 import { prisma } from '../config/db';
 import logger from '../utils/logger';
 import dotenv from 'dotenv';
+import crypto from 'crypto';
 dotenv.config();
 
 const config = getConfig(process.env);
@@ -12,6 +13,7 @@ import { embed } from 'ai';
 import { RecursiveCharacterTextSplitter } from '@langchain/textsplitters';
 import { extractText, getDocumentProxy } from 'unpdf';
 import { redisConnection } from './queue';
+
 // Start of worker implementation
 const WORKER_NAME = 'ai-ingestion';
 
@@ -25,17 +27,27 @@ const s3Client = new S3Client({
 });
 
 interface IngestionJobData {
-  fileKey: string;
-  mimeType: string;
-  originalName: string;
-  userId: string;
+  fileId: string;
 }
 
 export const processJob = async (job: Job<IngestionJobData>) => {
-  const { fileKey, mimeType, originalName, userId } = job.data;
-  logger.info(`Starting ingestion for file: ${fileKey} user: ${userId}`);
+  const { fileId } = job.data;
+  logger.info(`Starting ingestion job ${job.id} for fileId: ${fileId}`);
 
   try {
+    // 0. Fetch File Record
+    const fileRecord = await prisma.file.findUnique({ where: { id: fileId } });
+    if (!fileRecord) {
+      throw new Error(`File record not found: ${fileId}`);
+    }
+
+    const { fileKey, userId, mimeType, originalName } = fileRecord;
+
+    await prisma.file.update({
+      where: { id: fileId },
+      data: { status: 'PROCESSING' },
+    });
+
     // 1. Download from S3
     const command = new GetObjectCommand({
       Bucket: config.aws.s3.bucket,
@@ -48,13 +60,54 @@ export const processJob = async (job: Job<IngestionJobData>) => {
     const byteArray = await s3Response.Body.transformToByteArray();
     const buffer = Buffer.from(byteArray);
 
+    // 2. Hash Calculation & Idempotency Check
+    const fileHash = crypto.createHash('sha256').update(buffer).digest('hex');
+
+    const duplicate = await prisma.file.findFirst({
+      where: {
+        userId,
+        fileHash,
+        status: 'COMPLETED',
+        id: { not: fileId },
+      },
+    });
+
+    if (duplicate) {
+      logger.warn(
+        `Duplicate file detected for user ${userId}. Hash: ${fileHash}. Cleaning up S3...`,
+      );
+
+      // Reactive Cleanup: Delete from S3
+      const deleteCommand = new DeleteObjectCommand({
+        Bucket: config.aws.s3.bucket,
+        Key: fileKey,
+      });
+      await s3Client.send(deleteCommand);
+      logger.info(`Deleted duplicate file from S3: ${fileKey}`);
+
+      await prisma.file.update({
+        where: { id: fileId },
+        data: {
+          status: 'DUPLICATE',
+          fileHash,
+        },
+      });
+      return;
+    }
+
+    // Update hash on current file
+    await prisma.file.update({
+      where: { id: fileId },
+      data: { fileHash },
+    });
+
     let text = '';
 
-    // 2. Parse Text
+    // 3. Parse Text
     if (mimeType === 'application/pdf') {
       const pdfBuffer = new Uint8Array(byteArray);
       const pdf = await getDocumentProxy(pdfBuffer);
-      const result = await extractText(pdf, { mergePages: true }); // ✅ One-liner
+      const result = await extractText(pdf, { mergePages: true });
       text = Array.isArray(result.text) ? result.text.join('\n') : result.text;
     } else {
       // Assume text/plain or similar
@@ -63,10 +116,11 @@ export const processJob = async (job: Job<IngestionJobData>) => {
 
     if (!text.trim()) {
       logger.warn(`No text extracted from file: ${fileKey}`);
+      await prisma.file.update({ where: { id: fileId }, data: { status: 'FAILED' } });
       return;
     }
 
-    // 3. Chunk Text
+    // 4. Chunk Text
     const splitter = new RecursiveCharacterTextSplitter({
       chunkSize: 1000,
       chunkOverlap: 200,
@@ -75,27 +129,36 @@ export const processJob = async (job: Job<IngestionJobData>) => {
 
     logger.info(`Generated ${chunks.length} chunks for file: ${fileKey}`);
 
-    // 4. Generate Embeddings & Save
+    // 5. Generate Embeddings & Save
     for (const chunk of chunks) {
       const { embedding } = await embed({
         model: google.textEmbeddingModel('text-embedding-004'),
         value: chunk.pageContent,
       });
 
-      // 5. Save to Postgres (with vector type)
-      // Prisma doesn't support vector type natively in the client for creating/updating easily with type safety yet for typed queries mixed with raw,
-      // but we can use $executeRaw for the insertion logic or strongly typed extension if we set it up.
-      // The plan specified using $executeRaw.
-
+      // 6. Save to Postgres (with vector type)
       await prisma.$executeRaw`
-        INSERT INTO "Document" ("id", "content", "metadata", "userId", "embedding", "createdAt")
-        VALUES (gen_random_uuid(), ${chunk.pageContent}, ${JSON.stringify({ ...chunk.metadata, originalName })}::jsonb, ${userId}, ${embedding}::vector, NOW())
+        INSERT INTO "Document" ("id", "content", "metadata", "userId", "fileId", "embedding", "createdAt")
+        VALUES (gen_random_uuid(), ${chunk.pageContent}, ${JSON.stringify({ ...chunk.metadata, originalName })}::jsonb, ${userId}, ${fileId}, ${embedding}::vector, NOW())
       `;
     }
 
-    logger.info(`Successfully ingested file: ${fileKey}`);
+    // 7. Mark Completed
+    await prisma.file.update({
+      where: { id: fileId },
+      data: { status: 'COMPLETED' },
+    });
+
+    logger.info(`Successfully ingested file: ${fileId}`);
   } catch (error) {
     logger.error(`Error processing ingestion job ${job.id}: ${error}`);
+    // Mark Failed
+    await prisma.file
+      .update({
+        where: { id: fileId },
+        data: { status: 'FAILED' },
+      })
+      .catch((e: unknown) => logger.error(`Failed to update status to FAILED: ${e}`));
     throw error;
   }
 };

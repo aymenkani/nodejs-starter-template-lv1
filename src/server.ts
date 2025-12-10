@@ -50,6 +50,8 @@ app.use(
         'connect-src': [
           "'self'",
           'https://cdn.socket.io',
+          'https://*.r2.cloudflarestorage.com',
+          'https://*.cloudflare.com',
           // Add your server's WebSocket protocol for Socket.IO
           config.env === 'production' ? 'wss:' : 'ws:',
         ],

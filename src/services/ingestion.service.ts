@@ -1,9 +1,7 @@
 import { Queue } from 'bullmq';
 
 interface IngestionJobData {
-  fileKey: string;
-  mimeType: string;
-  userId: string;
+  fileId: string;
 }
 
 export const createIngestionService = (queue: Queue) => {

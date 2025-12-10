@@ -17,9 +17,7 @@ describe('Ingestion Service (Unit)', () => {
 
   it('should add an ingestion job to the queue', async () => {
     const jobData = {
-      fileKey: 'test-file.pdf',
-      mimeType: 'application/pdf',
-      userId: 'user-123',
+      fileId: 'file-uuid-123',
     };
 
     // 3. Call the service method
