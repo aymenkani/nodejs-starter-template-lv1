@@ -46,7 +46,8 @@ const chat = async (req: Request, res: Response, next: NextFunction) => {
 
     // 4. Generate Response (Stream)
     const result = streamText({
-      model: google('gemini-1.5-flash'),
+      // check the Docs at https://ai-sdk.dev/providers/ai-sdk-providers/google-generative-ai
+      model: google('gemini-2.5-flash'), // Be aware! some models cost money or not available in free tier
       messages,
       system: systemPrompt,
     });

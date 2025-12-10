@@ -1,4 +1,5 @@
 import { User as PrismaUser } from '@prisma/client';
+import { Request } from 'express';
 import { Socket } from 'socket.io';
 
 declare global {
@@ -7,6 +8,10 @@ declare global {
       id: string;
     }
   }
+}
+
+export interface AuthRequest extends Request {
+  user: PrismaUser;
 }
 
 export type ExtendedSocket = Socket & {

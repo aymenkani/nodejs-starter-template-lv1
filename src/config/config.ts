@@ -23,6 +23,7 @@ const envVarsSchema = z
     AWS_S3_BUCKET: z.string().min(1, 'AWS S3 bucket is required'),
     GOOGLE_CLIENT_ID: z.string().min(1, 'Google client ID is required'),
     GOOGLE_CLIENT_SECRET: z.string().min(1, 'Google client secret is required'),
+    GOOGLE_GENERATIVE_AI_API_KEY: z.string().min(1, 'Google Generative AI API Key is required'),
     CLIENT_URL: z.url('Client URL must be a valid URL'),
     EMAIL_PROVIDER: z.enum(['NODEMAILER', 'SENDGRID']),
     EMAIL_FROM: z.email('Email FROM must be a valid email address'),
@@ -65,6 +66,7 @@ export type Config = {
   google: {
     clientId: string;
     clientSecret: string;
+    apiKey: string;
   };
   clientUrl: string;
   email: {
@@ -130,6 +132,7 @@ export function getConfig(processEnv: NodeJS.ProcessEnv): Config {
     google: {
       clientId: envVars.GOOGLE_CLIENT_ID,
       clientSecret: envVars.GOOGLE_CLIENT_SECRET,
+      apiKey: envVars.GOOGLE_GENERATIVE_AI_API_KEY,
     },
     clientUrl: envVars.CLIENT_URL,
     email: {

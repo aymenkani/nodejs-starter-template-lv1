@@ -1,5 +1,6 @@
 import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
+import { v4 as uuidv4 } from 'uuid';
 import { Config } from '../config/config';
 import ApiError from '../utils/ApiError';
 
@@ -15,7 +16,6 @@ export const createUploadService = (config: Config) => {
     credentials: {
       accessKeyId: config.aws.accessKeyId,
       secretAccessKey: config.aws.secretAccessKey,
-      sessionToken: 'D0UDSHgf_Uz30n7TD9zkCmipgT5-kz89w-58t3yA',
     },
   });
 
@@ -31,7 +31,8 @@ export const createUploadService = (config: Config) => {
     fileName: string,
     fileType: string,
     fileSize: number,
-  ): Promise<string> => {
+    userId?: string,
+  ): Promise<{ signedUrl: string; fileKey: string }> => {
     const allowedFileTypes = [
       'image/jpeg',
       'image/png',
@@ -45,7 +46,7 @@ export const createUploadService = (config: Config) => {
     if (!allowedFileTypes.includes(fileType)) {
       throw new ApiError(
         400,
-        'Invalid file type. Only JPEG, PNG, GIF, and WEBP images are allowed.',
+        'Invalid file type. Only JPEG, PNG, GIF, WEBP, PDF, and TEXT files are allowed.',
       );
     }
 
@@ -53,13 +54,22 @@ export const createUploadService = (config: Config) => {
       throw new ApiError(400, 'File size must be less than 5MB.');
     }
 
+    if (!userId) {
+      throw new ApiError(400, 'User ID is required for file upload.');
+    }
+
+    // Sanitize filename: remove special chars, keep alphanumeric, dots, hyphens, underscores
+    const sanitizedFileName = fileName.replace(/[^a-zA-Z0-9.\-_]/g, '');
+    const fileKey = `uploads/${userId}/${uuidv4()}-${sanitizedFileName}`;
+
     const command = new PutObjectCommand({
       Bucket: config.aws.s3.bucket,
-      Key: fileName,
+      Key: fileKey,
       ContentType: fileType,
     });
 
-    return getSignedUrl(s3Client, command, { expiresIn: 60 * 5 });
+    const signedUrl = await getSignedUrl(s3Client, command, { expiresIn: 60 * 5 });
+    return { signedUrl, fileKey };
   };
 
   return {

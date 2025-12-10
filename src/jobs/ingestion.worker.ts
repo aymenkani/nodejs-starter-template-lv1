@@ -27,11 +27,12 @@ const s3Client = new S3Client({
 interface IngestionJobData {
   fileKey: string;
   mimeType: string;
+  originalName: string;
   userId: string;
 }
 
 export const processJob = async (job: Job<IngestionJobData>) => {
-  const { fileKey, mimeType, userId } = job.data;
+  const { fileKey, mimeType, originalName, userId } = job.data;
   logger.info(`Starting ingestion for file: ${fileKey} user: ${userId}`);
 
   try {
@@ -88,7 +89,7 @@ export const processJob = async (job: Job<IngestionJobData>) => {
 
       await prisma.$executeRaw`
         INSERT INTO "Document" ("id", "content", "metadata", "userId", "embedding", "createdAt")
-        VALUES (gen_random_uuid(), ${chunk.pageContent}, ${JSON.stringify(chunk.metadata)}::jsonb, ${userId}, ${embedding}::vector, NOW())
+        VALUES (gen_random_uuid(), ${chunk.pageContent}, ${JSON.stringify({ ...chunk.metadata, originalName })}::jsonb, ${userId}, ${embedding}::vector, NOW())
       `;
     }
 

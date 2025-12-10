@@ -1,12 +1,19 @@
 import { Request, Response, NextFunction } from 'express';
 import { uploadService, ingestionService } from '../services';
 import httpStatus from 'http-status';
+import { User } from '@prisma/client';
 
 const generateSignedUrl = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { fileName, fileType, fileSize } = req.body;
-    const signedUrl = await uploadService.generateSignedUrl(fileName, fileType, fileSize);
-    res.send({ signedUrl });
+
+    const { signedUrl, fileKey } = await uploadService.generateSignedUrl(
+      fileName,
+      fileType,
+      fileSize,
+      req.user?.id,
+    );
+    res.send({ signedUrl, fileKey });
   } catch (error) {
     next(error);
   }
@@ -14,11 +21,12 @@ const generateSignedUrl = async (req: Request, res: Response, next: NextFunction
 
 const confirmUpload = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const { fileKey, mimeType } = req.body;
+    const { fileKey, mimeType, originalName } = req.body;
     await ingestionService.addIngestionJob({
       fileKey,
       mimeType,
-      userId: (req.user as any).id,
+      originalName,
+      userId: (req.user as User).id,
     });
     res.status(httpStatus.CREATED).send({ message: 'Ingestion started', fileKey });
   } catch (error) {
