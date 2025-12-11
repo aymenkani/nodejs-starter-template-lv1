@@ -39,7 +39,8 @@
                     body: JSON.stringify({
                         fileName: file.name,
                         fileType: file.type || 'application/octet-stream', // Fallback
-                        fileSize: file.size
+                        fileSize: file.size,
+                        isPublic: document.getElementById('isPublic').checked
                     })
                 });
 

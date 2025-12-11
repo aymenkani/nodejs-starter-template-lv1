@@ -97,7 +97,6 @@ export const createUploadService = (config: Config, ingestionService: IngestionS
         isPublic: finalIsPublic,
       },
     });
-
     const command = new PutObjectCommand({
       Bucket: config.aws.s3.bucket,
       Key: fileKey,

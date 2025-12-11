@@ -38,15 +38,17 @@ const chat = async (req: Request, res: Response, next: NextFunction) => {
       value: lastMessage.content,
     });
 
+    const vectorQuery = `[${embedding.join(',')}]`;
+
     // 4. Retrieve (Hybrid Search: User's Private + Public Knowledge Base)
     // We join with "File" table to check isPublic flag and get file details for citations.
     const documents = (await prisma.$queryRaw`
-      SELECT d.content, d.metadata, f."originalName", f."fileKey", f."isPublic", (d.embedding <=> ${embedding}::vector) as distance
+      SELECT d.content, d.metadata, f."originalName", f."fileKey", f."isPublic", (d.embedding <=> ${vectorQuery}::vector) as distance
       FROM "Document" d
       LEFT JOIN "File" f ON d."fileId" = f.id
       WHERE (d."userId" = ${userId} OR f."isPublic" = true)
       ORDER BY distance ASC
-      LIMIT 10
+      LIMIT 5
     `) as any[];
 
     // 5. Package Context with Smart Citations
@@ -67,6 +69,7 @@ const chat = async (req: Request, res: Response, next: NextFunction) => {
       }
 
       const visibilityLabel = doc.isPublic ? '[Public Doc]' : '[Your Private Doc]';
+      console.log(doc);
       return `Source: ${doc.originalName} ${visibilityLabel} (Link: ${signedUrl})\nContent: ${doc.content}`;
     });
 
