@@ -1,6 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { uploadService, ingestionService } from '../services';
-import { prisma } from '../config/db';
+import { uploadService } from '../services';
 import httpStatus from 'http-status';
 import { User } from '@prisma/client';
 
@@ -22,25 +21,8 @@ const generateSignedUrl = async (req: Request, res: Response, next: NextFunction
 
 const confirmUpload = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const { fileKey, mimeType, originalName } = req.body;
-
-    // 1. Create File record
-    const file = await prisma.file.create({
-      data: {
-        fileKey,
-        mimeType,
-        originalName,
-        userId: (req.user as User).id,
-        status: 'PENDING',
-      },
-    });
-
-    // 2. Add job to queue
-    await ingestionService.addIngestionJob({
-      fileId: file.id,
-    });
-
-    res.status(httpStatus.CREATED).send({ message: 'Ingestion started', fileKey });
+    const response = await uploadService.confirmUpload(req.body, req.user as User);
+    res.status(httpStatus.CREATED).send(response);
   } catch (error) {
     next(error);
   }

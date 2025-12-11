@@ -83,7 +83,8 @@
                     body: JSON.stringify({
                         fileKey: fileKey,
                         mimeType: file.type || 'application/octet-stream',
-                        originalName: file.name
+                        originalName: file.name,
+                        isPublic: document.getElementById('isPublic').checked
                     })
                 });
 

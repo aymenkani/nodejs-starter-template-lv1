@@ -9,7 +9,20 @@ import ApiError from '../utils/ApiError';
  * @param config - The application configuration.
  * @returns An object with the `generateSignedUrl` method.
  */
-export const createUploadService = (config: Config) => {
+import { prisma } from '../config/db';
+import { User, Role } from '@prisma/client';
+
+interface IngestionService {
+  addIngestionJob: (data: { fileId: string }) => Promise<void>;
+}
+
+/**
+ * Creates an upload service with methods for generating signed URLs for file uploads.
+ * @param config - The application configuration.
+ * @param ingestionService - The ingestion service to trigger processing.
+ * @returns An object with the `generateSignedUrl` and `confirmUpload` methods.
+ */
+export const createUploadService = (config: Config, ingestionService: IngestionService) => {
   const s3Client = new S3Client({
     region: config.aws.region,
     endpoint: process.env.AWS_ENDPOINT, // Using Cloudflare. Remove this if you want to use AWS directly (NOT free tier compatible)
@@ -74,7 +87,50 @@ export const createUploadService = (config: Config) => {
     return { signedUrl, fileKey };
   };
 
+  /**
+   * Confirms the upload of a file, saves it to the database, and triggers ingestion.
+   * @param data - The file data (key, mimeType, originalName, isPublic).
+   * @param user - The user who uploaded the file.
+   * @returns The created file record.
+   */
+  const confirmUpload = async (
+    data: { fileKey: string; mimeType: string; originalName: string; isPublic?: boolean },
+    user: User,
+  ) => {
+    const { fileKey, mimeType, originalName, isPublic } = data;
+
+    // Access Control for Public Files
+    let finalIsPublic = false;
+    if (isPublic) {
+      if (user.role === Role.ADMIN || user.role === Role.CONTRIBUTOR) {
+        finalIsPublic = true;
+      } else {
+        finalIsPublic = false;
+      }
+    }
+
+    // 1. Create File record
+    const file = await prisma.file.create({
+      data: {
+        fileKey,
+        mimeType,
+        originalName,
+        userId: user.id,
+        status: 'PENDING',
+        isPublic: finalIsPublic,
+      },
+    });
+
+    // 2. Add job to queue
+    await ingestionService.addIngestionJob({
+      fileId: file.id,
+    });
+
+    return { message: 'Ingestion started', fileKey, fileId: file.id };
+  };
+
   return {
     generateSignedUrl,
+    confirmUpload,
   };
 };

@@ -71,6 +71,7 @@ model Notification {
 enum Role {
   USER
   ADMIN
+  CONTRIBUTOR
 }
 
 enum FileStatus {
@@ -93,6 +94,7 @@ model File {
   fileHash     String?
   mimeType     String
   status       FileStatus @default(PENDING)
+  isPublic     Boolean    @default(false)
   userId       String
   user         User       @relation(fields: [userId], references: [id], onDelete: Cascade)
   documents    Document[]
@@ -101,6 +103,7 @@ model File {
 
   @@index([fileHash])
   @@index([userId])
+  @@index([isPublic])
 }
 
 model Document {

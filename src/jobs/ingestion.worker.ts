@@ -9,7 +9,7 @@ dotenv.config();
 
 const config = getConfig(process.env);
 import { google } from '@ai-sdk/google';
-import { embed } from 'ai';
+import { embed, generateText } from 'ai';
 import { RecursiveCharacterTextSplitter } from '@langchain/textsplitters';
 import { extractText, getDocumentProxy } from 'unpdf';
 import { redisConnection } from './queue';
@@ -109,6 +109,28 @@ export const processJob = async (job: Job<IngestionJobData>) => {
       const pdf = await getDocumentProxy(pdfBuffer);
       const result = await extractText(pdf, { mergePages: true });
       text = Array.isArray(result.text) ? result.text.join('\n') : result.text;
+    } else if (mimeType.startsWith('image/')) {
+      // Visual RAG: Analyze image with Gemini
+      logger.info(`Processing image file: ${fileKey}`);
+      const { text: imageDesc } = await generateText({
+        model: google('gemini-2.5-flash'),
+        messages: [
+          {
+            role: 'user',
+            content: [
+              {
+                type: 'text',
+                text: 'Analyze this image in detail. Extract all visible text, data tables, Objects, and describe the visual context for a search engine.',
+              },
+              {
+                type: 'image',
+                image: buffer,
+              },
+            ],
+          },
+        ],
+      });
+      text = imageDesc;
     } else {
       // Assume text/plain or similar
       text = buffer.toString('utf-8');

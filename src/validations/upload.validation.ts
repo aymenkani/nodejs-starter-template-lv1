@@ -45,6 +45,7 @@ const confirmUploadBodySchema = registry.register(
     fileKey: z.string().min(1),
     mimeType: z.string().min(1),
     originalName: z.string().min(1),
+    isPublic: z.boolean().default(false),
   }),
 );
 

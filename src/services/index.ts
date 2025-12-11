@@ -11,8 +11,8 @@ const config = getConfig(process.env);
 export const authService = createAuthService(config);
 export const tokenService = createTokenService(config);
 export const emailService = createEmailService(config);
-export const uploadService = createUploadService(config);
 export const ingestionService = createIngestionService(ingestionQueue);
+export const uploadService = createUploadService(config, ingestionService);
 
 export * from './user.service';
 export * from './socket.service';

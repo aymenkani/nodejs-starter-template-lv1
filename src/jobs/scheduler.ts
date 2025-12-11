@@ -1,6 +1,5 @@
-import { Queue } from 'bullmq';
-import { addTokenCleanupJob } from '../jobs/queue';
-import logger from './logger';
+import { addTokenCleanupJob } from './queue';
+import logger from '../utils/logger';
 import cron from 'node-cron';
 import { getConfig } from '../config/config';
 

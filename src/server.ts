@@ -18,8 +18,8 @@ import { swaggerSpec } from './docs/openapi';
 import apiRoutes from './api';
 import { errorConverter, errorHandler } from './middleware/error';
 import logger from './utils/logger';
-import { startTokenCleanupJob } from './utils/tokenCleanup';
-import { processTokenCleanupJob } from './jobs/worker';
+import { startTokenCleanupJob } from './jobs/scheduler';
+import { processTokenCleanupJob } from './jobs/tokenCleanup.worker';
 import {
   tokenCleanupQueue,
   ingestionQueue,
