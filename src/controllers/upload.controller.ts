@@ -5,15 +5,15 @@ import { User } from '@prisma/client';
 
 const generateSignedUrl = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const { fileName, fileType, fileSize } = req.body;
-
-    const { signedUrl, fileKey } = await uploadService.generateSignedUrl(
+    const { fileName, fileType, fileSize, isPublic } = req.body;
+    const { signedUrl, fileKey, fileId } = await uploadService.generateSignedUrl(
       fileName,
       fileType,
       fileSize,
-      req.user?.id,
+      isPublic,
+      req.user as User,
     );
-    res.send({ signedUrl, fileKey });
+    res.send({ signedUrl, fileKey, fileId });
   } catch (error) {
     next(error);
   }

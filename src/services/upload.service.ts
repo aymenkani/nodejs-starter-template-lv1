@@ -44,8 +44,9 @@ export const createUploadService = (config: Config, ingestionService: IngestionS
     fileName: string,
     fileType: string,
     fileSize: number,
-    userId?: string,
-  ): Promise<{ signedUrl: string; fileKey: string }> => {
+    isPublic: boolean,
+    user: User,
+  ): Promise<{ signedUrl: string; fileKey: string; fileId: string }> => {
     const allowedFileTypes = [
       'image/jpeg',
       'image/png',
@@ -69,13 +70,33 @@ export const createUploadService = (config: Config, ingestionService: IngestionS
       throw new ApiError(400, 'File size must be less than 5MB.');
     }
 
-    if (!userId) {
+    if (!user.id) {
       throw new ApiError(400, 'User ID is required for file upload.');
+    }
+
+    // Access Control for Public Files
+    let finalIsPublic = false;
+    if (isPublic) {
+      if (user.role === Role.ADMIN || user.role === Role.CONTRIBUTOR) {
+        finalIsPublic = true;
+      }
     }
 
     // Sanitize filename: remove special chars, keep alphanumeric, dots, hyphens, underscores
     const sanitizedFileName = fileName.replace(/[^a-zA-Z0-9.\-_]/g, '');
-    const fileKey = `uploads/${userId}/${uuidv4()}-${sanitizedFileName}`;
+    const fileKey = `users/${user.id}/${uuidv4()}-${sanitizedFileName}`;
+
+    // 1. Create PENDING File Record (Reservation)
+    const file = await prisma.file.create({
+      data: {
+        fileKey,
+        mimeType: fileType,
+        originalName: fileName,
+        userId: user.id,
+        status: 'PENDING',
+        isPublic: finalIsPublic,
+      },
+    });
 
     const command = new PutObjectCommand({
       Bucket: config.aws.s3.bucket,
@@ -84,49 +105,33 @@ export const createUploadService = (config: Config, ingestionService: IngestionS
     });
 
     const signedUrl = await getSignedUrl(s3Client, command, { expiresIn: 60 * 5 });
-    return { signedUrl, fileKey };
+    return { signedUrl, fileKey, fileId: file.id };
   };
 
   /**
-   * Confirms the upload of a file, saves it to the database, and triggers ingestion.
-   * @param data - The file data (key, mimeType, originalName, isPublic).
+   * Confirms the upload of a file and triggers ingestion.
+   * @param data - The file data (fileId).
    * @param user - The user who uploaded the file.
-   * @returns The created file record.
+   * @returns The confirmed message.
    */
   const confirmUpload = async (
-    data: { fileKey: string; mimeType: string; originalName: string; isPublic?: boolean },
+    data: { fileId: string },
     user: User,
-  ) => {
-    const { fileKey, mimeType, originalName, isPublic } = data;
+  ): Promise<{ message: string; fileId: string }> => {
+    const { fileId } = data;
 
-    // Access Control for Public Files
-    let finalIsPublic = false;
-    if (isPublic) {
-      if (user.role === Role.ADMIN || user.role === Role.CONTRIBUTOR) {
-        finalIsPublic = true;
-      } else {
-        finalIsPublic = false;
-      }
-    }
+    // Verify file ownership and existence
+    const file = await prisma.file.findUnique({ where: { id: fileId } });
 
-    // 1. Create File record
-    const file = await prisma.file.create({
-      data: {
-        fileKey,
-        mimeType,
-        originalName,
-        userId: user.id,
-        status: 'PENDING',
-        isPublic: finalIsPublic,
-      },
-    });
+    if (!file) throw new ApiError(404, 'File not found');
+    if (file.userId !== user.id) throw new ApiError(403, 'Unauthorized access to file');
 
     // 2. Add job to queue
     await ingestionService.addIngestionJob({
       fileId: file.id,
     });
 
-    return { message: 'Ingestion started', fileKey, fileId: file.id };
+    return { message: 'Ingestion started', fileId: file.id };
   };
 
   return {

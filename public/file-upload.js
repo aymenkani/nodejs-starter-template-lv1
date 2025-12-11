@@ -48,8 +48,8 @@
                     throw new Error(err.message || 'Failed to get signed URL');
                 }
 
-                const { signedUrl, fileKey } = await signRes.json();
-                log(`Signed URL received. Key: ${fileKey}`, 'success');
+                const { signedUrl, fileKey, fileId } = await signRes.json();
+                log(`Signed URL received. Key: ${fileKey}, ID: ${fileId}`, 'success');
 
                 // 2. Upload to S3
                 log('Step 2: Uploading binary to S3...', 'info');
@@ -81,10 +81,7 @@
                         'Authorization': `Bearer ${token}`
                     },
                     body: JSON.stringify({
-                        fileKey: fileKey,
-                        mimeType: file.type || 'application/octet-stream',
-                        originalName: file.name,
-                        isPublic: document.getElementById('isPublic').checked
+                        fileId: fileId
                     })
                 });
 
@@ -95,7 +92,7 @@
 
                 const confirmData = await confirmRes.json();
                 log(`Upload cycle complete! Server says: ${confirmData.message} - If file is a duplicate it will be deleted from S3`, 'success');
-
+                if (confirmData.warning) log(confirmData.warning, 'warning');
             } catch (err) {
                 log(err.message, 'error');
                 console.error(err);

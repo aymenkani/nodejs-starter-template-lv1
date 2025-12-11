@@ -16,9 +16,11 @@ jest.mock('../src/services', () => ({
   ...jest.requireActual('../src/services'),
   uploadService: {
     generateSignedUrl: jest.fn().mockResolvedValue({
-      signedUrl: 'https://s3-signed-url.com',
-      fileKey: 'uploads/user-id/uuid-test.jpg',
+      signedUrl: 'https://mock-signed-url.com',
+      fileKey: 'mock-file-key',
+      fileId: 'mock-file-id' 
     }),
+    confirmUpload: jest.fn().mockResolvedValue({ message: 'Ingestion started', fileId: 'mock-file-id' }),
   },
 }));
 
@@ -71,6 +73,7 @@ describe('Upload API', () => {
       expect(res.statusCode).toEqual(200);
       expect(res.body).toHaveProperty('signedUrl');
       expect(res.body).toHaveProperty('fileKey');
+      expect(res.body).toHaveProperty('fileId');
     });
   });
 })

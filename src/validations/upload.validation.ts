@@ -7,28 +7,10 @@ extendZodWithOpenApi(z); // 2. Call this IMMEDIATELLY
 const generateSignedUrlBodySchema = registry.register(
   'GenerateSignedUrlBody',
   z.object({
-    fileName: z.string(),
-    fileType: z
-      .string()
-      .refine(
-        (val) =>
-          [
-            'image/jpeg',
-            'image/png',
-            'image/gif',
-            'image/webp',
-            'application/pdf',
-            'text/plain',
-            'text/markdown',
-            'text/csv',
-          ].includes(val),
-        {
-          message: 'Invalid file type. Only JPEG, PNG, GIF, WEBP, PDF, and TEXT files are allowed.',
-        },
-      ),
-    fileSize: z.number().max(5 * 1024 * 1024, {
-      message: 'File size must be less than 5MB.',
-    }),
+    fileName: z.string().min(1),
+    fileType: z.string().min(1),
+    fileSize: z.number().positive(),
+    isPublic: z.boolean().default(false),
   }),
 );
 
@@ -36,16 +18,15 @@ export const signedUrlResponseSchema = registry.register(
   'SignedUrlResponse',
   z.object({
     signedUrl: z.url(),
+    fileKey: z.string(),
+    fileId: z.uuid(),
   }),
 );
 
 const confirmUploadBodySchema = registry.register(
   'ConfirmUploadBody',
   z.object({
-    fileKey: z.string().min(1),
-    mimeType: z.string().min(1),
-    originalName: z.string().min(1),
-    isPublic: z.boolean().default(false),
+    fileId: z.uuid(),
   }),
 );
 
@@ -53,7 +34,7 @@ export const confirmUploadResponseSchema = registry.register(
   'ConfirmUploadResponse',
   z.object({
     message: z.string(),
-    fileKey: z.string(),
+    fileId: z.uuid(),
   }),
 );
 

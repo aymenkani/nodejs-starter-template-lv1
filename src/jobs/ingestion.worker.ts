@@ -53,7 +53,19 @@ export const processJob = async (job: Job<IngestionJobData>) => {
       Bucket: config.aws.s3.bucket,
       Key: fileKey,
     });
-    const s3Response = await s3Client.send(command);
+
+    let s3Response;
+    try {
+      s3Response = await s3Client.send(command);
+    } catch (error: any) {
+      if (error.name === 'NoSuchKey' || error.$metadata?.httpStatusCode === 404) {
+        logger.warn(`File not found in S3 for fileId: ${fileId}. Cleaning up reservation...`);
+        await prisma.file.delete({ where: { id: fileId } });
+        return; // Exit successfully (cleanup complete)
+      }
+      throw error; // Retry other errors
+    }
+
     if (!s3Response.Body) throw new Error('Empty body from S3');
 
     // Convert stream to buffer
