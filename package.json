@@ -27,6 +27,7 @@
     "prisma:migrate:dev": "dotenv -e .env.local -- prisma migrate dev",
     "prisma:migrate:deploy": "prisma migrate deploy",
     "prisma:studio": "dotenv -e .env.local -- prisma studio",
+    "prisma:reset": "dotenv -e .env.local -- prisma migrate reset",
     "seed": "ts-node prisma/seed.ts",
     "seed:local": "dotenv -e .env.local -- ts-node prisma/seed.ts",
     "seed:prod": "node dist/prisma/seed.js",

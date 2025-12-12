@@ -1,6 +1,9 @@
 import { Request, Response, NextFunction } from 'express';
 import { adminService, notificationService, userService } from '../services';
 import httpStatus from 'http-status';
+import { getConfig } from '../config/config';
+import ApiError from '../utils/ApiError';
+const config = getConfig(process.env);
 
 const getAllUsers = async (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -13,6 +16,12 @@ const getAllUsers = async (req: Request, res: Response, next: NextFunction) => {
 
 const updateUser = async (req: Request, res: Response, next: NextFunction) => {
   try {
+    if (config.demoMode) {
+      throw new ApiError(
+        httpStatus.BAD_REQUEST,
+        'Demo mode is enabled. You cannot update users in demo mode.',
+      );
+    }
     const updatedUser = await adminService.updateUserAsAdmin(req.params.userId, req.body);
     const { password, ...userWithoutPassword } = updatedUser;
     res.status(200).json({ success: true, data: userWithoutPassword });
@@ -23,6 +32,12 @@ const updateUser = async (req: Request, res: Response, next: NextFunction) => {
 
 const deleteUser = async (req: Request, res: Response, next: NextFunction) => {
   try {
+    if (config.demoMode) {
+      throw new ApiError(
+        httpStatus.BAD_REQUEST,
+        'Demo mode is enabled. You cannot delete users in demo mode.',
+      );
+    }
     await adminService.deleteUser(req.params.userId);
     res.status(204).send();
   } catch (error) {
@@ -34,7 +49,6 @@ const sendNotificationToAll = async (req: Request, res: Response, next: NextFunc
   try {
     const { message } = req.body;
     const users = await adminService.getAllUsers();
-    console.log(users);
     const userIds = users.map((user) => user.id).filter((userId) => req.user?.id !== userId);
 
     await notificationService.createNotificationsForUserIds(userIds, message, 'new_notification');

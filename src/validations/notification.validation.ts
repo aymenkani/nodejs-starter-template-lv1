@@ -15,6 +15,13 @@ export const sendNotification = {
   body: sendNotificationBodySchema,
 };
 
+const notificationId = {
+  params: z.object({
+    id: z.string().uuid(),
+  }),
+};
+
 export const notificationValidation = {
   sendNotification,
+  notificationId,
 };

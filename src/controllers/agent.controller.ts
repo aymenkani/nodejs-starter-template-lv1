@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { google } from '@ai-sdk/google';
-import { streamText, embed } from 'ai';
+import { streamText, embed, generateText } from 'ai';
 import { prisma } from '../config/db';
 import ApiError from '../utils/ApiError';
 import httpStatus from 'http-status';
@@ -32,10 +32,29 @@ const chat = async (req: Request, res: Response, next: NextFunction) => {
       throw new ApiError(httpStatus.BAD_REQUEST, 'Messages content is required');
     }
 
-    // 1. Convert user question to embedding
+    // 1. Refine Search Query (Contextual Query Rewriter)
+    let searchQuery = lastMessage.content;
+
+    if (messages.length > 1) {
+      try {
+        const { text } = await generateText({
+          model: google('gemini-2.5-flash'),
+          messages: messages, // Pass full history
+          system:
+            'You are a search query refiner. Rewrite the last user message into a standalone, descriptive search query based on the conversation history. Do NOT answer the question. Return ONLY the rewritten query string.',
+        });
+        searchQuery = text;
+        logger.info(`Rewrote query: "${lastMessage.content}" -> "${searchQuery}"`);
+      } catch (error) {
+        logger.error(`Query rewriting failed: ${error}`);
+        // Fallback to original content on error
+      }
+    }
+
+    // 2. Convert refined query to embedding
     const { embedding } = await embed({
       model: google.textEmbeddingModel('text-embedding-004'),
-      value: lastMessage.content,
+      value: searchQuery,
     });
 
     const vectorQuery = `[${embedding.join(',')}]`;

@@ -49,7 +49,7 @@ const listFiles = async (user: User, filter: string) => {
         ...file,
         user: {
           ...file.user,
-          email: 'Hidden',
+          email: 'Admin',
         },
       };
     }

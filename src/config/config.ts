@@ -3,7 +3,11 @@ import { z } from 'zod';
 const envVarsSchema = z
   .object({
     NODE_ENV: z.enum(['production', 'development', 'test']),
-    PORT: z.coerce.number().default(3000),
+    PORT: z.coerce.number().default(5002),
+    DEMO_MODE: z
+      .string()
+      .default('false')
+      .transform((val) => val.toLowerCase() === 'true'),
     ADMIN_EMAIL: z.email('Admin email must be a valid email address'),
     ADMIN_PASSWORD: z
       .string()
@@ -42,6 +46,7 @@ const envVarsSchema = z
 export type Config = {
   env: 'production' | 'development' | 'test';
   port: number;
+  demoMode: boolean;
   admin: {
     email: string;
     password: string;
@@ -107,6 +112,7 @@ export function getConfig(processEnv: NodeJS.ProcessEnv): Config {
 
   return {
     env: envVars.NODE_ENV,
+    demoMode: envVars.DEMO_MODE, // transform string to boolean
     port: envVars.PORT,
     admin: {
       email: envVars.ADMIN_EMAIL,

@@ -38,6 +38,7 @@ import path from 'path';
 const config = getConfig(process.env);
 
 const app: Express = express();
+app.set('trust proxy', 1);
 app.use(passport.initialize());
 
 app.use((req: Request, res: Response, next: NextFunction) => {
@@ -49,14 +50,32 @@ app.use(
     contentSecurityPolicy: {
       directives: {
         ...helmet.contentSecurityPolicy.getDefaultDirectives(),
-        'script-src': ["'self'", 'https://cdn.socket.io', 'https://cdn.jsdelivr.net'],
+        'script-src': [
+          "'self'",
+          "'unsafe-inline'",
+          "'unsafe-eval'",
+          'https://cdn.socket.io',
+          'https://cdn.jsdelivr.net',
+          'https://cdn.tailwindcss.com',
+        ],
         'connect-src': [
           "'self'",
           'https://cdn.socket.io',
-          'https://*.r2.cloudflarestorage.com',
+          'https://cdn.jsdelivr.net',
+          'https://cdn.tailwindcss.com',
+          'http://localhost:5002',
           'https://*.cloudflare.com',
-          // Add your server's WebSocket protocol for Socket.IO
-          config.env === 'production' ? 'wss:' : 'ws:',
+          'https://*.r2.cloudflarestorage.com',
+          'https://r2.cloudflarestorage.com',
+          'ws://localhost:5002',
+          'ws://localhost:5001',
+        ],
+        'img-src': ["'self'", 'data:', 'blob:', 'https:', 'http:'],
+        'style-src': [
+          "'self'",
+          "'unsafe-inline'",
+          'https://cdn.jsdelivr.net',
+          'https://fonts.googleapis.com',
         ],
       },
     },
@@ -68,8 +87,11 @@ app.get('/api/v1/health', async (req: Request, res: Response) => {
 });
 
 const limiter = rateLimit({
-  windowMs: 10 * 60 * 1000,
+  windowMs: 10 * 60 * 1000, // 10 minutes
   max: 100,
+  standardHeaders: true, // ALLWAYS KEEP THIS AS TRUE
+  legacyHeaders: false, // ALLWAYS KEEP THIS AS FALSE
+  message: 'Too many requests from this IP, please try again after 10 minutes',
 });
 app.use(limiter);
 
