@@ -14,6 +14,7 @@ export const emailService = createEmailService(config);
 export const ingestionService = createIngestionService(ingestionQueue);
 export const uploadService = createUploadService(config, ingestionService);
 
+export * from './file.service';
 export * from './user.service';
 export * from './socket.service';
 export * from './admin.service';

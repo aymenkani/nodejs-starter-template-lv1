@@ -18,15 +18,18 @@ import { swaggerSpec } from './docs/openapi';
 import apiRoutes from './api';
 import { errorConverter, errorHandler } from './middleware/error';
 import logger from './utils/logger';
-import { startTokenCleanupJob } from './jobs/scheduler';
+import { startTokenCleanupJob, startFileCleanupJob } from './jobs/scheduler';
 import { processTokenCleanupJob } from './jobs/tokenCleanup.worker';
 import {
   tokenCleanupQueue,
   ingestionQueue,
+  fileCleanupQueue,
   tokenCleanupQueueName,
   ingestionQueueName,
+  fileCleanupQueueName,
 } from './jobs/queue';
 import { processJob as processIngestionJob } from './jobs/ingestion.worker';
+import { processFileCleanupJob } from './jobs/fileCleanup.worker';
 import { prisma } from './config/db';
 import { PrismaClient } from '@prisma/client/extension';
 import { socketService } from './services/socket.service';
@@ -46,7 +49,7 @@ app.use(
     contentSecurityPolicy: {
       directives: {
         ...helmet.contentSecurityPolicy.getDefaultDirectives(),
-        'script-src': ["'self'", 'https://cdn.socket.io'],
+        'script-src': ["'self'", 'https://cdn.socket.io', 'https://cdn.jsdelivr.net'],
         'connect-src': [
           "'self'",
           'https://cdn.socket.io',
@@ -122,7 +125,15 @@ async function startServer(port?: number) {
     },
   });
 
+  const fileCleanupWorker = new Worker(fileCleanupQueueName, processFileCleanupJob, {
+    connection: {
+      host: config.redis.host,
+      port: config.redis.port,
+    },
+  });
+
   const cronJob = startTokenCleanupJob();
+  const fileCleanupCronJob = startFileCleanupJob();
 
   const server: Server = app.listen(port || config.port, () =>
     logger.info(`Server running on port ${port || config.port}`),
@@ -136,8 +147,10 @@ async function startServer(port?: number) {
     server,
     prisma,
     cronJob,
+    fileCleanupCronJob,
     tokenCleanupWorker,
     ingestionWorker,
+    fileCleanupWorker,
   };
 }
 
@@ -147,6 +160,8 @@ async function stopServer(
   cronJob: ScheduledTask,
   worker: Worker,
   ingestionWorker: Worker,
+  fileCleanupCronJob?: ScheduledTask,
+  fileCleanupWorker?: Worker,
 ) {
   // Use imported tokenCleanupQueue and ingestionQueue directly
   logger.info('Attempting to stop server...');
@@ -154,7 +169,8 @@ async function stopServer(
   // 1. Stop new jobs from being scheduled
   logger.info('Attempting to stop cron job...');
   cronJob.stop();
-  logger.info('Cron job stopped.');
+  fileCleanupCronJob?.stop();
+  logger.info('Cron jobs stopped.');
 
   // 2. Close servers to prevent new connections
   const io = socketService.getIO();
@@ -179,10 +195,22 @@ async function stopServer(
   await tokenCleanupQueue.close();
   logger.info('Token cleanup queue closed.');
 
+  logger.info('Attempting to close file cleanup queue...');
+  if (fileCleanupQueue) {
+    await fileCleanupQueue.close();
+  }
+  logger.info('File cleanup queue closed.');
+
   // 4. Close the worker and wait for any active jobs to finish
   logger.info('Attempting to close token cleanup worker...');
   await worker.close(config.env === 'test' ? true : false);
   logger.info('Token cleanup worker closed.');
+
+  logger.info('Attempting to close file cleanup worker...');
+  if (fileCleanupWorker) {
+    await fileCleanupWorker.close(config.env === 'test' ? true : false);
+  }
+  logger.info('File cleanup worker closed.');
 
   // Close ingestion queue/worker
   logger.info('Closing ingestion queue...');

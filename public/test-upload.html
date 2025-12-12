@@ -5,98 +5,92 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>S3 Upload Test using Signed URL</title>
     <style>
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            max-width: 800px;
-            margin: 2rem auto;
-            padding: 0 1rem;
-            background-color: #f5f5f5;
-            color: #333;
-        }
-
-        .container {
-            background: white;
-            padding: 2rem;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-
-        h1 { margin-top: 0; color: #2d3748; }
+        body { font-family: system-ui, -apple-system, sans-serif; max-width: 1200px; margin: 0 auto; padding: 2rem; background: #f0f2f5; }
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+        .card { background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
+        .full-width { grid-column: 1 / -1; }
         
-        .form-group { margin-bottom: 1.5rem; }
-        
-        label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 500;
-            color: #4a5568;
-        }
-        
-        input[type="text"], input[type="file"] {
-            width: 100%;
-            padding: 0.5rem;
-            border: 1px solid #cbd5e0;
-            border-radius: 4px;
-            font-size: 1rem;
-        }
+        h1, h2 { margin-top: 0; color: #1a202c; }
+        .form-group { margin-bottom: 1rem; }
+        label { display: block; margin-bottom: 0.5rem; font-weight: 500; color: #4a5568; }
+        input[type="text"], input[type="file"] { width: 100%; padding: 0.75rem; border: 1px solid #e2e8f0; border-radius: 6px; box-sizing: border-box; }
+        button { background: #3182ce; color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 6px; cursor: pointer; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+        button:hover { background: #2c5282; }
+        button:disabled { background: #cbd5e0; cursor: not-allowed; }
 
-        button {
-            background-color: #4299e1;
-            color: white;
-            border: none;
-            padding: 0.75rem 1.5rem;
-            border-radius: 4px;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: background-color 0.2s;
-        }
+        /* File List Styles */
+        .file-list { max-height: 400px; overflow-y: auto; }
+        .file-item { display: flex; justify-content: space-between; align-items: center; padding: 1rem; border-bottom: 1px solid #edf2f7; }
+        .file-item:last-child { border-bottom: none; }
+        .file-info strong { display: block; color: #2d3748; }
+        .file-info span { font-size: 0.875rem; color: #718096; }
+        .badge { font-size: 0.75rem; padding: 0.25rem 0.5rem; border-radius: 9999px; font-weight: bold; }
+        .badge-public { background: #c6f6d5; color: #22543d; }
+        .badge-private { background: #bee3f8; color: #2a4365; }
 
-        button:hover { background-color: #3182ce; }
-        button:disabled { background-color: #a0aec0; cursor: not-allowed; }
-
-        .logs {
-            margin-top: 2rem;
-            background: #2d3748;
-            color: #e2e8f0;
-            padding: 1rem;
-            border-radius: 4px;
-            font-family: monospace;
-            max-height: 300px;
-            overflow-y: auto;
-        }
+        /* Chat Styles */
+        .chat-box { height: 400px; border: 1px solid #e2e8f0; border-radius: 8px; overflow-y: auto; padding: 1rem; background: #f7fafc; margin-bottom: 1rem; display: flex; flex-direction: column; gap: 1rem; }
+        .message { max-width: 80%; padding: 1rem; border-radius: 12px; line-height: 1.5; }
+        .message.user { align-self: flex-end; background: #3182ce; color: white; border-bottom-right-radius: 2px; }
+        .message.ai { align-self: flex-start; background: white; border: 1px solid #e2e8f0; border-bottom-left-radius: 2px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+        .chat-input { display: flex; gap: 1rem; }
         
-        .log-entry { margin-bottom: 0.5rem; border-bottom: 1px solid #4a5568; padding-bottom: 0.25rem; }
-        .success { color: #68d391; }
-        .error { color: #fc8181; }
-        .info { color: #63b3ed; }
+        .logs { background: #1a202c; color: #e2e8f0; padding: 1rem; border-radius: 8px; font-family: monospace; max-height: 200px; overflow-y: auto; font-size: 0.9rem; }
+        .log-entry { margin-bottom: 0.25rem; }
+        .success { color: #48bb78; } .error { color: #f56565; } .warning { color: #ed8936; }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>S3 Signed URL Upload Test</h1>
-        
-        <div class="form-group">
-            <label for="token">Access Token (Bearer):</label>
-            <input type="text" id="token" placeholder="Paste your JWT access token here">
+    <div class="grid">
+        <!-- Upload Section -->
+        <div class="card">
+            <h2>Upload Document</h2>
+            <div class="form-group">
+                <label>Access Token (Bearer)</label>
+                <input type="text" id="token" placeholder="Paste JWT Token">
+            </div>
+            <div class="form-group">
+                <label>File</label>
+                <input type="file" id="file">
+            </div>
+            <div class="form-group" style="display: flex; align-items: center; gap: 0.5rem;">
+                <input type="checkbox" id="isPublic" style="width: auto;">
+                <label for="isPublic" style="margin-bottom: 0;">Make Public (Admin/Contributor)</label>
+            </div>
+            <button id="uploadBtn">Upload</button>
+            <div class="logs" id="logs" style="margin-top: 1rem;"></div>
         </div>
 
-        <div class="form-group">
-            <label for="file">Select File:</label>
-            <input type="file" id="file">
+        <!-- File List Section -->
+        <div class="card">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                <h2>Knowledge Base</h2>
+                <div class="filters">
+                    <label style="display:inline;"><input type="radio" name="filter" value="all" checked> All</label>
+                    <label style="display:inline; margin-left: 0.5rem;"><input type="radio" name="filter" value="mine"> Mine</label>
+                    <label style="display:inline; margin-left: 0.5rem;"><input type="radio" name="filter" value="public"> Public</label>
+                </div>
+            </div>
+            <div class="file-list" id="fileList">
+                <p style="text-align: center; color: #718096;">Load token to view files</p>
+            </div>
+            <button id="refreshFilesBtn" style="width: 100%; margin-top: 1rem; background: #718096;">Refresh List</button>
         </div>
 
-        <div class="form-group" style="display: flex; align-items: center; gap: 0.5rem;">
-            <input type="checkbox" id="isPublic" style="width: auto;">
-            <label for="isPublic" style="margin-bottom: 0;">Make Public (Admin/Contributor only)</label>
-        </div>
-
-        <button id="uploadBtn">Upload File</button>
-
-        <div class="logs" id="logs">
-            <div class="log-entry info">Ready...</div>
+        <!-- Chat Section -->
+        <div class="card full-width">
+            <h2>RAG Agent Chat</h2>
+            <div class="chat-box" id="chatBox">
+                <div class="message ai">Hello! I'm your RAG assistant. Upload documents above and ask me questions about them!</div>
+            </div>
+            <div class="chat-input">
+                <input type="text" id="chatInput" placeholder="Ask a question about your documents...">
+                <button id="sendChatBtn">Send</button>
+            </div>
         </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script src="/client/file-upload.js" defer></script>
 </body>
 </html>

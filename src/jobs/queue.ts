@@ -8,6 +8,7 @@ const config = getConfig(process.env);
 
 export const tokenCleanupQueueName = 'tokenCleanup';
 export const ingestionQueueName = 'ai-ingestion';
+export const fileCleanupQueueName = 'fileCleanup';
 
 export const redisConnection: RedisOptions = {
   host: config.redis.host,
@@ -31,12 +32,18 @@ const defaultQueueOptions: QueueOptions = {
 // Singleton Queue Instances
 export const tokenCleanupQueue = new Queue(tokenCleanupQueueName, defaultQueueOptions);
 export const ingestionQueue = new Queue(ingestionQueueName, defaultQueueOptions);
+export const fileCleanupQueue = new Queue('fileCleanup', defaultQueueOptions);
 
 export const closeQueues = async () => {
   await tokenCleanupQueue.close();
   await ingestionQueue.close();
+  await fileCleanupQueue.close();
 };
 
 export const addTokenCleanupJob = async (data: unknown) => {
   await tokenCleanupQueue.add('cleanExpiredTokens', data);
+};
+
+export const addFileCleanupJob = async (data: unknown) => {
+  await fileCleanupQueue.add('cleanAbandonedFiles', data);
 };

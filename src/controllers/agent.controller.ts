@@ -69,7 +69,6 @@ const chat = async (req: Request, res: Response, next: NextFunction) => {
       }
 
       const visibilityLabel = doc.isPublic ? '[Public Doc]' : '[Your Private Doc]';
-      console.log(doc);
       return `Source: ${doc.originalName} ${visibilityLabel} (Link: ${signedUrl})\nContent: ${doc.content}`;
     });
 

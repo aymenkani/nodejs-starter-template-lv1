@@ -10,10 +10,6 @@ declare global {
   }
 }
 
-export interface AuthRequest extends Request {
-  user: PrismaUser;
-}
-
 export type ExtendedSocket = Socket & {
   user?: PrismaUser;
 };
