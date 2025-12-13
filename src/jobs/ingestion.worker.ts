@@ -125,7 +125,7 @@ export const processJob = async (job: Job<IngestionJobData>) => {
       // Visual RAG: Analyze image with Gemini
       logger.info(`Processing image file: ${fileKey}`);
       const { text: imageDesc } = await generateText({
-        model: google('gemini-2.5-flash'),
+        model: google('gemma-3-12b'), // use gemini-2.5-flash-lite for free tier
         messages: [
           {
             role: 'user',

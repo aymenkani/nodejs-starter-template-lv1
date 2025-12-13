@@ -38,7 +38,7 @@ const chat = async (req: Request, res: Response, next: NextFunction) => {
     if (messages.length > 1) {
       try {
         const { text } = await generateText({
-          model: google('gemini-2.5-flash'),
+          model: google('gemma-3-12b'),
           messages: messages, // Pass full history
           system:
             'You are a search query refiner. Rewrite the last user message into a standalone, descriptive search query based on the conversation history. Do NOT answer the question. Return ONLY the rewritten query string.',
@@ -105,7 +105,13 @@ const chat = async (req: Request, res: Response, next: NextFunction) => {
     // 4. Generate Response (Stream)
     const result = streamText({
       // check the Docs at https://ai-sdk.dev/providers/ai-sdk-providers/google-generative-ai
-      model: google('gemini-2.5-flash'), // Be aware! some models cost money or not available in free tier
+      /*
+        list of gemini models you can use for free:
+        - gemini-2.5-flash
+        - gemini-2.5-flash-tts
+        - gemma-3-12b
+      */
+      model: google('gemini-2.5-flash-lite'), // Be aware! some models cost money or not available in free tier
       messages,
       system: systemPrompt,
     });

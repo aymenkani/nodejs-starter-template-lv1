@@ -20,10 +20,12 @@ export const processFileCleanupJob = async (job: Job) => {
 
   if (job.name === 'cleanAbandonedFiles') {
     try {
-      // 1. Find abandoned files (PENDING for > 24 hours)
+      // 1. Find abandoned files (PENDING or FAILED for > 24 hours)
       const abandonedFiles = await prisma.file.findMany({
         where: {
-          status: 'PENDING',
+          status: {
+            in: ['PENDING', 'FAILED'],
+          },
           createdAt: {
             lt: new Date(Date.now() - 24 * 60 * 60 * 1000), // 24 hours ago
           },
