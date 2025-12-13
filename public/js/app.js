@@ -258,7 +258,7 @@ const app = {
                 body: JSON.stringify({ messages: app.state.chatHistory }) // Send full history
             });
 
-            if (!response.ok) throw new Error('Chat failed');
+            if (!response.ok) throw new Error(`${(await response.text())}`);
 
             // Stream Handling
             const reader = response.body.getReader();

@@ -18,7 +18,12 @@ import { swaggerSpec } from './docs/openapi';
 import apiRoutes from './api';
 import { errorConverter, errorHandler } from './middleware/error';
 import logger from './utils/logger';
-import { startTokenCleanupJob, startFileCleanupJob } from './jobs/scheduler';
+import {
+  startTokenCleanupJob,
+  startFileCleanupJob,
+  startPublicFileCleanupJob,
+  startPrivateFileCleanupJob,
+} from './jobs/scheduler';
 import { processTokenCleanupJob } from './jobs/tokenCleanup.worker';
 import {
   tokenCleanupQueue,
@@ -156,6 +161,8 @@ async function startServer(port?: number) {
 
   const cronJob = startTokenCleanupJob();
   const fileCleanupCronJob = startFileCleanupJob();
+  const publicFileCleanupCronJob = startPublicFileCleanupJob();
+  const privateFileCleanupCronJob = startPrivateFileCleanupJob();
 
   const server: Server = app.listen(port || config.port, () =>
     logger.info(`Server running on port ${port || config.port}`),
@@ -170,6 +177,8 @@ async function startServer(port?: number) {
     prisma,
     cronJob,
     fileCleanupCronJob,
+    publicFileCleanupCronJob,
+    privateFileCleanupCronJob,
     tokenCleanupWorker,
     ingestionWorker,
     fileCleanupWorker,
@@ -184,6 +193,8 @@ async function stopServer(
   ingestionWorker: Worker,
   fileCleanupCronJob?: ScheduledTask,
   fileCleanupWorker?: Worker,
+  publicFileCleanupCronJob?: ScheduledTask,
+  privateFileCleanupCronJob?: ScheduledTask,
 ) {
   // Use imported tokenCleanupQueue and ingestionQueue directly
   logger.info('Attempting to stop server...');
@@ -192,6 +203,8 @@ async function stopServer(
   logger.info('Attempting to stop cron job...');
   cronJob.stop();
   fileCleanupCronJob?.stop();
+  publicFileCleanupCronJob?.stop();
+  privateFileCleanupCronJob?.stop();
   logger.info('Cron jobs stopped.');
 
   // 2. Close servers to prevent new connections

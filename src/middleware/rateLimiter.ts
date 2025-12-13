@@ -11,7 +11,7 @@ const authLimiter = rateLimit({
 const chatLimiter = rateLimit({
   windowMs: 24 * 60 * 60 * 1000, // 24 hours
   max: 5, // Max 5 requests per 24 hours per IP
-  message: 'Daily chat limit reached. You can only send 4 messages per day.',
+  message: 'Daily chat limit reached. You can only send 5 messages per day.',
   standardHeaders: true, // ALLWAYS KEEP THIS AS TRUE
   legacyHeaders: false, // ALLWAYS KEEP THIS AS FALSE
   skip: (req) => {

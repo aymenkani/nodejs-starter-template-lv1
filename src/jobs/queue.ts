@@ -47,3 +47,11 @@ export const addTokenCleanupJob = async (data: unknown) => {
 export const addFileCleanupJob = async (data: unknown) => {
   await fileCleanupQueue.add('cleanAbandonedFiles', data);
 };
+
+export const addPublicFileCleanupJob = async (data: unknown) => {
+  await fileCleanupQueue.add('cleanPublicFiles', data);
+};
+
+export const addPrivateFileCleanupJob = async (data: unknown) => {
+  await fileCleanupQueue.add('cleanPrivateFiles', data);
+};

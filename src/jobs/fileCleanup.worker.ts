@@ -71,4 +71,77 @@ export const processFileCleanupJob = async (job: Job) => {
       throw error;
     }
   }
+
+  if (job.name === 'cleanPublicFiles' || job.name === 'cleanPrivateFiles') {
+    try {
+      // CRITICAL: Only run in DEMO_MODE
+      if (!config.demoMode) {
+        logger.info(`Skipping ${job.name} because DEMO_MODE is not enabled.`);
+        return { cleanedCount: 0, skipped: true };
+      }
+
+      const isPublic = job.name === 'cleanPublicFiles';
+
+      // Find completed files (public or private) excluding aymenkani554@gmail.com
+      const filesToDelete = await prisma.file.findMany({
+        where: {
+          status: 'COMPLETED',
+          isPublic: isPublic,
+          user: {
+            email: {
+              not: 'aymenkani554@gmail.com',
+            },
+          },
+        },
+        include: {
+          user: true,
+        },
+      });
+
+      if (filesToDelete.length === 0) {
+        logger.info(`No ${isPublic ? 'public' : 'private'} files found for cleanup.`);
+        return { cleanedCount: 0 };
+      }
+
+      logger.info(
+        `Found ${filesToDelete.length} ${isPublic ? 'public' : 'private'} files. Starting cleanup...`,
+      );
+
+      let deletedCount = 0;
+
+      // Process each file
+      for (const file of filesToDelete) {
+        try {
+          // Attempt to delete from S3
+          if (file.fileKey) {
+            try {
+              const command = new DeleteObjectCommand({
+                Bucket: config.aws.s3.bucket,
+                Key: file.fileKey,
+              });
+              await s3Client.send(command);
+              logger.info(`Deleted S3 object: ${file.fileKey}`);
+            } catch (s3Error) {
+              logger.warn(`Failed to delete S3 object for file ${file.id}: ${s3Error}`);
+              // Continue to DB deletion even if S3 fails
+            }
+          }
+
+          // Delete from DB
+          await prisma.file.delete({ where: { id: file.id } });
+          deletedCount++;
+        } catch (dbError) {
+          logger.error(`Failed to delete DB record for file ${file.id}: ${dbError}`);
+        }
+      }
+
+      logger.info(
+        `Successfully cleaned up ${deletedCount} ${isPublic ? 'public' : 'private'} files.`,
+      );
+      return { cleanedCount: deletedCount };
+    } catch (error) {
+      logger.error(error, `Error in ${job.name} cleanup worker:`);
+      throw error;
+    }
+  }
 };
