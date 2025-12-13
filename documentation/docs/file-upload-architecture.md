@@ -300,7 +300,7 @@ stateDiagram-v2
 
 ## Cleanup Workers
 
-See [Background Jobs (BullMQ)](background-jobs-bullmq.md#file-cleanup-worker) for automatic cleanup:
+See [Background Jobs (BullMQ)](background-jobs-bullmq.md#2-file-cleanup-worker) for automatic cleanup:
 
 - **Abandoned files**: PENDING/FAILED files older than 24 hours
 - **Demo mode**: Auto-delete completed files (respects `DEMO_MODE` env var)

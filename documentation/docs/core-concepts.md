@@ -246,7 +246,7 @@ Application settings are managed through environment variables, loaded and valid
 *   **Location:** `src/config/config.ts` and `.env` files.
 *   **Purpose:** Centralize all application settings, making it easy to manage different configurations for development, testing, and production environments.
 *   **Process:**
-    1.  `.env` files (e.g., `.env`, `.env.development`, `.env.production`) store key-value pairs.
+    1.  `.env` files (e.g., `.env`, `.env.local`, `.env.test`) store key-value pairs.
     2.  `dotenv` library loads these variables into `process.env`.
     3.  `src/config/config.ts` uses Zod to define a schema for expected environment variables, validates them, and exports a configuration object.
 

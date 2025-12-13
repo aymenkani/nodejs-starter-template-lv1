@@ -91,7 +91,7 @@ The `seed.ts` file contains TypeScript code that uses the Prisma Client to inser
 
 **To run the seed script:**
 
-*   `seed`: Runs the TypeScript seed file (`prisma/seed.ts`). Requires `ts-node` (Dev only).
+*   `seed`: Runs the TypeScript seed file (`prisma/seed.ts`). Requires `ts-node` (run ONLY when using Docker in development).
     ```bash
     npm run seed
     ```

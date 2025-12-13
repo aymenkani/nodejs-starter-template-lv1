@@ -241,7 +241,7 @@ Ensure your PostgreSQL database has the `pgvector` extension:
 CREATE EXTENSION IF NOT EXISTS vector;
 ```
 
-This is typically configured in your database migrations. See [Database (Prisma)](database-prisma.md#pgvector-setup) for details.
+This is typically configured in your database migrations. See [Database (Prisma)](database-prisma.md#what-is-pgvector) for details.
 
 ### 3. Supported Models
 

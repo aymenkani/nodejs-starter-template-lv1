@@ -209,7 +209,7 @@ sequenceDiagram
 The application also provides HTTP endpoints for notification management:
 
 - **GET `/v1/notifications`**: Fetch all notifications for the authenticated user (ordered by `createdAt DESC`)
-- **PATCH `/v1/notifications/:id/read`**: Mark a specific notification as `READ`
+- **PUT `/v1/notifications/:id/read`**: Mark a specific notification as `READ`
 - **DELETE `/v1/notifications/:id`**: Delete a notification
 
 See [Admin Routes](routes-documentations/admin-routes.md) for the admin endpoint to create notifications.

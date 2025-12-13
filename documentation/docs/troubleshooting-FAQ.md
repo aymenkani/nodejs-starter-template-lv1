@@ -65,7 +65,7 @@ COPY --from=builder /app/dist ./dist
   2.  The Prisma Client is not generated or the database schema is out of date.
 
 - ✅ **Solution:**
-  A detailed guide for local development setup and troubleshooting is available in the **[Getting Started](./getting-started.md#option-2-running-the-app-locally-hybrid-approach)** documentation.
+  A detailed guide for local development setup and troubleshooting is available in the **[Getting Started](./getting-started.md#option-1-running-the-app-locally-hybrid-approach)** documentation.
 
   **Quick Checklist:**
   1.  **Are the database and Redis running?** Before starting the app, you **must** run `npm run docker:redis:postgres:up`.
