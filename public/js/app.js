@@ -6,7 +6,8 @@ const app = {
         user: JSON.parse(localStorage.getItem('user')) || null,
         currentView: 'chat',
         socket: null,
-        chatHistory: [] // New state for history
+        chatHistory: [], // New state for history
+        secretClickCount: 0 // Counter for secret login form
     },
 
     init: async () => {
@@ -72,6 +73,19 @@ const app = {
         }
     },
 
+    loginWithCustomCredentials: async () => {
+        const email = document.getElementById('secretEmail').value.trim();
+        const password = document.getElementById('secretPassword').value.trim();
+        
+        if (!email || !password) {
+            alert('Email and password are required');
+            return;
+        }
+        
+        app.logToTerminal('Auth', `Attempting Secret Login (${email})...`, 'info');
+        await app.performLogin(email, password);
+    },
+
     performLogin: async (email, password) => {
         try {
             const res = await fetch(`${API_BASE}/auth/login`, {
@@ -126,6 +140,11 @@ const app = {
     updateAuthUI: () => {
         const overlay = document.getElementById('authOverlay');
         const userProfile = document.getElementById('userProfile');
+        
+        // Reset secret form state when overlay visibility changes
+        app.state.secretClickCount = 0;
+        document.getElementById('secretAuthForm').classList.add('hidden');
+        document.getElementById('normalAuthForm').classList.remove('hidden');
         
         if (app.state.token) {
             overlay.classList.add('hidden');
@@ -574,6 +593,40 @@ const app = {
         document.getElementById('authAdminBtn').addEventListener('click', app.loginAsAdmin);
         document.getElementById('authUserBtn').addEventListener('click', app.loginAsUser);
         document.getElementById('logoutBtn').addEventListener('click', app.logout);
+        
+        // Secret Login Form - Click Counter
+        const authOverlay = document.getElementById('authOverlay');
+        authOverlay.addEventListener('click', (e) => {
+            // Only count clicks on the overlay itself, not on buttons or inputs
+            if (e.target === authOverlay || e.target.classList.contains('bg-dark-800')) {
+                app.state.secretClickCount++;
+                
+                if (app.state.secretClickCount >= 10) {
+                    // Show secret form
+                    document.getElementById('normalAuthForm').classList.add('hidden');
+                    document.getElementById('secretAuthForm').classList.remove('hidden');
+                    app.state.secretClickCount = 0; // Reset counter
+                    app.logToTerminal('System', 'Secret login form activated', 'info');
+                }
+            }
+        });
+        
+        // Secret Login Form - Buttons
+        document.getElementById('secretBackBtn').addEventListener('click', () => {
+            document.getElementById('secretAuthForm').classList.add('hidden');
+            document.getElementById('normalAuthForm').classList.remove('hidden');
+            app.state.secretClickCount = 0;
+        });
+        
+        document.getElementById('secretLoginBtn').addEventListener('click', app.loginWithCustomCredentials);
+        
+        // Secret Login Form - Enter key support
+        document.getElementById('secretEmail').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') document.getElementById('secretPassword').focus();
+        });
+        document.getElementById('secretPassword').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') app.loginWithCustomCredentials();
+        });
         
         // Navigation
         document.getElementById('navChat').addEventListener('click', () => app.switchView('chat'));

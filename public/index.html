@@ -56,25 +56,51 @@
     <!-- Auth Overlay -->
     <div id="authOverlay" class="fixed inset-0 z-50 bg-dark-900/95 backdrop-blur-sm flex items-center justify-center fade-in">
         <div class="bg-dark-800 p-8 rounded-2xl border border-dark-700 shadow-2xl max-w-md w-full text-center">
-            <h1 class="text-3xl font-bold text-white mb-2">Live Demo Access</h1>
-            <p class="text-slate-400 mb-8">This is a live environment connected to a real backend.</p>
-            
-            <div class="space-y-4">
-                <button id="authAdminBtn" class="w-full py-3 px-6 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold transition-all flex items-center justify-center gap-2 group">
-                    <span>🚀 Login as Admin</span>
-                    <span class="text-xs font-normal opacity-70 group-hover:opacity-100">(Unlocks All Features)</span>
-                </button>
+            <!-- Normal Auth Options -->
+            <div id="normalAuthForm">
+                <h1 class="text-3xl font-bold text-white mb-2">Live Demo Access</h1>
+                <p class="text-slate-400 mb-8">This is a live environment connected to a real backend.</p>
                 
-                <button id="authUserBtn" class="w-full py-3 px-6 bg-dark-700 hover:bg-dark-600 text-white rounded-lg font-medium transition-all flex items-center justify-center gap-2">
-                    <span>Login as User</span>
-                    <span class="text-xs font-normal opacity-70">(Read Only / Limited)</span>
-                </button>
+                <div class="space-y-4">
+                    <button id="authAdminBtn" class="w-full py-3 px-6 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold transition-all flex items-center justify-center gap-2 group">
+                        <span>🚀 Login as Admin</span>
+                        <span class="text-xs font-normal opacity-70 group-hover:opacity-100">(Unlocks All Features)</span>
+                    </button>
+                    
+                    <button id="authUserBtn" class="w-full py-3 px-6 bg-dark-700 hover:bg-dark-600 text-white rounded-lg font-medium transition-all flex items-center justify-center gap-2">
+                        <span>Login as User</span>
+                        <span class="text-xs font-normal opacity-70">(Read Only / Limited)</span>
+                    </button>
+                </div>
+                
+                <p class="mt-6 text-xs text-slate-500">
+                    Credentials are auto-generated. <br>
+                    Admin session resets every 1 hour.
+                </p>
             </div>
-            
-            <p class="mt-6 text-xs text-slate-500">
-                Credentials are auto-generated. <br>
-                Admin session resets every 1 hour.
-            </p>
+
+            <!-- Secret Custom Login Form (Hidden by default) -->
+            <div id="secretAuthForm" class="hidden">
+                <h1 class="text-3xl font-bold text-white mb-2">🔐 Secret Login</h1>
+                <p class="text-slate-400 mb-6">Login as any user</p>
+                
+                <div class="space-y-4 text-left">
+                    <div>
+                        <label class="block text-sm text-slate-400 mb-1">Email</label>
+                        <input type="email" id="secretEmail" placeholder="user@example.com" 
+                            class="w-full bg-dark-900 border border-dark-600 rounded-lg py-2.5 px-4 text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 transition-colors">
+                    </div>
+                    <div>
+                        <label class="block text-sm text-slate-400 mb-1">Password</label>
+                        <input type="password" id="secretPassword" placeholder="Enter password" 
+                            class="w-full bg-dark-900 border border-dark-600 rounded-lg py-2.5 px-4 text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 transition-colors">
+                    </div>
+                    <div class="flex gap-3 pt-2">
+                        <button id="secretBackBtn" class="flex-1 py-2.5 text-slate-400 hover:bg-dark-700 rounded-lg text-sm transition-colors">Back</button>
+                        <button id="secretLoginBtn" class="flex-1 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-medium transition-colors">Login</button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -178,7 +204,7 @@
                             <p class="text-sm text-slate-500">Manage documents used for RAG context.</p>
                         </div>
                         <div class="bg-amber-900/20 text-amber-500 text-xs px-3 py-1.5 rounded border border-amber-900/30">
-                            ⚠️ Demo: Admin files persist 5m. User files deleted after 30m.
+                            ⚠️ Demo: Admin files persist 10m. User files deleted after 30m.
                         </div>
                     </div>
 
