@@ -79,7 +79,7 @@ Here are the relevant scripts:
 > 1.  Start your database and Redis services: `npm run docker:redis:postgres:up`
 > 2.  Then, run your migration: `npm run prisma:migrate:dev`
 >
-> For a complete guide on the local development workflow, see the **[Getting Started](./getting-started.md#option-2-running-the-app-locally-hybrid-approach)** documentation.
+> For a complete guide on the local development workflow, see the **[Getting Started](./getting-started.md#option-2-running-everything-with-docker)** documentation.
 
 ## 3. Seeding the Database (`prisma/seed.ts`)
 
@@ -158,7 +158,172 @@ async function deleteUser(id: string) {
 }
 ```
 
-## 5. Database Configuration
+## 6. pgvector Setup for AI & Vector Search
+
+This template uses the [pgvector](https://github.com/pgvector/pgvector) PostgreSQL extension to enable vector similarity search, which powers the RAG (Retrieval-Augmented Generation) intelligence pipeline.
+
+### What is pgvector?
+
+pgvector adds vector similarity search capabilities to PostgreSQL, allowing you to:
+- Store high-dimensional vectors (embeddings) efficiently
+- Perform fast similarity searches using cosine distance, L2 distance, or inner product
+- Index vectors for optimal query performance
+
+### Installation
+
+The pgvector extension is automatically installed in the Docker PostgreSQL image. The setup is handled in the database initialization:
+
+**Docker Compose** (`docker-compose.postgres.yml`):
+```yaml
+services:
+  db:
+    image: pgvector/pgvector:pg16
+    environment:
+      POSTGRES_DB: your_database
+```
+
+### Schema Setup
+
+The extension is enabled via Prisma migrations. The initial migration includes:
+
+```sql
+-- Enable pgvector extension
+CREATE EXTENSION IF NOT EXISTS vector;
+
+-- Document table with vector column
+CREATE TABLE "Document" (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  content TEXT NOT NULL,
+  embedding vector(768),  -- 768-dimensional vector for Gemini embeddings
+  "userId" UUID NOT NULL,
+  "fileId" UUID NOT NULL,
+  "createdAt" TIMESTAMP DEFAULT NOW()
+);
+
+-- Create index for faster similarity search
+CREATE INDEX ON "Document" USING ivfflat (embedding vector_cosine_ops);
+```
+
+### Prisma Schema
+
+In `prisma/schema.prisma`, vectors are defined using the `Unsupported` type:
+
+```prisma
+model Document {
+  id        String                     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  content   String
+  embedding Unsupported("vector(768)")?
+  userId    String                     @db.Uuid
+  fileId    String                     @db.Uuid
+  user      User                       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  file      File                       @relation(fields: [fileId],references: [id], onDelete: Cascade)
+  createdAt DateTime                   @default(now())
+
+  @@index([embedding], map: "Document_embedding_idx", type: Ivfflat)
+  @@index([userId])
+  @@index([fileId])
+}
+```
+
+### Usage in Code
+
+**Storing Vectors** (from `ingestion.worker.ts`):
+
+```typescript
+import { embed } from 'ai';
+import { google } from '@ai-sdk/google';
+
+// Generate embedding
+const { embedding } = await embed({
+  model: google.textEmbeddingModel('text-embedding-004'),
+  value: textChunk
+});
+
+// Store in database with pgvector
+await prisma.$executeRaw`
+  INSERT INTO "Document" (id, content, embedding, userId, fileId)
+  VALUES (
+    gen_random_uuid(), 
+    ${textChunk}, 
+    ${embedding}::vector,
+    ${userId}::uuid,
+    ${fileId}::uuid
+  )
+`;
+```
+
+**Similarity Search** (from `agent.controller.ts`):
+
+```typescript
+// Generate query embedding
+const { embedding: queryEmbedding } = await embed({
+  model: google.textEmbeddingModel('text-embedding-004'),
+  value: searchQuery
+});
+
+// Find similar documents using cosine distance
+const results = await prisma.$queryRaw<DocumentWithDistance[]>`
+  SELECT 
+    d.id,
+    d.content,
+    f."originalName" as "fileName",
+    f."fileKey",
+    (d.embedding <=> ${queryEmbedding}::vector) as distance
+  FROM "Document" d
+  INNER JOIN "File" f ON d."fileId" = f.id
+  WHERE (
+    d."userId" = ${userId}::uuid 
+    OR f."isPublic" = true
+  )
+  AND f.status = 'COMPLETED'
+  ORDER BY d.embedding <=> ${queryEmbedding}::vector
+  LIMIT 5
+`;
+```
+
+### Vector Operators
+
+| Operator | Description | Use Case |
+|----------|-------------|----------|
+| `<=>` | Cosine distance | Text similarity (most common for embeddings) |
+| `<->` | L2 (Euclidean) distance | Spatial data |
+| `<#>` | Inner product | Normalized vectors |
+
+### Performance Optimization
+
+**Indexing**: The `ivfflat` index significantly improves query performance for large datasets:
+
+```sql
+CREATE INDEX ON "Document" USING ivfflat (embedding vector_cosine_ops)
+WITH (lists = 100);
+```
+
+- `lists`: Number of clusters (typically sqrt(row_count) for good performance)
+- Rebuild index periodically as data grows
+
+**Query Performance**:
+- Without index: Full table scan on every query
+- With index: ~10-100x faster on datasets >10k vectors
+
+### Troubleshooting
+
+**"type vector does not exist"**:
+- Ensure `CREATE EXTENSION vector;` ran in your migration
+- Run `SELECT * FROM pg_extension WHERE extname = 'vector';` to verify
+
+**Slow queries**:
+- Check if index exists: `\d "Document"` in psql
+- Rebuild index if dataset grew: `REINDEX INDEX "Document_embedding_idx";`
+
+**Dimension mismatch**:
+- Gemini `text-embedding-004` produces 768-D vectors
+- Ensure schema uses `vector(768)`, not `vector(1536)` or other dimensions
+
+For more details on the RAG pipeline, see [RAG Intelligence Pipeline](./rag-intelligence-pipeline.md).
+
+---
+
+## 7. Database Configuration
 
 The database connection is configured via the `DATABASE_URL` [environment variable](./core-concepts.md#8-configuration-management) in your `.env` file. This template supports both PostgreSQL and MySQL.
 **Example `DATABASE_URL` formats:**

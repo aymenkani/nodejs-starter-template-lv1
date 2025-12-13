@@ -50,9 +50,143 @@ sequenceDiagram
     Worker->>DB: 4. Process job (deletes tokens from DB)
 ```
 
-## 2. Extending with a New Job (Example)
+## 2. File Cleanup Worker
 
-While the template only includes the token cleanup job, it is structured to be easily extensible. Let's walk through an example of how to add a new job for sending a welcome email after a user registers.
+The file cleanup worker maintains database hygiene by removing old, abandoned, or temporary files. It runs multiple cleanup jobs based on file status and demo mode configuration.
+
+### Jobs Included
+
+1. **Abandoned Files Cleanup** (Every 24 hours at midnight)
+2. **Public Files Cleanup** (Every 10 minutes in demo mode)
+3. **Private Files Cleanup** (Every 30 minutes in demo mode)
+
+### How It Works
+
+**Abandoned Files** (`cleanAbandonedFiles`):
+- **Schedule**: Daily at midnight UTC (`0 0 * * *`)
+- **Target**: Files with status `PENDING` or `FAILED` older than 24 hours
+- **Purpose**: Removes incomplete uploads and failed processing attempts
+- **Implementation** (`fileCleanup.worker.ts`):
+  ```typescript
+  const abandonedFiles = await prisma.file.findMany({
+    where: {
+      status: { in: ['PENDING', 'FAILED'] },
+      createdAt: { lt: new Date(Date.now() - 24 * 60 * 60 * 1000) }
+    }
+  });
+
+  // Delete from S3/R2
+  for (const file of abandonedFiles) {
+    await s3Client.send(new DeleteObjectCommand({
+      Bucket: config.aws.s3.bucket,
+      Key: file.fileKey
+    }));
+    await prisma.file.delete({ where: { id: file.id } });
+  }
+  ```
+
+**Demo Mode Cleanup** (Public/Private):
+- **Schedule**: 
+  - Public files: Every 10 minutes (`*/10 * * * *`)
+  - Private files: Every 30 minutes (`*/30 * * * *`)
+- **Condition**: Only runs if `DEMO_MODE=true`
+- **Target**: All `COMPLETED` files (except those owned by demo admin)
+- **Purpose**: Keep demo environment clean and prevent storage bloat
+
+> **Important**: Demo mode cleanup is protected by the `DEMO_MODE` environment variable. If `DEMO_MODE=false`, these jobs will skip execution to prevent accidental deletions in production.
+
+### Configuration
+
+Set in your `.env` file:
+```bash
+DEMO_MODE=true  # Enable demo cleanup jobs
+```
+
+## 3. Ingestion Worker
+
+The ingestion worker processes uploaded files for the RAG (Retrieval-Augmented Generation) intelligence pipeline. It extracts content, generates embeddings, and stores them in the vector database.
+
+### How It Works
+
+**Trigger**: Event-driven (triggered when a user confirms file upload)
+
+**Processing Steps**:
+
+1. **Download from R2/S3**: Fetches the file using AWS SDK
+2. **Hash Calculation**: Generates SHA-256 hash for deduplication
+3. **Duplicate Check**: Compares hash against existing files
+4. **Content Extraction**:
+   - **PDFs**: Uses `unpdf` library to extract text
+   - **Images**: Sends to Gemini Vision model for description
+   - **Text files**: Direct UTF-8 decode
+5. **Text Chunking**: Splits content into ~1000 character chunks with 200 char overlap
+6. **Embedding Generation**: Converts each chunk to 768-D vector using Gemini `text-embedding-004`
+7. **Storage**: Saves to PostgreSQL with pgvector extension
+8. **Status Update**: Marks file as `COMPLETED`
+
+**Implementation** (`ingestion.worker.ts`):
+
+```typescript
+export const processJob = async (job: Job<IngestionJobData>) => {
+  const { fileId } = job.data;
+  
+  // Fetch and process file
+  const fileRecord = await prisma.file.findUnique({ where: { id: fileId } });
+  
+  // Download from S3/R2
+  const s3Response = await s3Client.send(new GetObjectCommand({
+    Bucket: config.aws.s3.bucket,
+    Key: fileRecord.fileKey
+  }));
+
+  // Extract text (PDF/Image/Text)
+  let text = '';
+  if (mimeType === 'application/pdf') {
+    const pdf = await getDocumentProxy(buffer);
+    text = await extractText(pdf);
+  } else if (mimeType.startsWith('image/')) {
+    const { text: imageDesc } = await generateText({
+      model: google('gemini-2.5-flash-lite'),
+      messages: [/* vision prompt */]
+    });
+    text = imageDesc;
+  }
+
+  // Chunk and embed
+  const chunks = await splitter.createDocuments([text]);
+  for (const chunk of chunks) {
+    const { embedding } = await embed({
+      model: google.textEmbeddingModel('text-embedding-004'),
+      value: chunk.pageContent
+    });
+
+    await prisma.$executeRaw`
+      INSERT INTO "Document" (id, content, embedding, userId, fileId)
+      VALUES (gen_random_uuid(), ${chunk.pageContent}, 
+              ${embedding}::vector, ${userId}, ${fileId})
+    `;
+  }
+
+  await prisma.file.update({
+    where: { id: fileId },
+    data: { status: 'COMPLETED' }
+  });
+};
+```
+
+### Error Handling
+
+- **File Not Found in S3**: Deletes DB reservation and exits gracefully
+- **Duplicate File**: Deletes from S3, marks as `DUPLICATE`
+- **Processing Failure**: Marks file as `FAILED`, retries according to BullMQ settings
+
+For more details on the RAG pipeline, see [RAG Intelligence Pipeline](./rag-intelligence-pipeline.md).
+
+---
+
+## 4. Extending with a New Job (Example)
+
+While the template includes token cleanup, file cleanup, and ingestion workers, it is structured to be easily extensible. Let's walk through an example of how to add a new job for sending a welcome email after a user registers.
 
 ### Step 1: Define a New Queue
 
