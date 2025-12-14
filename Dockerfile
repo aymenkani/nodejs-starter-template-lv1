@@ -3,6 +3,11 @@ FROM node:20-alpine AS development
 
 WORKDIR /app
 
+# Accept DATABASE_URL as a build argument.
+# A dummy URL is sufficient for 'prisma generate' as it doesn't connect to the DB.
+ARG DATABASE_URL="postgresql://dummy:dummy@dummy:5432/dummy"
+ENV DATABASE_URL=${DATABASE_URL}
+
 # Install all dependencies including devDependencies
 COPY package.json package-lock.json ./
 
@@ -17,11 +22,6 @@ COPY . .
 
 # Stage 2: Builder - Builds the application using files from the development stage
 FROM development AS builder
-
-# Accept DATABASE_URL as a build argument.
-# A dummy URL is sufficient for 'prisma generate' as it doesn't connect to the DB.
-ARG DATABASE_URL="postgresql://dummy:dummy@dummy:5432/dummy"
-ENV DATABASE_URL=${DATABASE_URL}
 
 # Build the application
 RUN npm run build
