@@ -9,5 +9,7 @@ module.exports = async () => {
     global.__INGESTION_WORKER__,
     global.__FILE_CLEANUP_CRON__,
     global.__FILE_CLEANUP_WORKER__,
+    global.__PUBLIC_FILE_CLEANUP_CRON__,
+    global.__PRIVATE_FILE_CLEANUP_CRON__,
   );
 };

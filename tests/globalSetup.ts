@@ -12,7 +12,7 @@ import { startServer } from '../src/server';
 import { Server } from 'http';
 import { PrismaClient } from '@prisma/client/extension';
 import { ScheduledTask } from 'node-cron';
-import { Queue, Worker } from 'bullmq';
+import { Worker } from 'bullmq';
 
 declare global {
   // eslint-disable-next-line no-var
@@ -29,10 +29,24 @@ declare global {
   var __FILE_CLEANUP_CRON__: ScheduledTask;
   // eslint-disable-next-line no-var
   var __FILE_CLEANUP_WORKER__: Worker;
+  // eslint-disable-next-line no-var
+  var __PUBLIC_FILE_CLEANUP_CRON__: ScheduledTask;
+  // eslint-disable-next-line no-var
+  var __PRIVATE_FILE_CLEANUP_CRON__: ScheduledTask;
 }
 
 module.exports = async () => {
-  const { server, prisma, cronJob, tokenCleanupWorker, ingestionWorker, fileCleanupCronJob, fileCleanupWorker } = await startServer(5002); // Use a specific port for tests
+  const {
+    server,
+    prisma,
+    cronJob,
+    fileCleanupCronJob,
+    publicFileCleanupCronJob,
+    privateFileCleanupCronJob,
+    tokenCleanupWorker,
+    ingestionWorker,
+    fileCleanupWorker,
+   } = await startServer(5002); // Use a specific port for tests
   global.__SERVER__ = server;
   global.__PRISMA__ = prisma;
   global.__CRONJOB__ = cronJob;
@@ -40,4 +54,6 @@ module.exports = async () => {
   global.__INGESTION_WORKER__ = ingestionWorker;
   global.__FILE_CLEANUP_CRON__ = fileCleanupCronJob;
   global.__FILE_CLEANUP_WORKER__ = fileCleanupWorker;
+  global.__PUBLIC_FILE_CLEANUP_CRON__ = publicFileCleanupCronJob;
+  global.__PRIVATE_FILE_CLEANUP_CRON__ = privateFileCleanupCronJob;
 };

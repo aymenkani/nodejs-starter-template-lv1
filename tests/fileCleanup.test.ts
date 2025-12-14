@@ -1,25 +1,27 @@
 import { processFileCleanupJob } from '../src/jobs/fileCleanup.worker';
 import { prisma } from '../src/config/db';
 import { Job } from 'bullmq';
+// 1. Import the module so we can access the mock later
+import { S3Client } from '@aws-sdk/client-s3';
 
-// Mock S3 Client
-const mockSend = jest.fn();
-jest.mock('@aws-sdk/client-s3', () => ({
-  S3Client: jest.fn(() => ({
-    send: mockSend,
-  })),
-  DeleteObjectCommand: jest.fn(),
-}));
+// 2. Mock S3 - Define the 'send' function INSIDE the factory
+// We don't use an external variable to avoid the ReferenceError
+jest.mock('@aws-sdk/client-s3', () => {
+  return {
+    S3Client: jest.fn(() => ({
+      send: jest.fn(), // Created directly here
+    })),
+    DeleteObjectCommand: jest.fn(),
+  };
+});
 
 describe('File Cleanup Worker', () => {
   let userId: string;
 
   beforeAll(async () => {
-    // Clean DB
     await prisma.file.deleteMany();
     await prisma.user.deleteMany();
-
-    // Create User
+    
     const user = await prisma.user.create({
       data: {
         email: 'cleanup-test@example.com',
@@ -38,7 +40,6 @@ describe('File Cleanup Worker', () => {
 
   afterAll(async () => {
     await prisma.user.deleteMany();
-    // prisma disconnect handled by setupAfterEnv
   });
 
   it('should delete pending files older than 24 hours', async () => {
@@ -50,11 +51,11 @@ describe('File Cleanup Worker', () => {
         originalName: 'old.txt',
         status: 'PENDING',
         userId: userId,
-        createdAt: new Date(Date.now() - 25 * 60 * 60 * 1000), // 25 hours ago
+        createdAt: new Date(Date.now() - 25 * 60 * 60 * 1000), 
       },
     });
 
-    // 2. Create Recent Pending File (should exist)
+    // 2. Create Recent Pending File
     const recentFile = await prisma.file.create({
       data: {
         fileKey: 'recent-pending',
@@ -66,7 +67,7 @@ describe('File Cleanup Worker', () => {
       },
     });
 
-    // 3. Create Old Completed File (should exist)
+    // 3. Create Old Completed File
     const completedFile = await prisma.file.create({
       data: {
         fileKey: 'old-completed',
@@ -84,14 +85,21 @@ describe('File Cleanup Worker', () => {
 
     expect(result?.cleanedCount).toBe(1);
 
-    // Verify
+    // Verify DB
     const files = await prisma.file.findMany();
     const ids = files.map((f) => f.id);
     expect(ids).not.toContain(oldFile.id);
     expect(ids).toContain(recentFile.id);
     expect(ids).toContain(completedFile.id);
 
-    // Verify S3 Delete called once
-    expect(mockSend).toHaveBeenCalledTimes(1);
+    // 3. Access the Mock Instance to Check Calls
+    // Since we can't use 'mockSend' directly, we grab the instance Jest created
+    const MockS3Client = S3Client as unknown as jest.Mock;
+    
+    // Get the instance of S3Client that was created inside the worker
+    const s3Instance = MockS3Client.mock.results[0].value;
+    
+    // Check if the 'send' method on that instance was called
+    expect(s3Instance.send).toHaveBeenCalledTimes(1);
   });
 });

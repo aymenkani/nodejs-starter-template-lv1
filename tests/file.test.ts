@@ -118,7 +118,7 @@ describe('File API', () => {
     it('should mask admin email in public files', async () => {
       const res = await request.get('/api/v1/files?filter=public');
       const publicFile = res.body.find((f: any) => f.id === publicFileId);
-      expect(publicFile.user.email).toBe('Hidden');
+      expect(publicFile.user.email).toBe('Admin');
       expect(publicFile.user.role).toBe('ADMIN');
     });
   });

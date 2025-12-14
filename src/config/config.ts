@@ -29,6 +29,8 @@ const envVarsSchema = z
     GOOGLE_CLIENT_SECRET: z.string().min(1, 'Google client secret is required'),
     GOOGLE_GENERATIVE_AI_API_KEY: z.string().min(1, 'Google Generative AI API Key is required'),
     CLIENT_URL: z.url('Client URL must be a valid URL'),
+    CLIENT_HOST: z.string().min(1, 'Client host is required'),
+    CLIENT_PORT: z.coerce.number().min(1, 'Client port is required').default(5002),
     EMAIL_PROVIDER: z.enum(['NODEMAILER', 'SENDGRID']),
     EMAIL_FROM: z.email('Email FROM must be a valid email address'),
     SMTP_HOST: z.string().optional(),
@@ -73,7 +75,11 @@ export type Config = {
     clientSecret: string;
     apiKey: string;
   };
-  clientUrl: string;
+  client: {
+    url: string;
+    host: string;
+    port: number;
+  };
   email: {
     provider: 'NODEMAILER' | 'SENDGRID';
     from: string;
@@ -140,7 +146,11 @@ export function getConfig(processEnv: NodeJS.ProcessEnv): Config {
       clientSecret: envVars.GOOGLE_CLIENT_SECRET,
       apiKey: envVars.GOOGLE_GENERATIVE_AI_API_KEY,
     },
-    clientUrl: envVars.CLIENT_URL,
+    client: {
+      url: envVars.CLIENT_URL,
+      host: envVars.CLIENT_HOST,
+      port: envVars.CLIENT_PORT,
+    },
     email: {
       provider: envVars.EMAIL_PROVIDER,
       from: envVars.EMAIL_FROM,
