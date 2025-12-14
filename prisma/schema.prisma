@@ -28,6 +28,8 @@ model User {
   refreshTokens RefreshToken[]
   passwordResetTokens PasswordResetToken[]
   notifications Notification[]
+  documents     Document[]
+  files         File[]
 }
 
 model RefreshToken {
@@ -56,23 +58,74 @@ model PasswordResetToken {
   createdAt DateTime @default(now())
 }
 
+
 model Notification {
-  id        String   @id @default(uuid())
+  id        String             @id @default(uuid())
   message   String
+  status    NotificationStatus @default(PENDING)
   userId    String
-  createdAt DateTime @default(now())
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime           @default(now())
+  updatedAt DateTime           @updatedAt
+  user      User               @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId])
+}
+
+enum NotificationStatus {
+  PENDING
+  DELIVERED
+  READ
 }
 
 enum Role {
   USER
   ADMIN
+  CONTRIBUTOR
+}
+
+enum FileStatus {
+  PENDING
+  PROCESSING
+  COMPLETED
+  FAILED
+  DUPLICATE
 }
 
 enum AuthProvider {
   LOCAL
   GOOGLE
+}
+
+model File {
+  id           String     @id @default(uuid())
+  fileKey      String
+  originalName String
+  fileHash     String?
+  mimeType     String
+  status       FileStatus @default(PENDING)
+  isPublic     Boolean    @default(false)
+  userId       String
+  user         User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  documents    Document[]
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+
+  @@index([fileHash])
+  @@index([userId])
+  @@index([isPublic])
+}
+
+model Document {
+  id        String                 @id @default(uuid())
+  content   String
+  metadata  Json
+  embedding Unsupported("vector(768)")?
+  userId    String
+  user      User                   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  fileId    String
+  file      File                   @relation(fields: [fileId], references: [id], onDelete: Cascade)
+  createdAt DateTime               @default(now())
+
+  @@index([userId])
 }
 

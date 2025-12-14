@@ -51,20 +51,20 @@ This isn't just a folder structure; it's a complete ecosystem.
 | :--- | :--- | :--- |
 | **Architecture** | Logic in Routes (Messy) | ✅ **Service-Repository Pattern** (Scalable) |
 | **Authentication** | 🔑 Basic JWT | ✅ **JWT + Refresh Tokens + Social Login** |
-| **Database** | 💾 Direct DB | ✅ **Prisma ORM** (Fully Typed & Migrated) |
-| **Validation** | 📝 Manual Checks | ✅ **Zod Schemas** & Middleware |
+| **Database** | 💾 Direct DB | ✅ **Prisma ORM + pgvector** (Fully Typed &#x26; Vector Search) |
+| **Validation** | 📝 Manual Checks | ✅ **Zod Schemas** &#x26; Middleware |
 | **Documentation** | 🚫 | ✅ **Swagger/OpenAPI** Auto-generated |
 | **CI/CD** | 👨‍💻 Manual Deploy | ✅ **GitHub Actions** Pipeline Ready |
-| **Background Jobs** | 🚫 | ✅ **BullMQ & Redis** (Asynchronous Processing) |
-| **Logging** | 🪵 `console.log` | ✅ **Pino** (Structured & Production-Ready) |
+| **Background Jobs** | 🚫 | ✅ **BullMQ &#x26; Redis** (Asynchronous Processing) |
+| **Logging** | 🪵 `console.log` | ✅ **Pino** (Structured &#x26; Production-Ready) |
 | **Security** | 🔒 Basic | ✅ **Helmet, CORS, Rate Limiting, XSS** (Comprehensive) |
 | **Token Management** | 🔑 Simple JWT | ✅ **JWT Blacklisting** (Invalidate compromised tokens) |
 | **Real-time Auth** | 🚫 | ✅ **Socket.IO Auth Middleware** (Secure WebSockets) |
 | **Notifications** | 🔔 Basic/Real-time | ✅ **Offline User Notifications** (Deliver on reconnect) |
 | **Password Reset** | 🔑 Simple Token | ✅ **Secure Password Reset** (Hashed JWT, Opaque Token, History Check) |
 | **Deployment** | 👨‍💻 Manual | ✅ **Render-Ready** (Docker, AWS, GCP, etc.) |
-| **AI Integration** | 🚫 | 🚀 **AI Agent Scalability** (Designed for easy integration with context AI config) |
-| **File Uploads** | 📤 Direct Uploads | ✅ **S3 Presigned URLs** (Secure & Scalable) |
+| **AI Integration** | 🚫 | 🚀 **RAG Intelligence Pipeline** (Semantic search + AI agents) |
+| **File Uploads** | 📤 Direct Uploads | ✅ **Cloudflare R2 Presigned URLs** (Secure &#x26; Zero-Egress) |
 
 ---
 
@@ -72,8 +72,10 @@ This isn't just a folder structure; it's a complete ecosystem.
 
 - **Modern Architecture**: Built with TypeScript and a layered design (Service, Controller, Route).
 - **Authentication**: JWT and Google OAuth 2.0 support out-of-the-box.
-- **Database**: Prisma ORM for type-safe database access (PostgreSQL & MySQL).
+- **Database**: Prisma ORM for type-safe database access (PostgreSQL with pgvector extension).
+- **AI & RAG**: Intelligent document search with Google Gemini embeddings and semantic retrieval.
 - **Background Jobs**: Asynchronous task processing with BullMQ and Redis.
+- **File Storage**: Secure uploads to Cloudflare R2 (S3-compatible) with presigned URLs.
 - **API Documentation**: Automatic OpenAPI (Swagger) generation.
 - **Containerization**: Dockerized for consistent development and production environments.
 - **Testing**: Ready-to-use testing suite with Jest.

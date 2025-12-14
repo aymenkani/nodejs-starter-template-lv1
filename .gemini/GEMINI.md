@@ -51,7 +51,7 @@ Deletion Guard: NEVER delete a file without first asking the user for explicit p
     * Throw `ApiError` for failures.
     * For logging Use logger from '../utils/logger'
     * Return plain objects (not HTTP responses).
-
+    * Some services requires config object, make sure to pass it (for example: inside src/services/auth.service.ts : `export const createAuthService = (config: Config) => {..}`) and export it from index.ts (for example: `export const authService = createAuthService(config);`)
 ### Code Generation Examples
 
 **Adding a Controller:**
@@ -84,6 +84,12 @@ export const updateEmail = {
     password: z.string().min(1, { message: 'Current password is required' }),
   }),
 };
+```
+
+**Import and initialize config:**
+```typescript
+import { getConfig } from '../config/config';
+const config = getConfig(process.env);
 ```
 
 ## 4. Specific Technology Guidelines

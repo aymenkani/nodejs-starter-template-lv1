@@ -22,6 +22,9 @@ nav:
   - API Documentation (OpenAPI): api-documentation-openapi.md
   - Frontend OpenAPI Setup: frontend-openapi-setup.md
   - Database (Prisma): database-prisma.md
+  - Advanced Features:
+    - RAG Intelligence Pipeline: rag-intelligence-pipeline.md
+    - File Upload Architecture: file-upload-architecture.md
   - Background Jobs (BullMQ): background-jobs-bullmq.md
   - Email Configuration: email-configuration.md
   - Socket.IO Service: socketio-service.md
@@ -31,7 +34,9 @@ nav:
   - Troubleshooting / FAQ: troubleshooting-FAQ.md
   - Routes Documentation:
     - Admin Routes: routes-documentations/admin-routes.md
+    - Agent Routes: routes-documentations/agent-routes.md
     - Auth Routes: routes-documentations/auth-routes.md
+    - File Routes: routes-documentations/file-routes.md
     - Token Routes: routes-documentations/token-routes.md
     - Upload Routes: routes-documentations/upload-routes.md
     - User Routes: routes-documentations/user-routes.md

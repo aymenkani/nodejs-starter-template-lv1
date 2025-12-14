@@ -18,9 +18,23 @@ import { swaggerSpec } from './docs/openapi';
 import apiRoutes from './api';
 import { errorConverter, errorHandler } from './middleware/error';
 import logger from './utils/logger';
-import { startTokenCleanupJob } from './utils/tokenCleanup';
-import { processTokenCleanupJob } from './jobs/worker';
-import { tokenCleanupQueueName } from './jobs/queue';
+import {
+  startTokenCleanupJob,
+  startFileCleanupJob,
+  startPublicFileCleanupJob,
+  startPrivateFileCleanupJob,
+} from './jobs/scheduler';
+import { processTokenCleanupJob } from './jobs/tokenCleanup.worker';
+import {
+  tokenCleanupQueue,
+  ingestionQueue,
+  fileCleanupQueue,
+  tokenCleanupQueueName,
+  ingestionQueueName,
+  fileCleanupQueueName,
+} from './jobs/queue';
+import { processJob as processIngestionJob } from './jobs/ingestion.worker';
+import { processFileCleanupJob } from './jobs/fileCleanup.worker';
 import { prisma } from './config/db';
 import { PrismaClient } from '@prisma/client/extension';
 import { socketService } from './services/socket.service';
@@ -29,6 +43,7 @@ import path from 'path';
 const config = getConfig(process.env);
 
 const app: Express = express();
+app.set('trust proxy', 1);
 app.use(passport.initialize());
 
 app.use((req: Request, res: Response, next: NextFunction) => {
@@ -40,12 +55,32 @@ app.use(
     contentSecurityPolicy: {
       directives: {
         ...helmet.contentSecurityPolicy.getDefaultDirectives(),
-        'script-src': ["'self'", 'https://cdn.socket.io'],
+        'script-src': [
+          "'self'",
+          "'unsafe-inline'",
+          "'unsafe-eval'",
+          'https://cdn.socket.io',
+          'https://cdn.jsdelivr.net',
+          'https://cdn.tailwindcss.com',
+        ],
         'connect-src': [
           "'self'",
           'https://cdn.socket.io',
-          // Add your server's WebSocket protocol for Socket.IO
-          config.env === 'production' ? 'wss:' : 'ws:',
+          'https://cdn.jsdelivr.net',
+          'https://cdn.tailwindcss.com',
+          'http://localhost:5002',
+          'https://*.cloudflare.com',
+          'https://*.r2.cloudflarestorage.com',
+          'https://r2.cloudflarestorage.com',
+          'ws://localhost:5002',
+          'ws://localhost:5001',
+        ],
+        'img-src': ["'self'", 'data:', 'blob:', 'https:', 'http:'],
+        'style-src': [
+          "'self'",
+          "'unsafe-inline'",
+          'https://cdn.jsdelivr.net',
+          'https://fonts.googleapis.com',
         ],
       },
     },
@@ -57,8 +92,11 @@ app.get('/api/v1/health', async (req: Request, res: Response) => {
 });
 
 const limiter = rateLimit({
-  windowMs: 10 * 60 * 1000,
+  windowMs: 10 * 60 * 1000, // 10 minutes
   max: 100,
+  standardHeaders: true, // ALLWAYS KEEP THIS AS TRUE
+  legacyHeaders: false, // ALLWAYS KEEP THIS AS FALSE
+  message: 'Too many requests from this IP, please try again after 10 minutes',
 });
 app.use(limiter);
 
@@ -97,13 +135,9 @@ app.use(errorHandler);
 async function startServer(port?: number) {
   await connectDB();
 
-  // Create new instances of Queue and Worker inside startServer
-  const tokenCleanupQueue = new Queue(tokenCleanupQueueName, {
-    connection: {
-      host: config.redis.host,
-      port: config.redis.port,
-    },
-  });
+  // Initialize Workers
+  // Note: Queues are singleton imported from jobs/queue.ts
+
   const tokenCleanupWorker = new Worker(tokenCleanupQueueName, processTokenCleanupJob, {
     connection: {
       host: config.redis.host,
@@ -111,7 +145,24 @@ async function startServer(port?: number) {
     },
   });
 
-  const cronJob = startTokenCleanupJob(tokenCleanupQueue);
+  const ingestionWorker = new Worker(ingestionQueueName, processIngestionJob, {
+    connection: {
+      host: config.redis.host,
+      port: config.redis.port,
+    },
+  });
+
+  const fileCleanupWorker = new Worker(fileCleanupQueueName, processFileCleanupJob, {
+    connection: {
+      host: config.redis.host,
+      port: config.redis.port,
+    },
+  });
+
+  const cronJob = startTokenCleanupJob();
+  const fileCleanupCronJob = startFileCleanupJob();
+  const publicFileCleanupCronJob = startPublicFileCleanupJob();
+  const privateFileCleanupCronJob = startPrivateFileCleanupJob();
 
   const server: Server = app.listen(port || config.port, () =>
     logger.info(`Server running on port ${port || config.port}`),
@@ -120,7 +171,18 @@ async function startServer(port?: number) {
   // Initialize Socket.IO service
   socketService.init(server);
 
-  return { app, server, prisma, cronJob, tokenCleanupWorker, tokenCleanupQueue };
+  return {
+    app,
+    server,
+    prisma,
+    cronJob,
+    fileCleanupCronJob,
+    publicFileCleanupCronJob,
+    privateFileCleanupCronJob,
+    tokenCleanupWorker,
+    ingestionWorker,
+    fileCleanupWorker,
+  };
 }
 
 async function stopServer(
@@ -128,14 +190,22 @@ async function stopServer(
   prisma: PrismaClient,
   cronJob: ScheduledTask,
   worker: Worker,
-  queue: Queue,
+  ingestionWorker: Worker,
+  fileCleanupCronJob?: ScheduledTask,
+  fileCleanupWorker?: Worker,
+  publicFileCleanupCronJob?: ScheduledTask,
+  privateFileCleanupCronJob?: ScheduledTask,
 ) {
+  // Use imported tokenCleanupQueue and ingestionQueue directly
   logger.info('Attempting to stop server...');
 
   // 1. Stop new jobs from being scheduled
   logger.info('Attempting to stop cron job...');
   cronJob.stop();
-  logger.info('Cron job stopped.');
+  fileCleanupCronJob?.stop();
+  publicFileCleanupCronJob?.stop();
+  privateFileCleanupCronJob?.stop();
+  logger.info('Cron jobs stopped.');
 
   // 2. Close servers to prevent new connections
   const io = socketService.getIO();
@@ -157,13 +227,35 @@ async function stopServer(
 
   // 3. Close the queue to prevent new jobs from being processed
   logger.info('Attempting to close token cleanup queue...');
-  await queue.close();
+  await tokenCleanupQueue.close();
   logger.info('Token cleanup queue closed.');
+
+  logger.info('Attempting to close file cleanup queue...');
+  if (fileCleanupQueue) {
+    await fileCleanupQueue.close();
+  }
+  logger.info('File cleanup queue closed.');
 
   // 4. Close the worker and wait for any active jobs to finish
   logger.info('Attempting to close token cleanup worker...');
   await worker.close(config.env === 'test' ? true : false);
   logger.info('Token cleanup worker closed.');
+
+  logger.info('Attempting to close file cleanup worker...');
+  if (fileCleanupWorker) {
+    await fileCleanupWorker.close(config.env === 'test' ? true : false);
+  }
+  logger.info('File cleanup worker closed.');
+
+  // Close ingestion queue/worker
+  logger.info('Closing ingestion queue...');
+  if (ingestionQueue) {
+    await ingestionQueue.close();
+  }
+  logger.info('Closing ingestion worker...');
+  if (ingestionWorker) {
+    await ingestionWorker.close(config.env === 'test' ? true : false);
+  }
 
   // 5. Finally, disconnect from the database
   logger.info('Attempting to disconnect Prisma...');

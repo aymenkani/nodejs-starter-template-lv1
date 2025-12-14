@@ -30,6 +30,8 @@ The testing environment is configured to run the entire application, including t
 
 You can run all tests or specific test suites using npm scripts.
 
+**Note:** Make sure to have the test database running before running tests. You can start it with `npm run docker:postgres:up`.
+
 ### Run All Tests
 
 ```bash

@@ -246,7 +246,7 @@ Application settings are managed through environment variables, loaded and valid
 *   **Location:** `src/config/config.ts` and `.env` files.
 *   **Purpose:** Centralize all application settings, making it easy to manage different configurations for development, testing, and production environments.
 *   **Process:**
-    1.  `.env` files (e.g., `.env`, `.env.development`, `.env.production`) store key-value pairs.
+    1.  `.env` files (e.g., `.env`, `.env.local`, `.env.test`) store key-value pairs.
     2.  `dotenv` library loads these variables into `process.env`.
     3.  `src/config/config.ts` uses Zod to define a schema for expected environment variables, validates them, and exports a configuration object.
 
@@ -254,5 +254,33 @@ Application settings are managed through environment variables, loaded and valid
 *   **Security:** Keeps sensitive information out of the codebase.
 *   **Flexibility:** Easily switch configurations between environments without code changes.
 *   **Maintainability:** All configuration logic is in one place.
+
+## 9. AI & Vector Database Integration
+
+This template integrates **Google Gemini AI** and **PostgreSQL with pgvector** to enable intelligent document search and RAG (Retrieval-Augmented Generation) capabilities.
+
+*   **pgvector Extension**: Adds vector similarity search to PostgreSQL, allowing storage and querying of high-dimensional embeddings.
+*   **Embeddings**: Text и images are converted to 768-dimension vectors using Gemini's `text-embedding-004` model.
+*   **Semantic Search**: Instead of keyword matching, the system finds documents by semantic similarity using cosine distance.
+*   **RAG Pipeline**: Combines retrieval (vector search) with generation (AI responses) to answer questions based on uploaded documents.
+
+**Key Components**:
+
+*   **File Ingestion**: Background worker processes uploads, extracts text, chunks content, generates embeddings, and stores in pgvector.
+*   **Hybrid Search**: Combines vector similarity with access control (user ownership + public visibility).
+*   **Smart Citations**: AI responses include presigned URLs to source documents.
+
+**Example Query**:
+
+```sql
+-- Find top 5 most similar documents
+SELECT content, (embedding <=> $queryVector::vector) as distance
+FROM "Document"
+WHERE userId = $userId
+ORDER BY distance ASC
+LIMIT 5;
+```
+
+See [RAG Intelligence Pipeline](./rag-intelligence-pipeline.md) for comprehensive details on how semantic search and AI generation work together.
 
 These core concepts form the backbone of the Node.js Advanced Starter Template, providing a solid, maintainable, and scalable foundation for your API development.

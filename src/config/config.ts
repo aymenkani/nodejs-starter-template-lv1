@@ -3,7 +3,11 @@ import { z } from 'zod';
 const envVarsSchema = z
   .object({
     NODE_ENV: z.enum(['production', 'development', 'test']),
-    PORT: z.coerce.number().default(3000),
+    PORT: z.coerce.number().default(5002),
+    DEMO_MODE: z
+      .string()
+      .default('false')
+      .transform((val) => val.toLowerCase() === 'true'),
     ADMIN_EMAIL: z.email('Admin email must be a valid email address'),
     ADMIN_PASSWORD: z
       .string()
@@ -23,6 +27,7 @@ const envVarsSchema = z
     AWS_S3_BUCKET: z.string().min(1, 'AWS S3 bucket is required'),
     GOOGLE_CLIENT_ID: z.string().min(1, 'Google client ID is required'),
     GOOGLE_CLIENT_SECRET: z.string().min(1, 'Google client secret is required'),
+    GOOGLE_GENERATIVE_AI_API_KEY: z.string().min(1, 'Google Generative AI API Key is required'),
     CLIENT_URL: z.url('Client URL must be a valid URL'),
     EMAIL_PROVIDER: z.enum(['NODEMAILER', 'SENDGRID']),
     EMAIL_FROM: z.email('Email FROM must be a valid email address'),
@@ -34,12 +39,14 @@ const envVarsSchema = z
     REDIS_HOST: z.string().min(1, 'Redis host is required'),
     REDIS_PORT: z.coerce.number().min(1, 'Redis port is required'),
     SOCKET_CORS_ORIGIN: z.string().default('http://localhost:3000'),
+    AWS_ENDPOINT: z.string().min(1, 'AWS endpoint is required'),
   })
   .loose();
 
 export type Config = {
   env: 'production' | 'development' | 'test';
   port: number;
+  demoMode: boolean;
   admin: {
     email: string;
     password: string;
@@ -59,10 +66,12 @@ export type Config = {
     s3: {
       bucket: string;
     };
+    endpoint: string;
   };
   google: {
     clientId: string;
     clientSecret: string;
+    apiKey: string;
   };
   clientUrl: string;
   email: {
@@ -103,6 +112,7 @@ export function getConfig(processEnv: NodeJS.ProcessEnv): Config {
 
   return {
     env: envVars.NODE_ENV,
+    demoMode: envVars.DEMO_MODE, // transform string to boolean
     port: envVars.PORT,
     admin: {
       email: envVars.ADMIN_EMAIL,
@@ -123,10 +133,12 @@ export function getConfig(processEnv: NodeJS.ProcessEnv): Config {
       s3: {
         bucket: envVars.AWS_S3_BUCKET,
       },
+      endpoint: envVars.AWS_ENDPOINT,
     },
     google: {
       clientId: envVars.GOOGLE_CLIENT_ID,
       clientSecret: envVars.GOOGLE_CLIENT_SECRET,
+      apiKey: envVars.GOOGLE_GENERATIVE_AI_API_KEY,
     },
     clientUrl: envVars.CLIENT_URL,
     email: {

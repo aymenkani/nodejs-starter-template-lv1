@@ -1,24 +1,21 @@
+import { createUploadService } from './upload.service';
+import { createIngestionService } from './ingestion.service';
+import { ingestionQueue } from '../jobs/queue';
+import { getConfig } from '../config/config';
 import { createAuthService } from './auth.service';
 import { createTokenService } from './token.service';
-import { userService } from './user.service';
-import { adminService } from './admin.service'; // Added adminService import
-import { createUploadService } from './upload.service';
-import { getConfig } from '../config/config';
-import { socketService } from './socket.service';
-import { notificationService } from './notification.service';
+import { createEmailService } from './email.service';
 
 const config = getConfig(process.env);
 
-const authService = createAuthService(config);
-const tokenService = createTokenService(config);
-const uploadService = createUploadService(config);
+export const authService = createAuthService(config);
+export const tokenService = createTokenService(config);
+export const emailService = createEmailService(config);
+export const ingestionService = createIngestionService(ingestionQueue);
+export const uploadService = createUploadService(config, ingestionService);
 
-export {
-  authService,
-  tokenService,
-  userService,
-  adminService, // Added adminService to exports
-  uploadService,
-  socketService,
-  notificationService,
-};
+export * from './file.service';
+export * from './user.service';
+export * from './socket.service';
+export * from './admin.service';
+export * from './notification.service';

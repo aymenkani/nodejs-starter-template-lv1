@@ -2,6 +2,8 @@
 
 This section will guide you through setting up and running the Node.js Advanced Starter Template for local development. Follow these steps to get your environment ready and the application running.
 
+ **NOTE:** In this template, the term `local` refers to running the application **outside of Docker**. In this case, the `.env.local` file is used. Any script in `package.json` that includes the `:local` suffix indicates that the script runs using the `.env.local` configuration.
+
 ## Prerequisites
 
 Before you begin, ensure you have the following software installed on your system:
@@ -70,7 +72,7 @@ EMAIL_FROM=support@example.com
 
 ### Step 3: Database Setup
 
-**Note:** You can launch the entire application stack, including the database and Redis server, with a single command. Please refer to the [Running with Docker (Recommended)](#option-1-running-everything-with-docker-recommended) section.
+**Note:** You can launch the entire application stack, including the database and Redis server, with a single command. Please refer to the [Running with Docker (Recommended)](#option-2-running-everything-with-docker) section.
 
 This template uses Docker Compose to manage local database instances (PostgreSQL or MySQL).
 
@@ -82,16 +84,25 @@ npm run docker:redis:postgres:up
 ```
 This command will pull the database image and start a container in the background.
 
-2.  **Run Prisma Migrations:**
-    Once your database container is running, apply the Prisma migrations to set up your database schema:
+2.  **Generate Prisma Client:**
+
+    This command will generate the Prisma client based on the database schema.
+    ```bash
+    npm run prisma:generate
+    ```
+
+3.  **Run Prisma Migrations:**
+
+    This command will apply the Prisma migrations to set up your database schema:
     ```bash
     npm run prisma:migrate:dev
     ```
 
-3.  **Seed the Database (Optional):**
-    You can populate your database with initial data using the Prisma seed script:
+4.  **Seed the Database (Optional):**
+
+    This command will populate your database with initial data using the Prisma seed script:
     ```bash
-    npm run seed:local
+    npm run seed:local // using .env.local file
     ```
     Review `prisma/seed.ts` to understand what data will be added.
 
@@ -99,7 +110,39 @@ This command will pull the database image and start a container in the backgroun
 
 You have two main ways to run the application for development.
 
-### Option 1: Running Everything with Docker (Recommended)
+### Option 1: Running the App Locally (Hybrid Approach)
+
+This method is for developers who want to run the Node.js application directly on their host machine (e.g., for easier debugging) while still using Docker to manage the database and Redis.
+
+#### Step 1: Start Background Services with Docker
+
+Before you can run the application locally, the database and Redis must be running.
+
+```bash
+# This command starts ONLY the PostgreSQL and Redis containers
+npm run docker:redis:postgres:up
+```
+
+This command uses Docker to make the database and Redis available on `localhost`.
+
+> **CRITICAL STEP:** You **must** run this command before starting the local server. The application will fail to start if it cannot connect to the database and Redis.
+
+#### Step 2: Run the Application on Your Host Machine
+
+Once the background services are running, open a new terminal and start the application using the local-specific script:
+
+```bash
+npm run dev:watch:local
+```
+
+This command does two important things:
+1.  It uses `ts-node` to run the app with hot-reloading.
+2.  It loads the `.env.local` file, which is configured to connect to `localhost` for the database and Redis.
+
+The API server will start on `http://localhost:5002`.
+
+
+### Option 2: Running Everything with Docker
 
 This is the simplest method. It uses Docker Compose to build and run the Node.js application, the database (PostgreSQL), and Redis in a unified, isolated environment.
 
@@ -131,38 +174,6 @@ We've added convenient `npm` scripts to automate this process. The entrypoint sc
     ```
 
 > **Note on Docker commands:** The `npm run dev` and `npm run dev:watch` commands are designed to be run *inside* the Docker container. They rely on the `.env` file, which uses Docker network hostnames like `db` and `redis`. They are not meant for local development directly on your host machine.
-
-### Option 2: Running the App Locally (Hybrid Approach)
->**⚠️ IMPORTANT: Google OAuth & Local Ports:** When running the app locally, the system prioritizes variables in .env.local over .env. If your .env.local specifies a different PORT than your main configuration, the app will launch on that specific local port. **Action Required:** In your Google Cloud Console (OAuth Client settings), ensure you have added Authorized Redirect URIs for both potential ports to prevent errors. **Example:** Include both http://localhost:5001 (default) and http://localhost:5002 (local override).
-
-This method is for developers who want to run the Node.js application directly on their host machine (e.g., for easier debugging) while still using Docker to manage the database and Redis.
-
-#### Step 1: Start Background Services with Docker
-
-Before you can run the application locally, the database and Redis must be running.
-
-```bash
-# This command starts ONLY the PostgreSQL and Redis containers
-npm run docker:redis:postgres:up
-```
-
-This command uses Docker to make the database and Redis available on `localhost`.
-
-> **CRITICAL STEP:** You **must** run this command before starting the local server. The application will fail to start if it cannot connect to the database and Redis.
-
-#### Step 2: Run the Application on Your Host Machine
-
-Once the background services are running, open a new terminal and start the application using the local-specific script:
-
-```bash
-npm run dev:watch:local
-```
-
-This command does two important things:
-1.  It uses `ts-node` to run the app with hot-reloading.
-2.  It loads the `.env.local` file, which is configured to connect to `localhost` for the database and Redis.
-
-The API server will start on `http://localhost:${.env.local.PORT}`.
 
 ---
 

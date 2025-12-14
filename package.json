@@ -7,17 +7,14 @@
     "--- LIFECYCLE ---": "Standard lifecycle hooks",
     "postinstall": "npm run prisma:generate",
     "prepare": "husky",
-
     "--- BUILD & PROD ---": "Scripts for building and running in production",
     "build": "npm run prisma:generate && tsc && tsc prisma/seed.ts --outDir dist --target ES2022 --module CommonJS --moduleResolution node --esModuleInterop --skipLibCheck",
     "start": "node dist/server.js",
     "start:with-db": "npm run prisma:migrate:deploy && npm run seed:prod && node dist/server.js",
-
     "--- DEV ---": "Scripts for local development",
     "dev": "ts-node src/server.ts",
     "dev:watch": "nodemon --watch 'src/**/*.ts' --exec ts-node src/server.ts",
     "dev:watch:local": "dotenv -e .env.local -- npm run dev:watch",
-
     "--- DOCKER ---": "Modular Docker commands (Postgres + App)",
     "docker:up:build": "docker compose -f docker-compose.yml -f docker-compose.redis.yml  -f docker-compose.postgres.yml -f docker-compose.override.yml up --build",
     "docker:up": "docker compose -f docker-compose.yml -f docker-compose.redis.yml  -f docker-compose.postgres.yml -f docker-compose.override.yml up",
@@ -25,16 +22,15 @@
     "docker:down": "docker compose -f docker-compose.yml -f docker-compose.redis.yml  -f docker-compose.postgres.yml -f docker-compose.override.yml down",
     "docker:logs": "docker compose -f docker-compose.yml -f docker-compose.redis.yml  -f docker-compose.postgres.yml -f docker-compose.override.yml logs -f",
     "docker:redis:postgres:up": "docker compose -f docker-compose.redis.yml  -f docker-compose.postgres.yml up --build",
-
     "--- PRISMA ---": "Database management",
     "prisma:generate": "npx prisma generate",
     "prisma:migrate:dev": "dotenv -e .env.local -- prisma migrate dev",
     "prisma:migrate:deploy": "prisma migrate deploy",
     "prisma:studio": "dotenv -e .env.local -- prisma studio",
+    "prisma:reset": "dotenv -e .env.local -- prisma migrate reset",
     "seed": "ts-node prisma/seed.ts",
     "seed:local": "dotenv -e .env.local -- ts-node prisma/seed.ts",
     "seed:prod": "node dist/prisma/seed.js",
-
     "--- QUALITY ---": "Linting and Testing",
     "test": "dotenv -e .env.test -- jest --detectOpenHandles",
     "lint": "eslint -c eslint.config.mjs src/**/*.ts",
@@ -48,15 +44,18 @@
     ]
   },
   "dependencies": {
+    "@ai-sdk/google": "^2.0.45",
     "@asteasolutions/zod-to-openapi": "^8.1.0",
     "@aws-sdk/client-s3": "^3.927.0",
     "@aws-sdk/s3-request-presigner": "^3.927.0",
+    "@langchain/textsplitters": "^1.0.1",
     "@prisma/client": "^6.18.0",
     "@sendgrid/mail": "^8.1.3",
     "@types/node-cron": "^3.0.11",
     "@types/passport": "^1.0.17",
     "@types/passport-google-oauth20": "^2.0.17",
     "@types/passport-jwt": "^4.0.1",
+    "ai": "^5.0.108",
     "bcryptjs": "^2.4.3",
     "bullmq": "^5.63.0",
     "cookie-parser": "^1.4.7",
@@ -77,11 +76,12 @@
     "passport-jwt": "^4.0.1",
     "pino": "^10.1.0",
     "pino-pretty": "^13.1.2",
+    "prisma": "^6.18.0",
     "socket.io": "^4.8.1",
     "swagger-ui-express": "^5.0.1",
+    "unpdf": "^1.4.0",
     "uuid": "^9.0.1",
-    "zod": "^4.1.12",
-    "prisma": "^6.18.0"
+    "zod": "^4.1.12"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.6",
