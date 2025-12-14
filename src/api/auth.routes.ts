@@ -3,7 +3,7 @@ import validate from '../middleware/validate';
 import { authValidation } from '../validations/auth.validation';
 import { authController } from '../controllers';
 import passport from 'passport';
-import { authLimiter } from '../middleware/rateLimiter'; // Import authLimiter
+import { emailLimiter } from '../middleware/rateLimiter'; // Import authLimiter
 import { auth } from '../middleware/auth.middleware';
 
 const router = express.Router();
@@ -16,7 +16,7 @@ router.post('/logout', auth, validate(authValidation.logout), authController.log
 
 router.post(
   '/request-password-reset',
-  authLimiter, // Apply the rate limiter
+  emailLimiter, // Apply the rate limiter
   validate(authValidation.requestPasswordReset),
   authController.requestPasswordReset,
 );

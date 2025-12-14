@@ -112,7 +112,16 @@ Contains static assets that are served directly by the web server. This might in
 This is the heart of the application, containing all the TypeScript source code.
 
 *   #### `src/api/`
-    Defines the [API routes](./core-concepts.md#1-api-routing). Each file typically corresponds to a major resource or domain (e.g., `auth.routes.ts`, `user.routes.ts`). These files map HTTP methods and paths to controller functions.
+    Defines the [API routes](./core-concepts.md#1-api-routing). Each file typically corresponds to a major resource or domain:
+    *   `admin.routes.ts`: Admin-specific endpoints (e.g., creating notifications)
+    *   `agent.routes.ts`: AI agent chat endpoint for RAG-powered Q&A
+    *   `auth.routes.ts`: Authentication endpoints (login, register, OAuth)
+    *   `file.routes.ts`: File listing and management
+    *   `notification.routes.ts`: Notification management (mark as read, delete)
+    *   `token.routes.ts`: Token refresh and management
+    *   `upload.routes.ts`: File upload (presigned URLs, confirmation)
+    *   `user.routes.ts`: User management and profile endpoints
+    *   `index.ts`: Aggregates all routes and exports the main router
 
 *   #### `src/config/`
     Manages [application-wide configuration settings](./core-concepts.md#8-configuration-management).
@@ -131,18 +140,29 @@ This is the heart of the application, containing all the TypeScript source code.
 
 *   #### `src/jobs/`
     Manages [background tasks using BullMQ](./background-jobs-bullmq.md).
-*   `queue.ts`: Defines and initializes job queues.
-*   `worker.ts`: Contains the logic for processing jobs from the queues.
+*   `queue.ts`: Defines and initializes job queues (token cleanup, file cleanup, ingestion).
+*   `scheduler.ts`: Configures cron schedules for recurring jobs.
+*   `tokenCleanup.worker.ts`: Processes expired token cleanup jobs.
+*   `fileCleanup.worker.ts`: Handles abandoned file cleanup and demo mode file deletion.
+*   `ingestion.worker.ts`: Processes uploaded files for the RAG pipeline (text extraction, embedding generation).
 
 *   #### `src/middleware/`
     Houses [Express middleware functions](./core-concepts.md#4-middleware) that process requests before they reach the route handlers or after they leave.
-*   `auth.middleware.ts`: Handles JWT and other authentication checks.
+*   `auth.middleware.ts`: JWT authentication and role-based authorization.
 *   `error.ts`: Global error handling middleware.
-*   `rateLimiter.ts`: Implements API rate limiting.
-*   `validate.ts`: Middleware for validating request data using Zod schemas.
+*   `rateLimiter.ts`: API rate limiting (with demo mode support).
+*   `socket.middleware.ts`: Socket.IO authentication middleware.
+*   `validate.ts`: Request data validation using Zod schemas.
 
 *   #### `src/services/`
-    Encapsulates the core business logic of the application. Services interact with the database (via Prisma), external APIs (e.g., AWS S3 for file storage), and other services. Controllers call these services to perform operations.
+    Encapsulates the core business logic of the application. Services interact with the database (via Prisma), external APIs (e.g., Cloudflare R2 for file storage, Google Gemini for AI), and other services. Key services include:
+    *   `auth.service.ts`: Authentication logic (login, registration, password reset)
+    *   `upload.service.ts`: File upload via presigned URLs (Cloudflare R2/AWS S3)
+    *   `file.service.ts`: File listing and filtering
+    *   `ingestion.service.ts`: Triggers background ingestion jobs for RAG
+    *   `notification.service.ts`: Creates and manages notifications with online/offline delivery
+    *   `socket.service.ts`: Real-time communication via Socket.IO
+    *   `user.service.ts`: User CRUD operations and profile management
 
 *   #### `src/types/`
     Contains custom TypeScript declaration files (`.d.ts`) for extending existing types or defining new global types specific to the application.
@@ -154,7 +174,14 @@ This is the heart of the application, containing all the TypeScript source code.
 *   `tokenCleanup.ts`: Utility for managing token-related tasks.
 
 *   #### `src/validations/`
-    Defines [Zod schemas for validating incoming request data](./core-concepts.md#5-validation) (body, query parameters, path parameters). Each file typically corresponds to a specific API endpoint or data model.
+    Defines [Zod schemas for validating incoming request data](./core-concepts.md#5-validation) (body, query parameters, path parameters). Validation files include:
+    *   `admin.validation.ts`: Admin notification creation
+    *   `agent.validation.ts`: AI chat message validation
+    *   `auth.validation.ts`: Login, register, password reset validation
+    *   `file.validation.ts`: File listing filters
+    *   `notification.validation.ts`: Notification management
+    *   `upload.validation.ts`: File upload (size, type, metadata)
+    *   `user.validation.ts`: User profile and update validation
 
 *   #### `src/server.ts`
     The main entry point of the application. It sets up the Express app, connects to the database, registers middleware, defines routes, and starts the server.

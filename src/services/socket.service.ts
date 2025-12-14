@@ -5,6 +5,7 @@ import { ExtendedSocket } from '../types/express';
 import { socketAuthMiddleware } from '../middleware/socket.middleware';
 import { getConfig } from '../config/config';
 import { notificationService } from './notification.service';
+import { NotificationStatus } from '@prisma/client';
 const config = getConfig(process.env);
 
 class SocketService {
@@ -60,16 +61,26 @@ class SocketService {
 
         // Fetch and send pending notifications
         const pendingNotifications = await notificationService.getNotificationsForUser(userId);
-        if (pendingNotifications.length > 0) {
-          logger.info(
-            `Sending ${pendingNotifications.length} pending notifications to user ${userId}`,
-          );
-          extendedSocket.emit('pending_notifications', pendingNotifications);
 
-          // Delete notifications after sending
-          const notificationIds = pendingNotifications.map((n) => n.id);
-          await notificationService.deleteNotifications(notificationIds);
-          logger.info(`Deleted ${notificationIds.length} notifications for user ${userId}`);
+        // Filter only PENDING ones if needed, but getNotificationsForUser gets all.
+        // We probably only want to "deliver" the pending ones in the logic sense,
+        // but showing HISTORY is also good.
+        // For strictly "Pending delivery" logic:
+        const undelivered = pendingNotifications.filter((n) => n.status === 'PENDING');
+
+        if (undelivered.length > 0) {
+          logger.info(`Sending ${undelivered.length} pending notifications to user ${userId}`);
+          extendedSocket.emit('pending_notifications', undelivered);
+
+          // Update status to DELIVERED
+          const notificationIds = undelivered.map((n) => n.id);
+          await notificationService.updateNotificationsStatus(
+            notificationIds,
+            NotificationStatus.DELIVERED,
+          );
+          logger.info(
+            `Marked ${notificationIds.length} notifications as DELIVERED for user ${userId}`,
+          );
         }
       }
 

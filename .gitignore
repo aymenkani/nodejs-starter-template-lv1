@@ -1,10 +1,18 @@
 # Dependencies
 node_modules
 /src/generated/prisma
+prisma/migrations
 
 # Build output
 dist
 build
+
+*.jpg
+*.png
+*.jpeg
+uploads/
+public/uploads/
+public/assets/
 
 # Logs
 logs
