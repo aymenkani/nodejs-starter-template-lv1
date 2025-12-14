@@ -135,7 +135,7 @@ export const createAuthService = (config: Config) => {
       },
     });
 
-    await emailService.sendResetPasswordEmail(user.email, opaqueResetToken, config.clientUrl); // Send opaque token in email
+    await emailService.sendResetPasswordEmail(user.email, opaqueResetToken, config.client.url); // Send opaque token in email
   };
 
   /**
