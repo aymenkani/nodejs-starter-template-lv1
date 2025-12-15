@@ -87,7 +87,9 @@ export const processFileCleanupJob = async (job: Job) => {
       // Find completed files (public or private) excluding aymenkani554@gmail.com
       const filesToDelete = await prisma.file.findMany({
         where: {
-          status: 'COMPLETED',
+          status: {
+            in: ['COMPLETED', 'FAILED'],
+          }, // and FAILED
           isPublic: isPublic,
           user: {
             email: {
