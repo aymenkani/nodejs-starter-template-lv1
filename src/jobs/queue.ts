@@ -11,8 +11,7 @@ export const ingestionQueueName = 'ai-ingestion';
 export const fileCleanupQueueName = 'fileCleanup';
 
 export const redisConnection: RedisOptions = {
-  host: config.redis.host,
-  port: config.redis.port,
+  url: config.redis.url,
   password: process.env.REDIS_PASSWORD || undefined, // Config might not have password strictly typed if optional, checking config.ts
 };
 

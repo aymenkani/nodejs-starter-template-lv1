@@ -139,22 +139,19 @@ async function startServer(port?: number) {
 
   const tokenCleanupWorker = new Worker(tokenCleanupQueueName, processTokenCleanupJob, {
     connection: {
-      host: config.redis.host,
-      port: config.redis.port,
+      url: config.redis.url,
     },
   });
 
   const ingestionWorker = new Worker(ingestionQueueName, processIngestionJob, {
     connection: {
-      host: config.redis.host,
-      port: config.redis.port,
+      url: config.redis.url,
     },
   });
 
   const fileCleanupWorker = new Worker(fileCleanupQueueName, processFileCleanupJob, {
     connection: {
-      host: config.redis.host,
-      port: config.redis.port,
+      url: config.redis.url,
     },
   });
 
