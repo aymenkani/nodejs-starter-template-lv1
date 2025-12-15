@@ -1,9 +1,10 @@
 {
+  "$schema": "https://railway.app/railway.schema.json",
   "services": [
     {
       "name": "postgres-vector",
       "image": "pgvector/pgvector:pg18",
-      "description": "PostgreSQL with pgvector extension enabled for RAG pipelines.",
+      "description": "PostgreSQL with pgvector extension enabled.",
       "env": {
         "POSTGRES_USER": "postgres",
         "POSTGRES_PASSWORD": "${{PG_PASSWORD}}",
@@ -29,18 +30,15 @@
     {
       "name": "enterprise-api",
       "description": "The main Node.js API Service.",
-      "icon": "⬇️",
       "isRepo": true,
       "env": {
         "NODE_ENV": "production",
         "PORT": "5001",
-        "DEMO_MODE": "true",
-        
+        "DEMO_MODE": "false",
         "DATABASE_URL": "postgresql://postgres:${{PG_PASSWORD}}@${{postgres-vector.RAILWAY_PRIVATE_DOMAIN}}:5432/railway",
         "REDIS_HOST": "${{redis-queue.RAILWAY_PRIVATE_DOMAIN}}",
         "REDIS_PORT": "6379",
-
-        "# ADMIN SETUP": "Create the initial admin user",
+        "REDIS_URL": "redis://${{redis-queue.RAILWAY_PRIVATE_DOMAIN}}:6379",
         "ADMIN_EMAIL": {
           "description": "Email for the initial Super Admin",
           "defaultValue": "admin@example.com"
@@ -49,72 +47,43 @@
           "description": "Password for the initial Super Admin",
           "isRequired": true
         },
-
-        "# JWT CONFIGURATION": "Security Settings",
         "JWT_SECRET": {
           "description": "Secure random string for JWT signing",
           "isRequired": true
         },
-        "JWT_EXPIRES_IN": "1d",
-        "JWT_ACCESS_EXPIRATION_MINUTES": "30",
-        "JWT_REFRESH_EXPIRATION_DAYS": "30",
-
-        "# FILE STORAGE (S3/R2)": "Required for file uploads",
-        "AWS_ACCESS_KEY_ID": {
-          "description": "AWS or Cloudflare R2 Access Key",
-          "isRequired": true
+        "JWT_EXPIRES_IN": {
+          "defaultValue": "1d"
         },
-        "AWS_SECRET_ACCESS_KEY": {
-          "description": "AWS or Cloudflare R2 Secret Key",
-          "isRequired": true
+        "JWT_ACCESS_EXPIRATION_MINUTES": {
+          "defaultValue": "30"
+        },
+        "JWT_REFRESH_EXPIRATION_DAYS": {
+          "defaultValue": "30"
         },
         "AWS_REGION": {
           "description": "Region (use 'auto' for R2)",
           "defaultValue": "auto"
         },
         "AWS_ENDPOINT": {
-          "description": "Full Endpoint URL (e.g., https://<account>.r2.cloudflarestorage.com)",
-          "isRequired": true
+           "description": "S3/R2 Endpoint URL",
+           "isRequired": true
         },
-        "AWS_S3_BUCKET": {
-          "description": "Bucket Name",
-          "isRequired": true
-        },
-
-        "# AI CONFIGURATION": "Required for RAG & Chat",
-        "GOOGLE_GENERATIVE_AI_API_KEY": {
-          "description": "Gemini API Key for AI features",
-          "isRequired": true
-        },
-
-        "# EMAIL SERVICE": "Choose SENDGRID or NODEMAILER",
+        "AWS_ACCESS_KEY_ID": { "isRequired": true },
+        "AWS_SECRET_ACCESS_KEY": { "isRequired": true },
+        "AWS_S3_BUCKET": { "isRequired": true },
+        "GOOGLE_GENERATIVE_AI_API_KEY": { "isRequired": true },
         "EMAIL_PROVIDER": {
-            "description": "Service provider",
             "defaultValue": "SENDGRID"
         },
         "EMAIL_FROM": {
-            "description": "The 'From' email address",
             "defaultValue": "noreply@example.com"
         },
-        "SENDGRID_API_KEY": {
-            "description": "Required if using SENDGRID",
-            "isRequired": false
-        },
-        
-        "# GOOGLE OAUTH": "Optional Social Login",
-        "GOOGLE_CLIENT_ID": {
-          "description": "Google OAuth Client ID",
-          "isRequired": false
-        },
-        "GOOGLE_CLIENT_SECRET": {
-          "description": "Google OAuth Secret",
-          "isRequired": false
-        },
-
-        "# CLIENT URL": "Used for CORS and Email Links",
+        "SENDGRID_API_KEY": { "isRequired": false },
         "CLIENT_URL": {
-            "description": "The URL of the Frontend (e.g. https://myapp.com)",
-            "defaultValue": "http://localhost:3000"
+            "defaultValue": "https://${{RAILWAY_PUBLIC_DOMAIN}}"
+        },
+        "SOCKET_CORS_ORIGIN": {
+            "defaultValue": "https://${{RAILWAY_PUBLIC_DOMAIN}}"
         }
       }
     }
