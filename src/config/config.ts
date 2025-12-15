@@ -41,6 +41,7 @@ const envVarsSchema = z
     REDIS_URL: z.string().optional(),
     REDIS_HOST: z.string().min(1, 'Redis host is required'),
     REDIS_PORT: z.coerce.number().min(1, 'Redis port is required'),
+    REDIS_PASSWORD: z.string().optional(),
     SOCKET_CORS_ORIGIN: z.string().default('http://localhost:3000'),
     AWS_ENDPOINT: z.string().min(1, 'AWS endpoint is required'),
   })
@@ -99,6 +100,7 @@ export type Config = {
     url?: string;
     host: string;
     port: number;
+    password?: string;
   };
   socket: {
     cors: {
@@ -171,6 +173,7 @@ export function getConfig(processEnv: NodeJS.ProcessEnv): Config {
       url: envVars.REDIS_URL,
       host: envVars.REDIS_HOST,
       port: envVars.REDIS_PORT,
+      password: envVars.REDIS_PASSWORD,
     },
     socket: {
       cors: {
