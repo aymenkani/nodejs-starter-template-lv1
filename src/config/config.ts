@@ -38,6 +38,7 @@ const envVarsSchema = z
     SMTP_USER: z.string().optional(),
     SMTP_PASS: z.string().optional(),
     SENDGRID_API_KEY: z.string().optional(),
+    REDIS_URL: z.string().optional(),
     REDIS_HOST: z.string().min(1, 'Redis host is required'),
     REDIS_PORT: z.coerce.number().min(1, 'Redis port is required'),
     SOCKET_CORS_ORIGIN: z.string().default('http://localhost:3000'),
@@ -95,6 +96,7 @@ export type Config = {
     sendgridApiKey?: string;
   };
   redis: {
+    url?: string;
     host: string;
     port: number;
   };
@@ -166,6 +168,7 @@ export function getConfig(processEnv: NodeJS.ProcessEnv): Config {
       sendgridApiKey: envVars.SENDGRID_API_KEY,
     },
     redis: {
+      url: envVars.REDIS_URL,
       host: envVars.REDIS_HOST,
       port: envVars.REDIS_PORT,
     },
