@@ -7,12 +7,12 @@ services:
     environment:
       DATABASE_URL: postgres://${{PGUSER}}:${{PGPASSWORD}}@${{PGHOST}}:${{PGPORT}}/${{PGDATABASE}}
       DATABASE_URL_PRIVATE: postgres://${{PGUSER}}:${{PGPASSWORD}}@${{PGHOST_PRIVATE}}:${{PGPORT_PRIVATE}}/${{PGDATABASE}}
-      PGDATA: "/var/lib/postgresql/data/pgdata"
+      PGDATA: "/var/lib/postgresql/db_data"
       PGDATABASE: "${{POSTGRES_DB}}"
       PGHOST: "${{RAILWAY_TCP_PROXY_DOMAIN}}"
       PGHOST_PRIVATE: "${{RAILWAY_PRIVATE_DOMAIN}}"
       PGPASSWORD: "${{POSTGRES_PASSWORD}}"
-      PGPORT: "${{RAILWAY_TCP_PROXY_PORT}}"
+      PGPORT: "5432"
       PGPORT_PRIVATE: "5432"
       PGUSER: "${{POSTGRES_USER}}"
       POSTGRES_DB: "railway"

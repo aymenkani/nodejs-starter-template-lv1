@@ -28,7 +28,7 @@ const envVarsSchema = z
     GOOGLE_CLIENT_ID: z.string().min(1, 'Google client ID is required'),
     GOOGLE_CLIENT_SECRET: z.string().min(1, 'Google client secret is required'),
     GOOGLE_GENERATIVE_AI_API_KEY: z.string().min(1, 'Google Generative AI API Key is required'),
-    CLIENT_URL: z.url('Client URL must be a valid URL'),
+    CLIENT_URL: z.url('Client URL must be a valid URL').default('http://localhost:3000'),
     CLIENT_HOST: z.string().min(1, 'Client host is required'),
     CLIENT_PORT: z.coerce.number().min(1, 'Client port is required').default(5002),
     EMAIL_PROVIDER: z.enum(['NODEMAILER', 'SENDGRID']),

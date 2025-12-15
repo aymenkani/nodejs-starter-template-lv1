@@ -1,0 +1,19 @@
+services:
+  redis:
+      image: redis:7-alpine
+      ports:
+        - "6379:6379"
+      environment:
+        REDIS_PASSWORD: oqIXEaIkRzJPkSRLrgpYasiOyozpGnGw
+        REDIS_PUBLIC_URL: redis://default:oqIXEaIkRzJPkSRLrgpYasiOyozpGnGw@${{RAILWAY_TCP_PROXY_DOMAIN}}:6379
+        REDIS_URL: redis://default:oqIXEaIkRzJPkSRLrgpYasiOyozpGnGw@${{RAILWAY_PRIVATE_DOMAIN}}:6379
+        REDISHOST: ${RAILWAY_PRIVATE_DOMAIN}
+        REDISPASSWORD: oqIXEaIkRzJPkSRLrgpYasiOyozpGnGw
+        REDISPORT: 6379
+        REDISUSER: default
+      command: redis-server --appendonly yes
+      volumes:
+        - redis_data:/data
+
+volumes:
+  redis_data:
