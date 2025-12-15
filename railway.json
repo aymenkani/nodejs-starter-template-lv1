@@ -1,0 +1,44 @@
+{
+  "services": [
+    {
+      "name": "postgres-vector",
+      "image": "pgvector/pgvector:pg16",
+      "description": "PostgreSQL with pgvector extension enabled.",
+      "env": {
+        "POSTGRES_USER": "postgres",
+        "POSTGRES_PASSWORD": "${{PG_PASSWORD}}",
+        "POSTGRES_DB": "railway"
+      },
+      "volumes": [
+        {
+          "mountPath": "/var/lib/postgresql/data",
+          "source": "pgdata"
+        }
+      ]
+    },
+    {
+      "name": "redis-queue",
+      "image": "redis:alpine",
+      "volumes": [
+        {
+          "mountPath": "/data",
+          "source": "redisdata"
+        }
+      ]
+    },
+    {
+      "name": "enterprise-api",
+      "isRepo": true,
+      "env": {
+        "NODE_ENV": "production",
+        "PORT": "5001",
+        "DATABASE_URL": "postgresql://postgres:${{PG_PASSWORD}}@${{postgres-vector.RAILWAY_PRIVATE_DOMAIN}}:5432/railway",
+        "REDIS_URL": "redis://${{redis-queue.RAILWAY_PRIVATE_DOMAIN}}:6379",
+        "JWT_SECRET": {
+          "description": "Secure random string for JWT signing",
+          "isRequired": true
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+# railway.toml
+
+[build]
+# We use the Dockerfile we just fixed because it handles the Prisma binaries correctly.
+builder = "DOCKERFILE"
+dockerfilePath = "Dockerfile"
+
+[deploy]
+# 1. Healthcheck: Railway will ping this to ensure the app is running.
+# If you don't have a /health route, change this to "/" or "/api/v1/files"
+healthcheckPath = "/api/v1/files"
+healthcheckTimeout = 100
+
+# 2. Restart Policy: If the app crashes, restart it.
+restartPolicyType = "ON_FAILURE"
+
+# 3. Start Command: This overrides the CMD in the Dockerfile.
+# We explicitly run migrations and seeding before starting the server.
+startCommand = "sh -c 'npx prisma migrate deploy && npm run seed:prod && node dist/index.js'"
+
+# 4. Replicas: Start with 1 instance (scale up later if needed)
+numReplicas = 1
+
+# 5. Sleep Application: Keep false for production apps (so it doesn't sleep like the free tier)
+sleepApplication = false
