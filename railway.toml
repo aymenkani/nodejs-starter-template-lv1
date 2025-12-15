@@ -3,7 +3,7 @@
 [build]
 # We use the Dockerfile we just fixed because it handles the Prisma binaries correctly.
 builder = "DOCKERFILE"
-dockerfilePath = "Dockerfile"
+dockerfilePath = "Dockerfile.railway"
 
 [deploy]
 # 1. Healthcheck: Railway will ping this to ensure the app is running.
