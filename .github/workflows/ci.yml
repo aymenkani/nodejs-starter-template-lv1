@@ -51,7 +51,7 @@ jobs:
         node-version: ['18.x', '20.x']
     services:
       postgres:
-        image: pgvector/pgvector:pg16
+        image: pgvector/pgvector:pg18
         env:
           POSTGRES_USER: testuser
           POSTGRES_PASSWORD: testpassword
