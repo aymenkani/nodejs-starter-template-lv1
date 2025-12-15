@@ -16,7 +16,7 @@ restartPolicyType = "ON_FAILURE"
 
 # 3. Start Command: This overrides the CMD in the Dockerfile.
 # We explicitly run migrations and seeding before starting the server.
-startCommand = "sh -c 'npx prisma migrate deploy && npm run seed:prod && node dist/index.js'"
+startCommand = "sh -c 'npm run start:with-db'"
 
 # 4. Replicas: Start with 1 instance (scale up later if needed)
 numReplicas = 1

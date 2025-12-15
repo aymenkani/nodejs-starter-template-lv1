@@ -34,7 +34,7 @@
       "env": {
         "NODE_ENV": "production",
         "PORT": "5001",
-        "DEMO_MODE": "false",
+        "DEMO_MODE": "true",
         
         "DATABASE_URL": "postgresql://postgres:${{PG_PASSWORD}}@${{postgres-vector.RAILWAY_PRIVATE_DOMAIN}}:5432/railway",
         "REDIS_HOST": "${{redis-queue.RAILWAY_PRIVATE_DOMAIN}}",
