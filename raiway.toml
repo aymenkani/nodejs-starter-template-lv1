@@ -8,7 +8,7 @@ dockerfilePath = "Dockerfile"
 [deploy]
 # 1. Healthcheck: Railway will ping this to ensure the app is running.
 # If you don't have a /health route, change this to "/" or "/api/v1/files"
-healthcheckPath = "/api/v1/files"
+healthcheckPath = "/api/v1/health"
 healthcheckTimeout = 100
 
 # 2. Restart Policy: If the app crashes, restart it.
