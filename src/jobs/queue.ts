@@ -12,7 +12,6 @@ export const fileCleanupQueueName = 'fileCleanup';
 
 export const redisConnection: RedisOptions = {
   url: config.redis.url,
-  password: process.env.REDIS_PASSWORD || undefined, // Config might not have password strictly typed if optional, checking config.ts
 };
 
 const defaultQueueOptions: QueueOptions = {

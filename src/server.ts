@@ -49,7 +49,7 @@ app.use(passport.initialize());
 app.use((req: Request, res: Response, next: NextFunction) => {
   next();
 });
-
+const wsUrl = config.client.url.replace(/^http/, 'ws');
 app.use(
   helmet({
     contentSecurityPolicy: {
@@ -72,6 +72,7 @@ app.use(
           'https://*.cloudflare.com',
           'https://*.r2.cloudflarestorage.com',
           'https://r2.cloudflarestorage.com',
+          wsUrl,
           'ws://' + config.client.host + ':' + config.client.port,
         ],
         'img-src': ["'self'", 'data:', 'blob:', 'https:', 'http:'],
