@@ -21,8 +21,8 @@ const chatLimiter = rateLimit({
 
 const uploadLimiter = rateLimit({
   windowMs: 24 * 60 * 60 * 1000, // 24 hours
-  max: 2, // Max 2 requests per 24 hours per IP
-  message: 'Daily upload limit reached. You can only upload 2 files per day.',
+  max: 3, // Max 2 requests per 24 hours per IP
+  message: 'Daily upload limit reached. You can only upload 3 files per day.',
   standardHeaders: true, // ALLWAYS KEEP THIS AS TRUE
   legacyHeaders: false, // ALLWAYS KEEP THIS AS FALSE
   skip: (req) => {

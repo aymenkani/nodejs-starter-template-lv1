@@ -621,7 +621,7 @@
 
         <div style="background: #f8fafc; border: 2px dashed #cbd5e1; border-radius: 12px; padding: 2rem; margin: 2rem 0; text-align: center; color: #64748b; font-weight: 600;">
           📊 
-          <img src="/client/assets/rag-pipeline-architecture-diagram.jpg" width="100%" height="auto" />
+          <img src="https://pub-ce2718d3322e486d97486bc7e573557d.r2.dev/rag_tutorial_images/rag-pipeline-architecture-diagram.jpg" width="100%" height="auto" />
           <br><br>
           <span style="font-size: 0.875rem; font-weight: 400;">Visualizing the complete flow: Upload → Ingestion → Vector Storage → Retrieval → Generation</span>
         </div>
@@ -773,7 +773,7 @@
 
         <div style="background: #f8fafc; border: 2px dashed #cbd5e1; border-radius: 12px; padding: 2rem; margin: 2rem 0; text-align: center; color: #64748b; font-weight: 600;">
           🔐
-          <img src="/client/assets/reservation-pattern-flow-diagram.jpg" width="100%" height="auto" />
+          <img src="https://pub-ce2718d3322e486d97486bc7e573557d.r2.dev/rag_tutorial_images/reservation-pattern-flow-diagram.jpg" width="100%" height="auto" />
           <br><br>
           <span style="font-size: 0.875rem; font-weight: 400;">Browser → API (generates presigned URL) → Browser uploads directly to R2 → API confirms upload</span>
         </div>
@@ -1004,7 +1004,7 @@
 
         <div style="background: #f8fafc; border: 2px dashed #cbd5e1; border-radius: 12px; padding: 2rem; margin: 2rem 0; text-align: center; color: #64748b; font-weight: 600;">
           🔒
-          <img src="/client/assets/search-scope-venn-diagram.jpg" width="100%" height="auto" />
+          <img src="https://pub-ce2718d3322e486d97486bc7e573557d.r2.dev/rag_tutorial_images/search-scope-venn-diagram.jpg" width="100%" height="auto" />
           <br><br>
           <span style="font-size: 0.875rem; font-weight: 400;">Left Circle: User's Private Files | Right Circle: Public Knowledge Base | Intersection: Accessible Search Results</span>
         </div>
@@ -1230,7 +1230,7 @@
 
         <div style="background: #f8fafc; border: 2px dashed #cbd5e1; border-radius: 12px; padding: 2rem; margin: 2rem 0; text-align: center; color: #64748b; font-weight: 600;">
           🖼️ 
-          <img src="/client/assets/visual-rag-pipeline-diagram.jpg" width="100%" height="auto" />
+          <img src="https://pub-ce2718d3322e486d97486bc7e573557d.r2.dev/rag_tutorial_images/visual-rag-pipeline-diagram.jpg" width="100%" height="auto" />
           <br><br>
           <span style="font-size: 0.875rem; font-weight: 400;">Receipt Image → Gemini Vision (AI Description) → Text Embedding → Vector DB → Searchable!</span>
         </div>
@@ -1468,7 +1468,7 @@
 
         <ol>
           <li><strong>Environment Setup:</strong> Get API keys for Google AI Studio (free) and Cloudflare R2</li>
-          <li><strong>Database:</strong> Deploy PostgreSQL with pgvector on Render.com (free tier)</li>
+          <li><strong>Database:</strong> Deploy PostgreSQL with pgvector on Render.com or Railway.app (both have free tiers)</li>
           <li><strong>Redis:</strong> Use Upstash free tier for BullMQ job queue</li>
           <li><strong>Deploy API:</strong> Render.com or Railway.app (both have free tiers)</li>
           <li><strong>Testing:</strong> Upload a PDF and image, test the chat interface</li>
@@ -1487,27 +1487,38 @@
 
           <div style="background: rgba(255,255,255,0.95); padding: 2rem; border-radius: 12px; margin: 2rem auto; max-width: 600px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
             <div style="margin-bottom: 1.5rem;">
-              <div style="font-size: 1rem; color: #6b7280; text-decoration: line-through; margin-bottom: 0.25rem;">Regular Price: $45</div>
-              <div style="font-size: 3rem; font-weight: 800; color: #10b981; line-height: 1;">$18</div>
+              <div style="font-size: 1rem; color: #6b7280; text-decoration: line-through; margin-bottom: 0.25rem;">Regular Price: $65</div>
+              <div style="font-size: 3rem; font-weight: 800; color: #10b981; line-height: 1;">$26</div>
               <div style="display: inline-block; background: #dc2626; color: white; padding: 0.35rem 0.75rem; border-radius: 50px; font-size: 0.875rem; font-weight: 700; margin-top: 0.5rem;">60% OFF - Limited Time</div>
             </div>
 
             <div style="text-align: left; margin: 1.5rem 0; padding: 1.5rem; background: #f9fafb; border-radius: 8px;">
               <div style="font-weight: 700; margin-bottom: 1rem; color: #1a202c; font-size: 1.125rem;">✅ What's Included:</div>
               <ul style="list-style: none; padding: 0; margin: 0; color: #4a5568; line-height: 2;">
-                <li>✓ Complete RAG Pipeline (this tutorial as production code)</li>
-                <li>✓ Authentication & RBAC (Admin/User roles)</li>
-                <li>✓ Cloudflare R2 Integration (zero egress fees)</li>
+                <li>✓ Complete RAG Pipeline (Production-ready AI integration with embeddings)</li>
+                <li>✓ Authentication & RBAC (Secure JWT, Refresh Tokens, Admin/User roles)</li>
+                <li>✓ Cloudflare R2 / S3 Integration (File uploads with zero egress fees)</li>
                 <li>✓ Socket.IO Real-Time Notifications</li>
-                <li>✓ BullMQ Background Workers</li>
+                <li>✓ Background Processing (BullMQ Workers for heavy tasks & ingestion)</li>
                 <li>✓ pgvector Setup & Migrations</li>
+                <li>✓ Automated Maintenance (Cron jobs for file cleanup & token management)</li>
                 <li>✓ Full API Documentation (Swagger)</li>
+                <li>✓ Developer Experience (TypeScript, Jest Tests, ESLint, & Prettier)</li>
+                <li>✓ Docker Compose & Railway.toml for instant cloud deployment (No cost)</li>
+                <li>✓ Production-ready deployment (Render.com or Railway.app)</li>
               </ul>
             </div>
 
-            <div style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white; padding: 1.25rem; border-radius: 8px; margin: 1.5rem 0; font-weight: 600; font-size: 1.0625rem;">
-              🎁 BONUS: Free upgrade to v2.0 when it launches<br>
-              <span style="font-size: 0.875rem; opacity: 0.9;">(Includes Stripe payments + React admin dashboard)</span>
+            <div style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white; padding: 1.5rem; border-radius: 8px; margin: 1.5rem 0; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);">
+              <div style="font-weight: 700; font-size: 1.125rem; margin-bottom: 0.5rem;">
+                🎁 LIFETIME ACCESS: Get every future upgrade for FREE
+              </div>
+              <div style="font-size: 0.95rem; opacity: 0.95; line-height: 1.5; margin-bottom: 0.75rem;">
+                You secure immediate access to all upcoming tools & features (including the <strong>Stripe Integration</strong> & <strong>React Admin Dashboard</strong>) without paying a cent more.
+              </div>
+              <div style="background: rgba(255, 255, 255, 0.2); padding: 0.5rem 0.75rem; border-radius: 6px; font-size: 0.875rem; font-weight: 600; display: inline-block;">
+                ⚠️ Price increases as new features are added. Lock in this rate today.
+              </div>
             </div>
 
             <a href="https://your-checkout-link.com" style="display: block; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 1.25rem 2rem; border-radius: 12px; text-decoration: none; font-weight: 700; font-size: 1.25rem; margin-top: 1.5rem; box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4); transition: transform 0.2s, box-shadow 0.2s;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 25px rgba(102, 126, 234, 0.5)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 6px 20px rgba(102, 126, 234, 0.4)';">
@@ -1515,13 +1526,13 @@
             </a>
 
             <div style="margin-top: 1.5rem; font-size: 0.875rem; color: #6b7280;">
-              🔒 30-day money-back guarantee | 💳 Secure checkout<br>
+              💳 Secure checkout<br>
               One-time payment, lifetime access
             </div>
           </div>
 
           <div style="margin-top: 2rem; opacity: 0.9; font-size: 0.95rem; color: #3a3a3a;">
-            <strong>Why pay $18 instead of building from scratch?</strong><br>
+            <strong>Why pay $26 instead of building from scratch?</strong><br>
             Save 40+ hours of setup, debugging, and deployment. Get production-tested code that just works.
           </div>
         </div>
@@ -1548,7 +1559,7 @@
         </p>
         
         <a href="YOUR_GUMROAD_LINK_HERE" class="promo-btn">
-          Get Template <span class="price-tag">$18</span>
+          Get Template <span class="price-tag">$26</span>
           <div class="btn-subtext">Early Adopter Launch (60% OFF)</div>
         </a>
 

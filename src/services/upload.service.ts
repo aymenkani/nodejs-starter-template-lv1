@@ -57,7 +57,7 @@ export const createUploadService = (config: Config, ingestionService: IngestionS
       'text/markdown',
       'text/csv',
     ];
-    const maxFileSize = 5 * 1024 * 1024; // 5MB
+    const maxFileSize = 2 * 1024 * 1024; // 2MB
 
     if (!allowedFileTypes.includes(fileType)) {
       throw new ApiError(
@@ -67,7 +67,7 @@ export const createUploadService = (config: Config, ingestionService: IngestionS
     }
 
     if (fileSize > maxFileSize) {
-      throw new ApiError(400, 'File size must be less than 5MB.');
+      throw new ApiError(400, 'File size must be less than 2MB.');
     }
 
     if (!user.id) {

@@ -72,8 +72,8 @@ app.use(
           'https://*.cloudflare.com',
           'https://*.r2.cloudflarestorage.com',
           'https://r2.cloudflarestorage.com',
-          wsUrl,
-          'ws://' + config.client.host + ':' + config.client.port,
+          wsUrl, // for production url
+          'ws://' + config.client.host + ':' + config.client.port, // for development url
         ],
         'img-src': ["'self'", 'data:', 'blob:', 'https:', 'http:'],
         'style-src': [
