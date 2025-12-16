@@ -52,6 +52,7 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 const wsUrl = config.client.url.replace(/^http/, 'ws');
 app.use(
   helmet({
+    referrerPolicy: { policy: 'strict-origin-when-cross-origin' }, // remove this from the template
     contentSecurityPolicy: {
       directives: {
         ...helmet.contentSecurityPolicy.getDefaultDirectives(),
@@ -62,6 +63,11 @@ app.use(
           'https://cdn.socket.io',
           'https://cdn.jsdelivr.net',
           'https://cdn.tailwindcss.com',
+        ],
+        'form-action': [
+          // remove this from the template
+          "'self'",
+          'https://gumroad.com/follow_from_embed_form',
         ],
         'connect-src': [
           "'self'",

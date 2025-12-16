@@ -5,6 +5,7 @@ import { getConfig } from '../config/config';
 import { createAuthService } from './auth.service';
 import { createTokenService } from './token.service';
 import { createEmailService } from './email.service';
+import { createAgentService } from './agent.service';
 
 const config = getConfig(process.env);
 
@@ -13,6 +14,7 @@ export const tokenService = createTokenService(config);
 export const emailService = createEmailService(config);
 export const ingestionService = createIngestionService(ingestionQueue);
 export const uploadService = createUploadService(config, ingestionService);
+export const agentService = createAgentService(config);
 
 export * from './file.service';
 export * from './user.service';

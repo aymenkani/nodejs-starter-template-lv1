@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Railway Deployment Tutorial | SaaS Starter</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        dark: {
+                            900: '#0f172a', /* Slate 900 */
+                            800: '#1e293b', /* Slate 800 */
+                            700: '#334155', /* Slate 700 */
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-dark-900 text-slate-300 min-h-screen">
+    <div class="max-w-4xl mx-auto p-8">
+        <div class="mb-10 text-center">
+            <h1 class="text-4xl font-bold text-white mb-4">Railway Deployment Guide</h1>
+            <p class="text-slate-400">Step-by-step instructions to deploy your application on Railway</p>
+        </div>
+
+        <div class="space-y-12">
+            <!-- Step 1 -->
+            <div class="bg-dark-800 p-6 rounded-xl border border-dark-700">
+                <h3 class="text-xl font-bold text-white mb-4"><span class="bg-blue-600 text-white px-2 py-0.5 rounded text-sm mr-2">Step 1</span>Go to Railway</h3>
+                <p class="mb-4">Go to <a href="https://railway.com" target="_blank" class="text-blue-400 hover:underline">railway.com</a></p>
+                <div class="aspect-video bg-dark-700 rounded-lg flex items-center justify-center border-2 border-dashed border-dark-900/50">
+                    <span class="text-slate-500 font-medium">Image Placeholder: Railway Homepage</span>
+                </div>
+            </div>
+
+            <!-- Step 2 -->
+            <div class="bg-dark-800 p-6 rounded-xl border border-dark-700">
+                <h3 class="text-xl font-bold text-white mb-4"><span class="bg-blue-600 text-white px-2 py-0.5 rounded text-sm mr-2">Step 2</span>Sign Up / Login</h3>
+                <p class="mb-4">Signup or login to your account.</p>
+                <div class="aspect-video bg-dark-700 rounded-lg flex items-center justify-center border-2 border-dashed border-dark-900/50">
+                    <span class="text-slate-500 font-medium">Image Placeholder: Signup/Login Screen</span>
+                </div>
+            </div>
+
+            <!-- Step 3 -->
+            <div class="bg-dark-800 p-6 rounded-xl border border-dark-700">
+                <h3 class="text-xl font-bold text-white mb-4"><span class="bg-blue-600 text-white px-2 py-0.5 rounded text-sm mr-2">Step 3</span>Create New Project</h3>
+                <p class="mb-4">In the <a href="https://railway.com/dashboard" target="_blank" class="text-blue-400 hover:underline">dashboard</a>, click on "New".</p>
+                <div class="aspect-video bg-dark-700 rounded-lg flex items-center justify-center border-2 border-dashed border-dark-900/50">
+                    <span class="text-slate-500 font-medium">Image Placeholder: Dashboard "New" Button</span>
+                </div>
+            </div>
+
+            <!-- Step 4 -->
+            <div class="bg-dark-800 p-6 rounded-xl border border-dark-700">
+                <h3 class="text-xl font-bold text-white mb-4"><span class="bg-blue-600 text-white px-2 py-0.5 rounded text-sm mr-2">Step 4</span>Empty Project</h3>
+                <p class="mb-4">Create a new empty Project.</p>
+                <div class="aspect-video bg-dark-700 rounded-lg flex items-center justify-center border-2 border-dashed border-dark-900/50">
+                    <span class="text-slate-500 font-medium">Image Placeholder: Create Empty Project Option</span>
+                </div>
+            </div>
+
+            <!-- Step 5 -->
+            <div class="bg-dark-800 p-6 rounded-xl border border-dark-700">
+                <h3 class="text-xl font-bold text-white mb-4"><span class="bg-blue-600 text-white px-2 py-0.5 rounded text-sm mr-2">Step 5</span>Project Area</h3>
+                <p class="mb-4">You will have an empty area like this.</p>
+                <div class="aspect-video bg-dark-700 rounded-lg flex items-center justify-center border-2 border-dashed border-dark-900/50">
+                    <span class="text-slate-500 font-medium">Image Placeholder: Empty Project Workspace</span>
+                </div>
+            </div>
+
+            <!-- Step 6 -->
+            <div class="bg-dark-800 p-6 rounded-xl border border-dark-700">
+                <h3 class="text-xl font-bold text-white mb-4"><span class="bg-blue-600 text-white px-2 py-0.5 rounded text-sm mr-2">Step 6</span>Add Database Service</h3>
+                <p class="mb-4">Open the project in the browser folder and drag and drop the <code>docker-compose-postgres.railway.yml</code> file. This will create a new "db" service.</p>
+                <div class="aspect-video bg-dark-700 rounded-lg flex items-center justify-center border-2 border-dashed border-dark-900/50">
+                    <span class="text-slate-500 font-medium">Image Placeholder: Dragging Docker Compose File</span>
+                </div>
+            </div>
+
+            <!-- Step 7 -->
+            <div class="bg-dark-800 p-6 rounded-xl border border-dark-700">
+                <h3 class="text-xl font-bold text-white mb-4"><span class="bg-blue-600 text-white px-2 py-0.5 rounded text-sm mr-2">Step 7</span>Deploy Database</h3>
+                <p class="mb-4">Click "Deploy" to deploy the db service.</p>
+                <div class="aspect-video bg-dark-700 rounded-lg flex items-center justify-center border-2 border-dashed border-dark-900/50">
+                    <span class="text-slate-500 font-medium">Image Placeholder: Clicking DeployDB</span>
+                </div>
+            </div>
+
+            <!-- Step 8 -->
+            <div class="bg-dark-800 p-6 rounded-xl border border-dark-700">
+                <h3 class="text-xl font-bold text-white mb-4"><span class="bg-blue-600 text-white px-2 py-0.5 rounded text-sm mr-2">Step 8</span>Add Redis Service</h3>
+                <p class="mb-4">Once the db service gets deployed, go ahead and drag and drop the next file <code>docker-compose.redis.railway.yml</code> to create the redis service.</p>
+                <div class="aspect-video bg-dark-700 rounded-lg flex items-center justify-center border-2 border-dashed border-dark-900/50">
+                    <span class="text-slate-500 font-medium">Image Placeholder: Dragging Redis Compose File</span>
+                </div>
+            </div>
+
+            <!-- Step 9 -->
+            <div class="bg-dark-800 p-6 rounded-xl border border-dark-700">
+                <h3 class="text-xl font-bold text-white mb-4"><span class="bg-blue-600 text-white px-2 py-0.5 rounded text-sm mr-2">Step 9</span>Deploy Redis</h3>
+                <p class="mb-4">Deploy the Redis service.</p>
+                <div class="aspect-video bg-dark-700 rounded-lg flex items-center justify-center border-2 border-dashed border-dark-900/50">
+                    <span class="text-slate-500 font-medium">Image Placeholder: Deploying Redis</span>
+                </div>
+            </div>
+
+            <!-- Step 10 -->
+            <div class="bg-dark-800 p-6 rounded-xl border border-dark-700">
+                <h3 class="text-xl font-bold text-white mb-4"><span class="bg-blue-600 text-white px-2 py-0.5 rounded text-sm mr-2">Step 10</span>Prepare App Deployment</h3>
+                <p class="mb-4">Now we need to deploy the app. Make sure to push it into a new github repo, then in railway project, click on the "Create" button.</p>
+                <div class="aspect-video bg-dark-700 rounded-lg flex items-center justify-center border-2 border-dashed border-dark-900/50">
+                    <span class="text-slate-500 font-medium">Image Placeholder: Create App Button</span>
+                </div>
+            </div>
+
+            <!-- Step 11 -->
+            <div class="bg-dark-800 p-6 rounded-xl border border-dark-700">
+                <h3 class="text-xl font-bold text-white mb-4"><span class="bg-blue-600 text-white px-2 py-0.5 rounded text-sm mr-2">Step 11</span>Connect GitHub Repo</h3>
+                <p class="mb-4">Choose your github repo (you may need to connect your github account and allow railway to access your repos including private ones).</p>
+                <div class="aspect-video bg-dark-700 rounded-lg flex items-center justify-center border-2 border-dashed border-dark-900/50">
+                    <span class="text-slate-500 font-medium">Image Placeholder: Selecting GitHub Repo</span>
+                </div>
+            </div>
+
+            <!-- Step 12 -->
+            <div class="bg-dark-800 p-6 rounded-xl border border-dark-700">
+                <h3 class="text-xl font-bold text-white mb-4"><span class="bg-blue-600 text-white px-2 py-0.5 rounded text-sm mr-2">Step 12</span>Access App Configurations</h3>
+                <p class="mb-4">Before hitting "Deploy", we need to change some settings. Click on the nodejs app card to access the configurations UI.</p>
+                <div class="aspect-video bg-dark-700 rounded-lg flex items-center justify-center border-2 border-dashed border-dark-900/50">
+                    <span class="text-slate-500 font-medium">Image Placeholder: Clicking Node App Service</span>
+                </div>
+            </div>
+
+            <!-- Step 13 -->
+            <div class="bg-dark-800 p-6 rounded-xl border border-dark-700">
+                <h3 class="text-xl font-bold text-white mb-4"><span class="bg-blue-600 text-white px-2 py-0.5 rounded text-sm mr-2">Step 13</span>Set Config File</h3>
+                <p class="mb-4">At the very bottom you will find a section named "Config-as-code". In the Railway config file input choose <code>railway.toml</code>.</p>
+                <div class="aspect-video bg-dark-700 rounded-lg flex items-center justify-center border-2 border-dashed border-dark-900/50">
+                    <span class="text-slate-500 font-medium">Image Placeholder: Selecting railway.toml</span>
+                </div>
+            </div>
+
+            <!-- Step 14 -->
+            <div class="bg-dark-800 p-6 rounded-xl border border-dark-700">
+                <h3 class="text-xl font-bold text-white mb-4"><span class="bg-blue-600 text-white px-2 py-0.5 rounded text-sm mr-2">Step 14</span>Generate Domain</h3>
+                <p class="mb-4">In the Networking section and under "Public Networking" click on "Generate Domain".</p>
+                <div class="aspect-video bg-dark-700 rounded-lg flex items-center justify-center border-2 border-dashed border-dark-900/50">
+                    <span class="text-slate-500 font-medium">Image Placeholder: Generating Domain</span>
+                </div>
+            </div>
+
+            <!-- Step 15 -->
+            <div class="bg-dark-800 p-6 rounded-xl border border-dark-700">
+                <h3 class="text-xl font-bold text-white mb-4"><span class="bg-blue-600 text-white px-2 py-0.5 rounded text-sm mr-2">Step 15</span>Switch to Variables</h3>
+                <p class="mb-4">Now switch to the "Variables" panel. Ignore all the "Suggested Variables".</p>
+                <div class="aspect-video bg-dark-700 rounded-lg flex items-center justify-center border-2 border-dashed border-dark-900/50">
+                    <span class="text-slate-500 font-medium">Image Placeholder: Variables Tab</span>
+                </div>
+            </div>
+
+            <!-- Step 16 -->
+            <div class="bg-dark-800 p-6 rounded-xl border border-dark-700">
+                <h3 class="text-xl font-bold text-white mb-4"><span class="bg-blue-600 text-white px-2 py-0.5 rounded text-sm mr-2">Step 16</span>Open Raw Editor</h3>
+                <p class="mb-4">Go ahead and click on "Raw Editor".</p>
+                <div class="aspect-video bg-dark-700 rounded-lg flex items-center justify-center border-2 border-dashed border-dark-900/50">
+                    <span class="text-slate-500 font-medium">Image Placeholder: Raw Editor Button</span>
+                </div>
+            </div>
+
+            <!-- Step 17 -->
+            <div class="bg-dark-800 p-6 rounded-xl border border-dark-700">
+                <h3 class="text-xl font-bold text-white mb-4"><span class="bg-blue-600 text-white px-2 py-0.5 rounded text-sm mr-2">Step 17</span>Copy Env Variables</h3>
+                <p class="mb-4">Open the nodejs project on VSCode and open the <code>.env.railway</code> file. Copy its entire content and paste it inside the "Raw editor" on Railway.</p>
+                <div class="aspect-video bg-dark-700 rounded-lg flex items-center justify-center border-2 border-dashed border-dark-900/50">
+                    <span class="text-slate-500 font-medium">Image Placeholder: Pasting Env Vars</span>
+                </div>
+            </div>
+
+            <!-- Step 18 -->
+            <div class="bg-dark-800 p-6 rounded-xl border border-dark-700">
+                <h3 class="text-xl font-bold text-white mb-4"><span class="bg-blue-600 text-white px-2 py-0.5 rounded text-sm mr-2">Step 18</span>Customize Variables</h3>
+                <p class="mb-4">You may want to edit your environment variables like adding your Cloudflare endpoint and API keys.</p>
+                <div class="aspect-video bg-dark-700 rounded-lg flex items-center justify-center border-2 border-dashed border-dark-900/50">
+                    <span class="text-slate-500 font-medium">Image Placeholder: Editing Keys</span>
+                </div>
+            </div>
+
+            <!-- Step 19 -->
+            <div class="bg-dark-800 p-6 rounded-xl border border-dark-700">
+                <h3 class="text-xl font-bold text-white mb-4"><span class="bg-blue-600 text-white px-2 py-0.5 rounded text-sm mr-2">Step 19</span>Keep Service Links</h3>
+                <p class="mb-4">Keep all the variables values that look like this <code>${{db.DATABASE_URL_PRIVATE}}</code> or <code>${{redis.VARIABLE}}</code> (you may want to change the demo variable to false).</p>
+                <div class="aspect-video bg-dark-700 rounded-lg flex items-center justify-center border-2 border-dashed border-dark-900/50">
+                    <span class="text-slate-500 font-medium">Image Placeholder: Service Variables</span>
+                </div>
+            </div>
+
+            <!-- Step 20 -->
+            <div class="bg-dark-800 p-6 rounded-xl border border-dark-700">
+                <h3 class="text-xl font-bold text-white mb-4"><span class="bg-blue-600 text-white px-2 py-0.5 rounded text-sm mr-2">Step 20</span>Update Variables</h3>
+                <p class="mb-4">Click on "Update Variables".</p>
+                <div class="aspect-video bg-dark-700 rounded-lg flex items-center justify-center border-2 border-dashed border-dark-900/50">
+                    <span class="text-slate-500 font-medium">Image Placeholder: Update Button</span>
+                </div>
+            </div>
+
+            <!-- Step 21 -->
+            <div class="bg-dark-800 p-6 rounded-xl border border-dark-700">
+                <h3 class="text-xl font-bold text-white mb-4"><span class="bg-blue-600 text-white px-2 py-0.5 rounded text-sm mr-2">Step 21</span>Service Connections</h3>
+                <p class="mb-4">You should notice that the Node.js app (from github repo) is now connected to the other "db" and "redis" services.</p>
+                <div class="aspect-video bg-dark-700 rounded-lg flex items-center justify-center border-2 border-dashed border-dark-900/50">
+                    <span class="text-slate-500 font-medium">Image Placeholder: Service Connections Graph</span>
+                </div>
+            </div>
+
+            <!-- Step 22 -->
+            <div class="bg-dark-800 p-6 rounded-xl border border-dark-700">
+                <h3 class="text-xl font-bold text-white mb-4"><span class="bg-blue-600 text-white px-2 py-0.5 rounded text-sm mr-2">Step 22</span>Fix Service Names</h3>
+                <p class="mb-4">If your not seeing the arrows connecting the app to the services, make sure that your services has the exact names "db" and "redis". You can edit them like shown in the images.</p>
+                <div class="aspect-video bg-dark-700 rounded-lg flex items-center justify-center border-2 border-dashed border-dark-900/50">
+                    <span class="text-slate-500 font-medium">Image Placeholder: Renaming Services</span>
+                </div>
+            </div>
+
+            <!-- Step 23 -->
+            <div class="bg-dark-800 p-6 rounded-xl border border-dark-700">
+                <h3 class="text-xl font-bold text-white mb-4"><span class="bg-blue-600 text-white px-2 py-0.5 rounded text-sm mr-2">Step 23</span>Deploy</h3>
+                <p class="mb-4">Now you can finally click on "Deploy" and see the magic happen.</p>
+                <div class="aspect-video bg-dark-700 rounded-lg flex items-center justify-center border-2 border-dashed border-dark-900/50">
+                    <span class="text-slate-500 font-medium">Image Placeholder: Final Deploy Button</span>
+                </div>
+            </div>
+
+            <!-- Step 24 -->
+            <div class="bg-dark-800 p-6 rounded-xl border border-dark-700">
+                <h3 class="text-xl font-bold text-white mb-4"><span class="bg-blue-600 text-white px-2 py-0.5 rounded text-sm mr-2">Step 24</span>Check Logs</h3>
+                <p class="mb-4">You can check the logs to make sure that everything is working.</p>
+                <div class="aspect-video bg-dark-700 rounded-lg flex items-center justify-center border-2 border-dashed border-dark-900/50">
+                    <span class="text-slate-500 font-medium">Image Placeholder: Viewing Logs</span>
+                </div>
+            </div>
+
+            <!-- Step 25 -->
+            <div class="bg-dark-800 p-6 rounded-xl border border-dark-700">
+                <h3 class="text-xl font-bold text-white mb-4"><span class="bg-blue-600 text-white px-2 py-0.5 rounded text-sm mr-2">Step 25</span>Verify Deployment</h3>
+                <p class="mb-4">If the deployment was successful, click on the Node.js app service and in the setting panel scroll to "Networking" and you will find a public url. That's where your application resides. If you click on it, you should get a page that says "API is running".</p>
+                <div class="aspect-video bg-dark-700 rounded-lg flex items-center justify-center border-2 border-dashed border-dark-900/50">
+                    <span class="text-slate-500 font-medium">Image Placeholder: Public URL</span>
+                </div>
+            </div>
+
+            <!-- Step 26 -->
+            <div class="bg-dark-800 p-6 rounded-xl border border-dark-700">
+                <h3 class="text-xl font-bold text-white mb-4"><span class="bg-blue-600 text-white px-2 py-0.5 rounded text-sm mr-2">Step 26</span>Important Note</h3>
+                <p class="mb-4">You can always update the env variables, but always keep the variables with this value <code>${{db.VARIABLE}}</code> or <code>${{redis.VARIABLE}}</code> or <code>${{railway.VARIABLE}}</code> the same!</p>
+                <div class="aspect-video bg-dark-700 rounded-lg flex items-center justify-center border-2 border-dashed border-dark-900/50">
+                    <span class="text-slate-500 font-medium">Image Placeholder: Warning Note</span>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="mt-12 text-center border-t border-dark-700 pt-8">
+            <a href="/" class="text-blue-500 hover:text-blue-400 font-medium flex items-center justify-center gap-2">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                Back to Dashboard
+            </a>
+        </div>
+    </div>
+    <!-- Sticky Subscription Bar -->
+    <div class="fixed bottom-0 left-0 right-0 bg-dark-900 border-t border-dark-700 p-4 transform translate-y-full transition-transform duration-300 z-50" id="stickySubBar">
+        <div class="max-w-4xl mx-auto flex flex-col md:flex-row items-center gap-4">
+            <div class="flex-1 text-center md:text-left">
+                <h3 class="text-white text-sm font-bold m-0 flex items-center justify-center md:justify-start gap-2">
+                    <span class="text-xl">🎁</span> Join the Community
+                </h3>
+                <p class="text-slate-400 text-xs mt-1">Get free tutorials, AI news & special discounts.</p>
+            </div>
+            
+             <form action="https://gumroad.com/follow_from_embed_form" method="post" id="gumroad-follow-form-embed">
+                <input type="hidden" name="seller_id" value="8461277886488"/>
+                <input id="gumroad-follow-form-embed-input" type="email" placeholder="you@example.com" name="email" required style="flex-grow: 1; padding: 12px 16px; border: 1px solid #d1d5db; border-radius: 6px; font-size: 1rem; color: #111827; background-color: #ffffff; box-shadow: inset 0 2px 4px 0 rgba(0,0,0,0.05);">
+                <button type="submit" id="gumroad-follow-form-embed-button" style="background-color: #7c3aed; color: white; padding: 12px 24px; border-radius: 6px; text-decoration: none; font-weight: 600; font-size: 1rem; border: none; cursor: pointer; transition: background-color 0.3s ease;">
+                  Subscribe
+                </button>
+            </form>
+            
+            <button onclick="document.getElementById('stickySubBar').classList.add('translate-y-full')" class="absolute top-2 right-2 text-slate-500 hover:text-white p-1">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Show sticky bar after scroll
+        setTimeout(() => {
+            document.getElementById('stickySubBar').classList.remove('translate-y-full');
+        }, 3000);
+    </script>
+</body>
+</html>

@@ -5,551 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Build a $0 RAG Engine - Interactive Tutorial</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
-    body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      line-height: 1.6;
-      color: #2d3748;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      background-attachment: fixed;
-    }
-
-    /* Hero Header */
-    .hero {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      color: white;
-      padding: 4rem 2rem 3rem;
-      text-align: center;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    }
-
-    .hero-badge {
-      display: inline-block;
-      background: rgba(255,255,255,0.2);
-      padding: 0.5rem 1rem;
-      border-radius: 50px;
-      font-size: 0.875rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      margin-bottom: 1.5rem;
-    }
-
-    .hero h1 {
-      font-size: 3rem;
-      font-weight: 800;
-      line-height: 1.2;
-      margin-bottom: 1rem;
-      text-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }
-
-    .hero-subtitle {
-      font-size: 1.25rem;
-      opacity: 0.95;
-      font-weight: 500;
-      max-width: 700px;
-      margin: 0 auto;
-    }
-
-    /* Main Container */
-    .container {
-      max-width: 1400px;
-      margin: -2rem auto 4rem;
-      padding: 0 2rem;
-      display: flex;
-      gap: 2rem;
-      align-items: flex-start;
-    }
-
-    /* Progress Sidebar */
-    .progress-sidebar {
-      position: sticky;
-      top: 2rem;
-      width: 280px;
-      background: white;
-      border-radius: 12px;
-      padding: 1.5rem;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.07);
-    }
-
-    .progress-title {
-      font-size: 0.875rem;
-      font-weight: 700;
-      color: #667eea;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      margin-bottom: 1.5rem;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .progress-title::before {
-      content: "📚";
-      font-size: 1.25rem;
-    }
-
-    .progress-list {
-      list-style: none;
-      counter-reset: step;
-    }
-
-    .progress-list li {
-      counter-increment: step;
-      position: relative;
-      padding-left: 2.5rem;
-      padding-bottom: 1.5rem;
-      border-left: 2px solid #e2e8f0;
-      transition: all 0.3s;
-    }
-
-    .progress-list li:last-child {
-      border-left-color: transparent;
-      padding-bottom: 0;
-    }
-
-    .progress-list li::before {
-      content: counter(step);
-      position: absolute;
-      left: -1rem;
-      top: 0;
-      width: 2rem;
-      height: 2rem;
-      background: white;
-      border: 2px solid #e2e8f0;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 700;
-      font-size: 0.875rem;
-      color: #a0aec0;
-      transition: all 0.3s;
-    }
-
-    .progress-list li.active::before {
-      background: #667eea;
-      border-color: #667eea;
-      color: white;
-      transform: scale(1.1);
-    }
-
-    .progress-list li.active {
-      border-left-color: #667eea;
-    }
-
-    .progress-list a {
-      color: #4a5568;
-      text-decoration: none;
-      font-size: 0.9rem;
-      font-weight: 500;
-      transition: color 0.2s;
-    }
-
-    .progress-list li.active a {
-      color: #667eea;
-      font-weight: 600;
-    }
-
-    .progress-list a:hover {
-      color: #667eea;
-    }
-
-    /* Sidebar Promo Card */
-
-  .sidebar-promo {
-    margin-top: 2rem;
-    padding-top: 1.5rem;
-    border-top: 2px dashed #e2e8f0;
-    text-align: center;
-  }
-
-  .promo-icon {
-    font-size: 2rem;
-    margin-bottom: 0.5rem;
-    animation: float 3s ease-in-out infinite;
-  }
-
-  .sidebar-promo h3 {
-    font-size: 1rem;
-    font-weight: 800;
-    color: #2d3748;
-    margin-bottom: 0.5rem;
-    line-height: 1.2;
-  }
-
-  .sidebar-promo p {
-    font-size: 0.85rem;
-    color: #4a5568;
-    line-height: 1.4;
-    margin-bottom: 1rem;
-  }
-
-  .sidebar-promo strong {
-    color: #667eea;
-  }
-
-  /* MAIN BUTTON STYLES */
-  .promo-btn {
-    display: block;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
-    text-decoration: none;
-    padding: 0.75rem 0.5rem; /* Adjusted padding for two lines */
-    border-radius: 8px;
-    font-weight: 700;
-    font-size: 1rem;
-    transition: transform 0.2s, box-shadow 0.2s;
-    box-shadow: 0 4px 6px rgba(102, 126, 234, 0.25);
-    margin-bottom: 1rem;
-  }
-
-  .promo-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 12px rgba(102, 126, 234, 0.35);
-    color: white;
-  }
-
-  .price-tag {
-    background: rgba(255, 255, 255, 0.2);
-    padding: 2px 8px;
-    border-radius: 4px;
-    margin-left: 5px;
-    font-size: 0.9rem;
-    text-decoration: none; /* Ensure no strikethrough on the new price */
-  }
-
-  .btn-subtext {
-    display: block;
-    font-size: 0.65rem;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    opacity: 0.9;
-    margin-top: 4px;
-    font-weight: 400;
-  }
-
-  /* STUDENT OFFER STYLES */
-  .student-offer {
-    background: #f7fafc;
-    border: 1px solid #e2e8f0;
-    border-radius: 8px;
-    padding: 0.75rem;
-    font-size: 0.8rem;
-  }
-
-  .student-offer strong {
-    display: block;
-    color: #2d3748;
-    margin-bottom: 0.25rem;
-  }
-
-  .student-offer p {
-    margin-bottom: 0;
-    font-size: 0.75rem;
-    color: #718096;
-  }
-
-  .student-icon {
-    font-size: 1rem;
-  }
-
-  .highlight-80 {
-    color: #e53e3e; /* Red color to highlight the big discount */
-    font-weight: 800;
-  }
-
-  @keyframes float {
-    0% { transform: translateY(0px); }
-    50% { transform: translateY(-5px); }
-    100% { transform: translateY(0px); }
-  }
-
-    /* Main Content */
-    .content {
-      flex: 1;
-      max-width: 850px;
-      background: white;
-      border-radius: 12px;
-      padding: 3rem;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.07);
-    }
-
-    /* Section Styling */
-    section {
-      margin-bottom: 4rem;
-      scroll-margin-top: 2rem;
-    }
-
-    section:last-child {
-      margin-bottom: 0;
-    }
-
-    /* Step Headers */
-    .step-header {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.75rem;
-      background: linear-gradient(135deg, #667eea, #764ba2);
-      color: white;
-      padding: 0.5rem 1.25rem;
-      border-radius: 50px;
-      font-size: 0.875rem;
-      font-weight: 700;
-      margin-bottom: 1.5rem;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-    }
-
-    h2 {
-      font-size: 2.25rem;
-      font-weight: 800;
-      color: #1a202c;
-      margin-bottom: 1rem;
-      line-height: 1.3;
-    }
-
-    h3 {
-      font-size: 1.5rem;
-      font-weight: 700;
-      color: #2d3748;
-      margin: 2.5rem 0 1rem;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    h3::before {
-      content: "▸";
-      color: #667eea;
-      font-size: 1.25rem;
-    }
-
-    p {
-      margin-bottom: 1.5rem;
-      font-size: 1.0625rem;
-      color: #4a5568;
-      line-height: 1.75;
-    }
-
-    /* Info Boxes */
-    .info-box {
-      background: linear-gradient(135deg, #f0f4ff 0%, #e6efff 100%);
-      border-left: 4px solid #667eea;
-      padding: 1.5rem;
-      border-radius: 8px;
-      margin: 2rem 0;
-    }
-
-    .info-box-title {
-      font-weight: 700;
-      color: #667eea;
-      margin-bottom: 0.75rem;
-      font-size: 1.0625rem;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .info-box-title::before {
-      content: "💡";
-      font-size: 1.25rem;
-    }
-
-    .info-box p:last-child {
-      margin-bottom: 0;
-    }
-
-    /* Success Box */
-    .success-box {
-      background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
-      border-left: 4px solid #10b981;
-    }
-
-    .success-box .info-box-title {
-      color: #10b981;
-    }
-
-    .success-box .info-box-title::before {
-      content: "✓";
-    }
-
-    /* Lists */
-    ul, ol {
-      margin: 1.5rem 0;
-      padding-left: 2rem;
-    }
-
-    li {
-      margin-bottom: 0.75rem;
-      font-size: 1.0625rem;
-      color: #4a5568;
-      line-height: 1.7;
-    }
-
-    li::marker {
-      color: #667eea;
-      font-weight: 700;
-    }
-
-    /* Code Blocks */
-    pre {
-      background: #1e293b;
-      border-radius: 12px;
-      padding: 1.5rem;
-      overflow-x: auto;
-      margin: 2rem 0;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-      position: relative;
-    }
-
-    pre::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 2.5rem;
-      background: #0f172a;
-      border-radius: 12px 12px 0 0;
-      border-bottom: 1px solid #334155;
-    }
-
-    pre::after {
-      content: "";
-      position: absolute;
-      top: 0.75rem;
-      left: 1rem;
-      width: 12px;
-      height: 12px;
-      border-radius: 50%;
-      background: #ef4444;
-      box-shadow: 20px 0 0 #f59e0b, 40px 0 0 #10b981;
-    }
-
-    code {
-      font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Consolas', monospace;
-      font-size: 0.875rem;
-      line-height: 1.7;
-      color: #e2e8f0;
-    }
-
-    pre code {
-      display: block;
-      margin-top: 2.5rem;
-      counter-reset: line;
-    }
-
-    pre code .line {
-      display: block;
-      padding-left: 3.5rem;
-      position: relative;
-    }
-
-    pre code .line::before {
-      counter-increment: line;
-      content: counter(line);
-      position: absolute;
-      left: 0;
-      width: 2.5rem;
-      text-align: right;
-      color: #64748b;
-      user-select: none;
-      padding-right: 1rem;
-      font-size: 0.8125rem;
-    }
-
-    /* Inline code */
-    p code, li code {
-      background: #f1f5f9;
-      color: #e11d48;
-      padding: 0.2rem 0.5rem;
-      border-radius: 4px;
-      font-size: 0.9em;
-      font-family: 'SF Mono', 'Monaco', 'Consolas', monospace;
-      font-weight: 600;
-    }
-
-    /* Links */
-    a {
-      color: #667eea;
-      text-decoration: none;
-      font-weight: 600;
-      transition: color 0.2s;
-    }
-
-    a:hover {
-      color: #764ba2;
-      text-decoration: underline;
-    }
-
-    /* Responsive */
-    @media (max-width: 1024px) {
-      .container {
-        flex-direction: column-reverse;
-      }
-
-      .progress-sidebar {
-        position: relative;
-        top: 0;
-        width: 100%;
-      }
-
-      .progress-list {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: 1rem;
-      }
-
-      .progress-list li {
-        border-left: none;
-        border-bottom: 2px solid #e2e8f0;
-        padding-left: 0;
-        padding-bottom: 1rem;
-      }
-
-      .progress-list li::before {
-        position: static;
-        margin-bottom: 0.5rem;
-      }
-    }
-
-    @media (max-width: 640px) {
-      .hero h1 {
-        font-size: 2rem;
-      }
-
-      .hero-subtitle {
-        font-size: 1.0625rem;
-      }
-
-      .content {
-        padding: 2rem 1.5rem;
-      }
-
-      h2 {
-        font-size: 1.75rem;
-      }
-
-      h3 {
-        font-size: 1.25rem;
-      }
-
-      .progress-list {
-        grid-template-columns: 1fr;
-      }
-    }
-  </style>
+  
+ <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <!-- Hero Header -->
@@ -708,7 +165,7 @@
           <div style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); color: white; padding: 1.5rem; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
             <div style="font-size: 2rem; margin-bottom: 0.5rem;">💾</div>
             <div style="font-weight: 700; font-size: 1.125rem; margin-bottom: 0.5rem;">Database</div>
-            <div style="font-size: 0.9rem; opacity: 0.9;">PostgreSQL 16<br>pgvector extension<br>ivfflat indexes</div>
+            <div style="font-size: 0.9rem; opacity: 0.9;">PostgreSQL 18<br>pgvector extension<br>ivfflat indexes</div>
           </div>
 
           <div style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); color: white; padding: 1.5rem; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
@@ -1555,11 +1012,11 @@
         <div class="promo-icon">🚀</div>
         <h3>Invest in your Future</h3>
         <p>
-          Get a <strong>production-ready architecture</strong> with free lifetime updates.
+          Get a <strong>production-ready architecture</strong> with <strong style="font-size: 1rem; color:#0215aa">Free</strong> lifetime access to new updates and features.
         </p>
         
         <a href="YOUR_GUMROAD_LINK_HERE" class="promo-btn">
-          Get Template <span class="price-tag">$26</span>
+          Get Template <span class="price-tag" style="font-size: 1rem; color: #ffffff; text-decoration: line-through; margin-bottom: 0.25rem;">$65 </span><span class="price-tag" style="font-size: 1.1rem;">$26</span>
           <div class="btn-subtext">Early Adopter Launch (60% OFF)</div>
         </a>
 
@@ -1571,6 +1028,34 @@
       </div>
     </aside>
   </div>
+   <!-- Sticky Subscription Bar -->
+    <div class="sticky-sub-bar is-hidden" id="stickySubBar">
+        <div class="sticky-content">
+            
+            <!-- Text Section -->
+            <div class="sticky-text-group">
+                <h3 class="sticky-headline">
+                    <span style="font-size: 1.25rem;">🎁</span> 
+                    Join the Community
+                </h3>
+                <p class="sticky-subtext">Get free tutorials, AI news & special discounts directly to your inbox.</p>
+            </div>
+            
+            <!-- Form Section -->
+            <form action="https://gumroad.com/follow_from_embed_form" method="post" id="gumroad-follow-form-embed" class="sticky-form">
+                <input type="hidden" name="seller_id" value="8461277886488"/>
+                <input id="gumroad-follow-form-embed-input" class="sticky-input" type="email" placeholder="you@example.com" name="email" required>
+                <button type="submit" id="gumroad-follow-form-embed-button" class="sticky-btn">
+                  Subscribe
+                </button>
+            </form>
+            
+            <!-- Close Button -->
+            <button onclick="document.getElementById('stickySubBar').classList.add('is-hidden')" class="sticky-close-btn" aria-label="Close">
+                <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+        </div>
+    </div>
 
   <script>
     // Active section tracking on scroll
@@ -1597,5 +1082,13 @@
       });
     });
   </script>
+   
+
+    <script>
+       // Simulate waiting for scroll or time delay to show the bar
+        setTimeout(() => {
+            document.getElementById('stickySubBar').classList.remove('is-hidden');
+        }, 1000);
+    </script>
 </body>
 </html>

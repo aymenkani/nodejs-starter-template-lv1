@@ -13,6 +13,7 @@ import { embed, generateText } from 'ai';
 import { RecursiveCharacterTextSplitter } from '@langchain/textsplitters';
 import { extractText, getDocumentProxy } from 'unpdf';
 import { redisConnection } from './queue';
+import { prompts } from '../config/prompts';
 
 // Start of worker implementation
 const WORKER_NAME = 'ai-ingestion';
@@ -125,14 +126,14 @@ export const processJob = async (job: Job<IngestionJobData>) => {
       // Visual RAG: Analyze image with Gemini
       logger.info(`Processing image file: ${fileKey}`);
       const { text: imageDesc } = await generateText({
-        model: google('gemma-3-12b'), // use gemini-2.5-flash-lite for free tier
+        model: google('gemini-2.5-flash-lite'), // use gemini-2.5-flash-lite for free tier
         messages: [
           {
             role: 'user',
             content: [
               {
                 type: 'text',
-                text: 'Analyze this image in detail. Extract all visible text, data tables, Objects, and describe the visual context for a search engine.',
+                text: prompts.ingestion.imageAnalysis,
               },
               {
                 type: 'image',
