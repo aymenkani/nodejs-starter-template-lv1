@@ -257,6 +257,18 @@ Check [Google AI pricing](https://ai.google.dev/pricing) for limits.
 
 The specific AI models used for ingestion, chat, and embeddings are configured in `src/config/ai-models.ts`. You can modify this file to switch between different Gemini models (e.g., upgrading from `gemini-2.5-flash-lite` to `gemini-1.5-pro` for better reasoning).
 
+### 5. Prompt Configuration
+
+You can customize the specific instructions given to the AI in `src/config/prompts.ts`. This allows you to fine-tune the persona, response style, and query refinement logic without changing the core code.
+
+| Prompt Key | Purpose |
+|------------|---------|
+| `ingestion.imageAnalysis` | Instructions for Gemini Vision to extract information from images during file upload. |
+| `agent.queryRewriter` | Instructions for rewriting the user's latest message into a standalone search query based on conversation history. |
+| `agent.systemPrompt` | The master instruction for the RAG chatbot. It controls how the AI answers questions and cites sources. |
+
+**Important:** When editing `agent.systemPrompt`, ensure you preserve the `{{context}}` placeholder, as this is where the retrieved documents are injected. Also, strict citation formats (e.g., `[Source Name](Link)`) are critical for the frontend to render clickable source links.
+
 ## File Support
 
 | File Type | Processing Method | Max Size |
