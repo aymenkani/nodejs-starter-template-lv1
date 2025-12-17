@@ -194,6 +194,7 @@ export const processJob = async (job: Job<IngestionJobData>) => {
         data: { status: 'FAILED' },
       })
       .catch((e: unknown) => logger.error(`Failed to update status to FAILED: ${e}`));
+
     throw error;
   }
 };

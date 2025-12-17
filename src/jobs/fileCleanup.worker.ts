@@ -3,6 +3,7 @@ import { prisma } from '../config/db';
 import logger from '../utils/logger';
 import { S3Client, DeleteObjectCommand } from '@aws-sdk/client-s3';
 import { getConfig } from '../config/config';
+import { FileStatus } from '@prisma/client';
 
 const config = getConfig(process.env);
 
@@ -24,7 +25,7 @@ export const processFileCleanupJob = async (job: Job) => {
       const abandonedFiles = await prisma.file.findMany({
         where: {
           status: {
-            in: ['PENDING', 'FAILED'],
+            in: [FileStatus.PENDING, FileStatus.FAILED],
           },
           createdAt: {
             lt: new Date(Date.now() - 24 * 60 * 60 * 1000), // 24 hours ago

@@ -8,6 +8,27 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
         body { font-family: 'Inter', sans-serif; }
+
+        /* Floating Animation for Promo Card */
+        @keyframes float {
+            0% { transform: translateY(-50%) translateY(20px); }
+            50% { transform: translateY(-50%) translateY(10px); }
+            100% { transform: translateY(-50%) translateY(20px); }
+        }
+        .animate-float {
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        /* Gentle Shake/Attention Animation */
+        @keyframes gentle-shake {
+            0%, 100% { transform: translateY(-50%) rotate(0deg); }
+            2% { transform: translateY(-50%) rotate(-2deg); }
+            4% { transform: translateY(-50%) rotate(2deg); }
+            6% { transform: translateY(-50%) rotate(0deg); }
+        }
+        .animate-attention {
+            animation: gentle-shake 10s ease-in-out infinite; /* Occurs every 10s */
+        }
     </style>
     <script>
         tailwind.config = {
@@ -26,9 +47,20 @@
         }
     </script>
 </head>
-<body class="bg-dark-900 text-slate-300 min-h-screen">
-    <div class="max-w-4xl mx-auto p-8">
-        <div class="mb-10 text-center">
+<body class="bg-dark-900 text-slate-300 min-h-screen relative">
+    
+    <!-- Sticky Live Demo Button -->
+    <a href="/client" target="_blank" class="fixed top-6 right-6 z-[70] flex items-center gap-3 bg-blue-600 hover:bg-blue-500 text-white px-5 py-2.5 rounded-full font-bold shadow-lg shadow-blue-500/30 transition-all hover:-translate-y-0.5 border border-blue-400/50 backdrop-blur-md group">
+        <span class="relative flex h-2.5 w-2.5">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-white"></span>
+        </span>
+        <span class="group-hover:tracking-wide transition-all">View Live Demo</span>
+    </a>
+
+    <!-- Main Content - Shifted Left -->
+    <div class="max-w-4xl mx-auto lg:mx-0 lg:ml-24 p-8">
+        <div class="mb-10 text-center lg:text-left">
             <h1 class="text-4xl font-bold text-white mb-4">Railway Deployment Guide</h1>
             <p class="text-slate-400">Step-by-step instructions to deploy your application on Railway</p>
         </div>
@@ -38,18 +70,12 @@
             <div class="bg-dark-800 p-6 rounded-xl border border-dark-700">
                 <h3 class="text-xl font-bold text-white mb-4"><span class="bg-blue-600 text-white px-2 py-0.5 rounded text-sm mr-2">Step 1</span>Go to Railway</h3>
                 <p class="mb-4">Go to <a href="https://railway.com" target="_blank" class="text-blue-400 hover:underline">railway.com</a></p>
-                <div class="aspect-video bg-dark-700 rounded-lg flex items-center justify-center border-2 border-dashed border-dark-900/50">
-                    <span class="text-slate-500 font-medium">Image Placeholder: Railway Homepage</span>
-                </div>
             </div>
 
             <!-- Step 2 -->
             <div class="bg-dark-800 p-6 rounded-xl border border-dark-700">
                 <h3 class="text-xl font-bold text-white mb-4"><span class="bg-blue-600 text-white px-2 py-0.5 rounded text-sm mr-2">Step 2</span>Sign Up / Login</h3>
                 <p class="mb-4">Signup or login to your account.</p>
-                <div class="aspect-video bg-dark-700 rounded-lg flex items-center justify-center border-2 border-dashed border-dark-900/50">
-                    <span class="text-slate-500 font-medium">Image Placeholder: Signup/Login Screen</span>
-                </div>
             </div>
 
             <!-- Step 3 -->
@@ -57,7 +83,7 @@
                 <h3 class="text-xl font-bold text-white mb-4"><span class="bg-blue-600 text-white px-2 py-0.5 rounded text-sm mr-2">Step 3</span>Create New Project</h3>
                 <p class="mb-4">In the <a href="https://railway.com/dashboard" target="_blank" class="text-blue-400 hover:underline">dashboard</a>, click on "New".</p>
                 <div class="aspect-video bg-dark-700 rounded-lg flex items-center justify-center border-2 border-dashed border-dark-900/50">
-                    <span class="text-slate-500 font-medium">Image Placeholder: Dashboard "New" Button</span>
+                    <img src="https://pub-ce2718d3322e486d97486bc7e573557d.r2.dev/railway-tutorial/1.png" class="text-slate-500 font-medium" />
                 </div>
             </div>
 
@@ -66,7 +92,7 @@
                 <h3 class="text-xl font-bold text-white mb-4"><span class="bg-blue-600 text-white px-2 py-0.5 rounded text-sm mr-2">Step 4</span>Empty Project</h3>
                 <p class="mb-4">Create a new empty Project.</p>
                 <div class="aspect-video bg-dark-700 rounded-lg flex items-center justify-center border-2 border-dashed border-dark-900/50">
-                    <span class="text-slate-500 font-medium">Image Placeholder: Create Empty Project Option</span>
+                    <img src="https://pub-ce2718d3322e486d97486bc7e573557d.r2.dev/railway-tutorial/2.png" class="text-slate-500 font-medium" />
                 </div>
             </div>
 
@@ -75,7 +101,7 @@
                 <h3 class="text-xl font-bold text-white mb-4"><span class="bg-blue-600 text-white px-2 py-0.5 rounded text-sm mr-2">Step 5</span>Project Area</h3>
                 <p class="mb-4">You will have an empty area like this.</p>
                 <div class="aspect-video bg-dark-700 rounded-lg flex items-center justify-center border-2 border-dashed border-dark-900/50">
-                    <span class="text-slate-500 font-medium">Image Placeholder: Empty Project Workspace</span>
+                    <img src="https://pub-ce2718d3322e486d97486bc7e573557d.r2.dev/railway-tutorial/3.png" class="text-slate-500 font-medium" />
                 </div>
             </div>
 
@@ -83,8 +109,10 @@
             <div class="bg-dark-800 p-6 rounded-xl border border-dark-700">
                 <h3 class="text-xl font-bold text-white mb-4"><span class="bg-blue-600 text-white px-2 py-0.5 rounded text-sm mr-2">Step 6</span>Add Database Service</h3>
                 <p class="mb-4">Open the project in the browser folder and drag and drop the <code>docker-compose-postgres.railway.yml</code> file. This will create a new "db" service.</p>
-                <div class="aspect-video bg-dark-700 rounded-lg flex items-center justify-center border-2 border-dashed border-dark-900/50">
-                    <span class="text-slate-500 font-medium">Image Placeholder: Dragging Docker Compose File</span>
+                <div class="aspect-video bg-dark-700 rounded-lg flex flex-col gap-2 items-center justify-center border-2 border-dashed border-dark-900/50">
+                    <img class="" src="https://pub-ce2718d3322e486d97486bc7e573557d.r2.dev/railway-tutorial/4.png" class="text-slate-500 font-medium" />
+                    <img class="" src="https://pub-ce2718d3322e486d97486bc7e573557d.r2.dev/railway-tutorial/5.png" class="text-slate-500 font-medium" />
+                    <img src="https://pub-ce2718d3322e486d97486bc7e573557d.r2.dev/railway-tutorial/6.png" class="text-slate-500 font-medium" />
                 </div>
             </div>
 
@@ -92,8 +120,9 @@
             <div class="bg-dark-800 p-6 rounded-xl border border-dark-700">
                 <h3 class="text-xl font-bold text-white mb-4"><span class="bg-blue-600 text-white px-2 py-0.5 rounded text-sm mr-2">Step 7</span>Deploy Database</h3>
                 <p class="mb-4">Click "Deploy" to deploy the db service.</p>
-                <div class="aspect-video bg-dark-700 rounded-lg flex items-center justify-center border-2 border-dashed border-dark-900/50">
-                    <span class="text-slate-500 font-medium">Image Placeholder: Clicking DeployDB</span>
+                <div class="aspect-video bg-dark-700 rounded-lg flex flex-col gap-2 items-center justify-center border-2 border-dashed border-dark-900/50">
+                    <img src="https://pub-ce2718d3322e486d97486bc7e573557d.r2.dev/railway-tutorial/7.png" class="text-slate-500 font-medium" />
+                    <img src="https://pub-ce2718d3322e486d97486bc7e573557d.r2.dev/railway-tutorial/8.png" class="text-slate-500 font-medium" />
                 </div>
             </div>
 
@@ -102,7 +131,7 @@
                 <h3 class="text-xl font-bold text-white mb-4"><span class="bg-blue-600 text-white px-2 py-0.5 rounded text-sm mr-2">Step 8</span>Add Redis Service</h3>
                 <p class="mb-4">Once the db service gets deployed, go ahead and drag and drop the next file <code>docker-compose.redis.railway.yml</code> to create the redis service.</p>
                 <div class="aspect-video bg-dark-700 rounded-lg flex items-center justify-center border-2 border-dashed border-dark-900/50">
-                    <span class="text-slate-500 font-medium">Image Placeholder: Dragging Redis Compose File</span>
+                    <img src="https://pub-ce2718d3322e486d97486bc7e573557d.r2.dev/railway-tutorial/10.png" class="text-slate-500 font-medium" />
                 </div>
             </div>
 
@@ -111,7 +140,7 @@
                 <h3 class="text-xl font-bold text-white mb-4"><span class="bg-blue-600 text-white px-2 py-0.5 rounded text-sm mr-2">Step 9</span>Deploy Redis</h3>
                 <p class="mb-4">Deploy the Redis service.</p>
                 <div class="aspect-video bg-dark-700 rounded-lg flex items-center justify-center border-2 border-dashed border-dark-900/50">
-                    <span class="text-slate-500 font-medium">Image Placeholder: Deploying Redis</span>
+                    <img src="https://pub-ce2718d3322e486d97486bc7e573557d.r2.dev/railway-tutorial/11.png" class="text-slate-500 font-medium" />
                 </div>
             </div>
 
@@ -120,7 +149,7 @@
                 <h3 class="text-xl font-bold text-white mb-4"><span class="bg-blue-600 text-white px-2 py-0.5 rounded text-sm mr-2">Step 10</span>Prepare App Deployment</h3>
                 <p class="mb-4">Now we need to deploy the app. Make sure to push it into a new github repo, then in railway project, click on the "Create" button.</p>
                 <div class="aspect-video bg-dark-700 rounded-lg flex items-center justify-center border-2 border-dashed border-dark-900/50">
-                    <span class="text-slate-500 font-medium">Image Placeholder: Create App Button</span>
+                    <img src="https://pub-ce2718d3322e486d97486bc7e573557d.r2.dev/railway-tutorial/create_button.png" class="text-slate-500 font-medium" />
                 </div>
             </div>
 
@@ -128,26 +157,27 @@
             <div class="bg-dark-800 p-6 rounded-xl border border-dark-700">
                 <h3 class="text-xl font-bold text-white mb-4"><span class="bg-blue-600 text-white px-2 py-0.5 rounded text-sm mr-2">Step 11</span>Connect GitHub Repo</h3>
                 <p class="mb-4">Choose your github repo (you may need to connect your github account and allow railway to access your repos including private ones).</p>
-                <div class="aspect-video bg-dark-700 rounded-lg flex items-center justify-center border-2 border-dashed border-dark-900/50">
-                    <span class="text-slate-500 font-medium">Image Placeholder: Selecting GitHub Repo</span>
+                <div class="aspect-video bg-dark-700 rounded-lg flex flex-col gap-2 items-center justify-center border-2 border-dashed border-dark-900/50">
+                    <img src="https://pub-ce2718d3322e486d97486bc7e573557d.r2.dev/railway-tutorial/12.png" class="text-slate-500 font-medium" />
                 </div>
             </div>
 
             <!-- Step 12 -->
             <div class="bg-dark-800 p-6 rounded-xl border border-dark-700">
                 <h3 class="text-xl font-bold text-white mb-4"><span class="bg-blue-600 text-white px-2 py-0.5 rounded text-sm mr-2">Step 12</span>Access App Configurations</h3>
-                <p class="mb-4">Before hitting "Deploy", we need to change some settings. Click on the nodejs app card to access the configurations UI.</p>
+                <p class="mb-4">Before hitting "Deploy", we need to change some settings. Click on the nodejs app card to access the configurations UI. then navigate to the <code>settings</code> tab.</p>
                 <div class="aspect-video bg-dark-700 rounded-lg flex items-center justify-center border-2 border-dashed border-dark-900/50">
-                    <span class="text-slate-500 font-medium">Image Placeholder: Clicking Node App Service</span>
+                    <img src="https://pub-ce2718d3322e486d97486bc7e573557d.r2.dev/railway-tutorial/13.png" class="text-slate-500 font-medium" />
                 </div>
             </div>
 
             <!-- Step 13 -->
             <div class="bg-dark-800 p-6 rounded-xl border border-dark-700">
                 <h3 class="text-xl font-bold text-white mb-4"><span class="bg-blue-600 text-white px-2 py-0.5 rounded text-sm mr-2">Step 13</span>Set Config File</h3>
-                <p class="mb-4">At the very bottom you will find a section named "Config-as-code". In the Railway config file input choose <code>railway.toml</code>.</p>
-                <div class="aspect-video bg-dark-700 rounded-lg flex items-center justify-center border-2 border-dashed border-dark-900/50">
-                    <span class="text-slate-500 font-medium">Image Placeholder: Selecting railway.toml</span>
+                <p class="mb-4">At the very bottom you will find a section named "Config-as-code". In the Railway config file input choose <code>railway.toml</code></p>
+                <div class="aspect-video bg-dark-700 rounded-lg flex flex-col gap-2 items-center justify-center border-2 border-dashed border-dark-900/50">
+                    <img src="https://pub-ce2718d3322e486d97486bc7e573557d.r2.dev/railway-tutorial/14.png" class="text-slate-500 font-medium" />
+                    <img src="https://pub-ce2718d3322e486d97486bc7e573557d.r2.dev/railway-tutorial/15.png" class="text-slate-500 font-medium" />
                 </div>
             </div>
 
@@ -155,8 +185,9 @@
             <div class="bg-dark-800 p-6 rounded-xl border border-dark-700">
                 <h3 class="text-xl font-bold text-white mb-4"><span class="bg-blue-600 text-white px-2 py-0.5 rounded text-sm mr-2">Step 14</span>Generate Domain</h3>
                 <p class="mb-4">In the Networking section and under "Public Networking" click on "Generate Domain".</p>
-                <div class="aspect-video bg-dark-700 rounded-lg flex items-center justify-center border-2 border-dashed border-dark-900/50">
-                    <span class="text-slate-500 font-medium">Image Placeholder: Generating Domain</span>
+                <div class="aspect-video bg-dark-700 rounded-lg flex flex-col gap-2 items-center justify-center border-2 border-dashed border-dark-900/50">
+                    <img src="https://pub-ce2718d3322e486d97486bc7e573557d.r2.dev/railway-tutorial/16.png" class="text-slate-500 font-medium" />
+                    <img src="https://pub-ce2718d3322e486d97486bc7e573557d.r2.dev/railway-tutorial/17.png" class="text-slate-500 font-medium" />
                 </div>
             </div>
 
@@ -165,7 +196,7 @@
                 <h3 class="text-xl font-bold text-white mb-4"><span class="bg-blue-600 text-white px-2 py-0.5 rounded text-sm mr-2">Step 15</span>Switch to Variables</h3>
                 <p class="mb-4">Now switch to the "Variables" panel. Ignore all the "Suggested Variables".</p>
                 <div class="aspect-video bg-dark-700 rounded-lg flex items-center justify-center border-2 border-dashed border-dark-900/50">
-                    <span class="text-slate-500 font-medium">Image Placeholder: Variables Tab</span>
+                    <img src="https://pub-ce2718d3322e486d97486bc7e573557d.r2.dev/railway-tutorial/18.png" class="text-slate-500 font-medium" />
                 </div>
             </div>
 
@@ -173,8 +204,9 @@
             <div class="bg-dark-800 p-6 rounded-xl border border-dark-700">
                 <h3 class="text-xl font-bold text-white mb-4"><span class="bg-blue-600 text-white px-2 py-0.5 rounded text-sm mr-2">Step 16</span>Open Raw Editor</h3>
                 <p class="mb-4">Go ahead and click on "Raw Editor".</p>
-                <div class="aspect-video bg-dark-700 rounded-lg flex items-center justify-center border-2 border-dashed border-dark-900/50">
-                    <span class="text-slate-500 font-medium">Image Placeholder: Raw Editor Button</span>
+                <div class="aspect-video bg-dark-700 rounded-lg flex flex-col gap-2 items-center justify-center border-2 border-dashed border-dark-900/50">
+                    <img width="100%" height="auto" src="https://pub-ce2718d3322e486d97486bc7e573557d.r2.dev/railway-tutorial/19.png" class="text-slate-500 font-medium" />
+                    <img src="https://pub-ce2718d3322e486d97486bc7e573557d.r2.dev/railway-tutorial/20.png" class="text-slate-500 font-medium" />
                 </div>
             </div>
 
@@ -182,8 +214,10 @@
             <div class="bg-dark-800 p-6 rounded-xl border border-dark-700">
                 <h3 class="text-xl font-bold text-white mb-4"><span class="bg-blue-600 text-white px-2 py-0.5 rounded text-sm mr-2">Step 17</span>Copy Env Variables</h3>
                 <p class="mb-4">Open the nodejs project on VSCode and open the <code>.env.railway</code> file. Copy its entire content and paste it inside the "Raw editor" on Railway.</p>
-                <div class="aspect-video bg-dark-700 rounded-lg flex items-center justify-center border-2 border-dashed border-dark-900/50">
-                    <span class="text-slate-500 font-medium">Image Placeholder: Pasting Env Vars</span>
+                <div class="aspect-video bg-dark-700 rounded-lg flex flex-col gap-2 items-center justify-center border-2 border-dashed border-dark-900/50">
+                    <img src="https://pub-ce2718d3322e486d97486bc7e573557d.r2.dev/railway-tutorial/21.png" class="text-slate-500 font-medium" />                    
+                    <img src="https://pub-ce2718d3322e486d97486bc7e573557d.r2.dev/railway-tutorial/22.png" class="text-slate-500 font-medium" />
+                    <img src="https://pub-ce2718d3322e486d97486bc7e573557d.r2.dev/railway-tutorial/23.png" class="text-slate-500 font-medium" />
                 </div>
             </div>
 
@@ -191,8 +225,8 @@
             <div class="bg-dark-800 p-6 rounded-xl border border-dark-700">
                 <h3 class="text-xl font-bold text-white mb-4"><span class="bg-blue-600 text-white px-2 py-0.5 rounded text-sm mr-2">Step 18</span>Customize Variables</h3>
                 <p class="mb-4">You may want to edit your environment variables like adding your Cloudflare endpoint and API keys.</p>
-                <div class="aspect-video bg-dark-700 rounded-lg flex items-center justify-center border-2 border-dashed border-dark-900/50">
-                    <span class="text-slate-500 font-medium">Image Placeholder: Editing Keys</span>
+                <div class="aspect-video bg-dark-700 rounded-lg flex flex-col gap-2 items-center justify-center border-2 border-dashed border-dark-900/50">
+                    <img width="80%" height="auto" src="https://pub-ce2718d3322e486d97486bc7e573557d.r2.dev/railway-tutorial/24.png" class="text-slate-500 font-medium" />
                 </div>
             </div>
 
@@ -200,8 +234,10 @@
             <div class="bg-dark-800 p-6 rounded-xl border border-dark-700">
                 <h3 class="text-xl font-bold text-white mb-4"><span class="bg-blue-600 text-white px-2 py-0.5 rounded text-sm mr-2">Step 19</span>Keep Service Links</h3>
                 <p class="mb-4">Keep all the variables values that look like this <code>${{db.DATABASE_URL_PRIVATE}}</code> or <code>${{redis.VARIABLE}}</code> (you may want to change the demo variable to false).</p>
-                <div class="aspect-video bg-dark-700 rounded-lg flex items-center justify-center border-2 border-dashed border-dark-900/50">
-                    <span class="text-slate-500 font-medium">Image Placeholder: Service Variables</span>
+                <div class="aspect-video bg-dark-700 rounded-lg flex flex-col gap-2 items-center justify-center border-2 border-dashed border-dark-900/50">
+                    <img width="80%" height="auto" src="https://pub-ce2718d3322e486d97486bc7e573557d.r2.dev/railway-tutorial/25.png" class="text-slate-500 font-medium" />
+                    <img width="80%" height="auto" src="https://pub-ce2718d3322e486d97486bc7e573557d.r2.dev/railway-tutorial/26.png" class="text-slate-500 font-medium" />
+                    <img width="80%" height="auto" src="https://pub-ce2718d3322e486d97486bc7e573557d.r2.dev/railway-tutorial/27.png" class="text-slate-500 font-medium" />
                 </div>
             </div>
 
@@ -210,7 +246,7 @@
                 <h3 class="text-xl font-bold text-white mb-4"><span class="bg-blue-600 text-white px-2 py-0.5 rounded text-sm mr-2">Step 20</span>Update Variables</h3>
                 <p class="mb-4">Click on "Update Variables".</p>
                 <div class="aspect-video bg-dark-700 rounded-lg flex items-center justify-center border-2 border-dashed border-dark-900/50">
-                    <span class="text-slate-500 font-medium">Image Placeholder: Update Button</span>
+                    <img width="80%" height="auto" src="https://pub-ce2718d3322e486d97486bc7e573557d.r2.dev/railway-tutorial/28.png" class="text-slate-500 font-medium" />
                 </div>
             </div>
 
@@ -219,7 +255,7 @@
                 <h3 class="text-xl font-bold text-white mb-4"><span class="bg-blue-600 text-white px-2 py-0.5 rounded text-sm mr-2">Step 21</span>Service Connections</h3>
                 <p class="mb-4">You should notice that the Node.js app (from github repo) is now connected to the other "db" and "redis" services.</p>
                 <div class="aspect-video bg-dark-700 rounded-lg flex items-center justify-center border-2 border-dashed border-dark-900/50">
-                    <span class="text-slate-500 font-medium">Image Placeholder: Service Connections Graph</span>
+                    <img width="80%" height="auto" src="https://pub-ce2718d3322e486d97486bc7e573557d.r2.dev/railway-tutorial/29.png" class="text-slate-500 font-medium" />
                 </div>
             </div>
 
@@ -227,8 +263,11 @@
             <div class="bg-dark-800 p-6 rounded-xl border border-dark-700">
                 <h3 class="text-xl font-bold text-white mb-4"><span class="bg-blue-600 text-white px-2 py-0.5 rounded text-sm mr-2">Step 22</span>Fix Service Names</h3>
                 <p class="mb-4">If your not seeing the arrows connecting the app to the services, make sure that your services has the exact names "db" and "redis". You can edit them like shown in the images.</p>
-                <div class="aspect-video bg-dark-700 rounded-lg flex items-center justify-center border-2 border-dashed border-dark-900/50">
-                    <span class="text-slate-500 font-medium">Image Placeholder: Renaming Services</span>
+                <div class="aspect-video bg-dark-700 rounded-lg flex flex-col gap-2 items-center justify-center border-2 border-dashed border-dark-900/50">
+                    <img width="80%" height="auto" src="https://pub-ce2718d3322e486d97486bc7e573557d.r2.dev/railway-tutorial/44.png" class="text-slate-500 font-medium" />
+                    <img width="80%" height="auto" src="https://pub-ce2718d3322e486d97486bc7e573557d.r2.dev/railway-tutorial/45.png" class="text-slate-500 font-medium" />
+                    <img width="80%" height="auto" src="https://pub-ce2718d3322e486d97486bc7e573557d.r2.dev/railway-tutorial/46.png" class="text-slate-500 font-medium" />                    
+                    <img width="80%" height="auto" src="https://pub-ce2718d3322e486d97486bc7e573557d.r2.dev/railway-tutorial/47.png" class="text-slate-500 font-medium" />
                 </div>
             </div>
 
@@ -237,7 +276,7 @@
                 <h3 class="text-xl font-bold text-white mb-4"><span class="bg-blue-600 text-white px-2 py-0.5 rounded text-sm mr-2">Step 23</span>Deploy</h3>
                 <p class="mb-4">Now you can finally click on "Deploy" and see the magic happen.</p>
                 <div class="aspect-video bg-dark-700 rounded-lg flex items-center justify-center border-2 border-dashed border-dark-900/50">
-                    <span class="text-slate-500 font-medium">Image Placeholder: Final Deploy Button</span>
+                    <img width="80%" height="auto" src="https://pub-ce2718d3322e486d97486bc7e573557d.r2.dev/railway-tutorial/30.png" class="text-slate-500 font-medium" />
                 </div>
             </div>
 
@@ -245,17 +284,20 @@
             <div class="bg-dark-800 p-6 rounded-xl border border-dark-700">
                 <h3 class="text-xl font-bold text-white mb-4"><span class="bg-blue-600 text-white px-2 py-0.5 rounded text-sm mr-2">Step 24</span>Check Logs</h3>
                 <p class="mb-4">You can check the logs to make sure that everything is working.</p>
-                <div class="aspect-video bg-dark-700 rounded-lg flex items-center justify-center border-2 border-dashed border-dark-900/50">
-                    <span class="text-slate-500 font-medium">Image Placeholder: Viewing Logs</span>
+                <div class="aspect-video bg-dark-700 rounded-lg flex flex-col gap-2 items-center justify-center border-2 border-dashed border-dark-900/50">
+                    <img width="80%" height="auto" src="https://pub-ce2718d3322e486d97486bc7e573557d.r2.dev/railway-tutorial/31.png" class="text-slate-500 font-medium" />
+                    <img width="80%" height="auto" src="https://pub-ce2718d3322e486d97486bc7e573557d.r2.dev/railway-tutorial/32.png" class="text-slate-500 font-medium" />
+                    <img width="80%" height="auto" src="https://pub-ce2718d3322e486d97486bc7e573557d.r2.dev/railway-tutorial/33.png" class="text-slate-500 font-medium" />
                 </div>
             </div>
 
             <!-- Step 25 -->
             <div class="bg-dark-800 p-6 rounded-xl border border-dark-700">
                 <h3 class="text-xl font-bold text-white mb-4"><span class="bg-blue-600 text-white px-2 py-0.5 rounded text-sm mr-2">Step 25</span>Verify Deployment</h3>
-                <p class="mb-4">If the deployment was successful, click on the Node.js app service and in the setting panel scroll to "Networking" and you will find a public url. That's where your application resides. If you click on it, you should get a page that says "API is running".</p>
-                <div class="aspect-video bg-dark-700 rounded-lg flex items-center justify-center border-2 border-dashed border-dark-900/50">
-                    <span class="text-slate-500 font-medium">Image Placeholder: Public URL</span>
+                <p class="mb-4">If the deployment was successful, click on the Node.js app service and in the <strong>setting</strong> panel scroll to <strong>"Networking"</strong> and you will find a public url. That's where your application resides. If you click on it, you should get a page that says "API is running".</p>
+                <div class="aspect-video bg-dark-700 rounded-lg flex flex-col gap-2 items-center justify-center border-2 border-dashed border-dark-900/50">
+                    <img width="80%" height="auto" src="https://pub-ce2718d3322e486d97486bc7e573557d.r2.dev/railway-tutorial/35.png" class="text-slate-500 font-medium" />
+                    <img src="https://pub-ce2718d3322e486d97486bc7e573557d.r2.dev/railway-tutorial/36.png" class="text-slate-500 font-medium" />
                 </div>
             </div>
 
@@ -264,22 +306,22 @@
                 <h3 class="text-xl font-bold text-white mb-4"><span class="bg-blue-600 text-white px-2 py-0.5 rounded text-sm mr-2">Step 26</span>Important Note</h3>
                 <p class="mb-4">You can always update the env variables, but always keep the variables with this value <code>${{db.VARIABLE}}</code> or <code>${{redis.VARIABLE}}</code> or <code>${{railway.VARIABLE}}</code> the same!</p>
                 <div class="aspect-video bg-dark-700 rounded-lg flex items-center justify-center border-2 border-dashed border-dark-900/50">
-                    <span class="text-slate-500 font-medium">Image Placeholder: Warning Note</span>
+                    <img src="https://pub-ce2718d3322e486d97486bc7e573557d.r2.dev/railway-tutorial/43.png" class="text-slate-500 font-medium" />
                 </div>
             </div>
 
         </div>
 
-        <div class="mt-12 text-center border-t border-dark-700 pt-8">
-            <a href="/" class="text-blue-500 hover:text-blue-400 font-medium flex items-center justify-center gap-2">
+        <div class="mt-12 mb-64 text-center border-t border-dark-700 pt-8">
+            <a href="/client" class="text-blue-500 hover:text-blue-400 font-medium flex items-center justify-center gap-2">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
                 Back to Dashboard
             </a>
         </div>
     </div>
-    <!-- Sticky Subscription Bar -->
+    <!-- Sticky Subscription Bar - Shifted Content Left -->
     <div class="fixed bottom-0 left-0 right-0 bg-dark-900 border-t border-dark-700 p-4 transform translate-y-full transition-transform duration-300 z-50" id="stickySubBar">
-        <div class="max-w-4xl mx-auto flex flex-col md:flex-row items-center gap-4">
+        <div class="max-w-4xl mx-auto lg:mx-0 lg:ml-24 flex flex-col md:flex-row items-center gap-4">
             <div class="flex-1 text-center md:text-left">
                 <h3 class="text-white text-sm font-bold m-0 flex items-center justify-center md:justify-start gap-2">
                     <span class="text-xl">🎁</span> Join the Community
@@ -301,11 +343,75 @@
         </div>
     </div>
 
+    <!-- Sticky Promo Card (Right Side, Centered, Animated) -->
+    <!-- Position: fixed top-1/2 right-6 -translate-y-1/2 -->
+    <div id="stickyPromoCard" class="fixed top-1/2 right-6 -translate-y-1/2 z-[60] w-80 bg-white dark:bg-slate-800 rounded-xl shadow-2xl border border-blue-500/40 overflow-hidden transform transition-all duration-300 opacity-100 font-sans animate-attention hidden lg:block">
+        <!-- Header -->
+        <div class="bg-gradient-to-r from-indigo-600 to-purple-600 p-3 flex justify-between items-center relative overflow-hidden">
+            <div class="absolute inset-0 bg-white/10 animate-pulse"></div>
+            <div class="flex items-center gap-2 relative z-10">
+                <span class="relative flex h-3 w-3">
+                  <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
+                  <span class="relative inline-flex rounded-full h-3 w-3 bg-white"></span>
+                </span>
+                <span class="text-white font-bold text-sm tracking-wide">Career & Startup Accelerator</span>
+            </div>
+            <button onclick="this.closest('#stickyPromoCard').classList.add('translate-x-[120%]', 'opacity-0')" class="relative z-10 text-white/80 hover:text-white transition-colors cursor-pointer">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+        </div>
+
+        <!-- Body -->
+        <div class="p-4 relative">
+             <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-blue-400 to-transparent opacity-50"></div>
+            <h3 class="text-slate-800 dark:text-white font-bold text-lg leading-tight mb-2">
+                Build a SaaS or Impress Hiring Managers
+            </h3>
+            <p class="text-slate-500 dark:text-slate-400 text-xs mb-3 leading-relaxed">
+                The ultimate AI-integrated template. Launch your startup for $0 or build a standout portfolio to land your dream job.
+            </p>
+
+            <!-- The GIF Section (Simulated) -->
+            <div class="relative group rounded-lg overflow-hidden border border-slate-200 dark:border-slate-700 mb-3 bg-slate-100 dark:bg-slate-900 cursor-pointer hover:scale-[1.02] transition-transform duration-300">
+                <!-- Using a tech-themed placeholder to represent the GIF content -->
+                <img src="https://placehold.co/300x120/1e293b/60a5fa?text=GIFT+21+Free+Python+ML+Labs%0A+Interactive+Learning" alt="ML Labs Preview" class="w-full h-auto object-cover opacity-90 hover:opacity-100 transition-opacity">
+                <div class="absolute bottom-0 left-0 right-0 bg-black/60 p-1.5 backdrop-blur-sm">
+                    <p class="text-[10px] text-white font-medium text-center flex items-center justify-center gap-1">
+                        🎁 Gift Included: 21 Interactive ML Labs
+                    </p>
+                </div>
+            </div>
+
+            <!-- Features List -->
+            <ul class="space-y-2 mb-4">
+                <li class="flex items-start gap-2 text-xs text-slate-600 dark:text-slate-300">
+                    <svg class="w-4 h-4 text-green-500 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                    <span><strong>Lifetime Access:</strong> Get all future updates & features for free.</span>
+                </li>
+                <li class="flex items-start gap-2 text-xs text-slate-600 dark:text-slate-300">
+                    <svg class="w-4 h-4 text-yellow-500 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                    <span><strong>Urgent:</strong> Price increases as new features are added.</span>
+                </li>
+            </ul>
+
+            <!-- CTA -->
+            <a href="https://aymenkani.gumroad.com/l/nodejs-enterprise-launchpad/PRO-VISITOR?price=26&option=2nCmfCVPlr707OzzOD7UGA%3D%3D&_gl=1*2ay5ia*_ga*NTYyNDU1Mjc4LjE3NjA5NzUzNDg.*_ga_6LJN6D94N6*czE3NjU5ODAzOTUkbzE3NCRnMSR0MTc2NTk4MDU1OCRqNjAkbDAkaDA." target="_blank" class="block w-full py-3 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white text-center rounded-lg font-bold text-sm shadow-lg shadow-blue-500/25 transition-all transform hover:-translate-y-1 relative overflow-hidden group animate-float ring-2 ring-offset-2 ring-offset-slate-800 ring-blue-500/50">
+                <span class="relative z-10 flex items-center justify-center gap-2">
+                    Get Template & Gift
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                </span>
+                <div class="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700"></div>
+            </a>
+        </div>
+    </div>
+
     <script>
         // Show sticky bar after scroll
         setTimeout(() => {
             document.getElementById('stickySubBar').classList.remove('translate-y-full');
         }, 3000);
     </script>
+    <script src="client/js/udemy-widget.js" ></script>
+
 </body>
 </html>
