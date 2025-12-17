@@ -14,6 +14,7 @@ import { RecursiveCharacterTextSplitter } from '@langchain/textsplitters';
 import { extractText, getDocumentProxy } from 'unpdf';
 import { redisConnection } from './queue';
 import { prompts } from '../config/prompts';
+import { aiModels } from '../config/ai-models';
 
 // Start of worker implementation
 const WORKER_NAME = 'ai-ingestion';
@@ -126,7 +127,7 @@ export const processJob = async (job: Job<IngestionJobData>) => {
       // Visual RAG: Analyze image with Gemini
       logger.info(`Processing image file: ${fileKey}`);
       const { text: imageDesc } = await generateText({
-        model: google('gemini-2.5-flash-lite'), // use gemini-2.5-flash-lite for free tier
+        model: google(aiModels.ingestion.imageAnalysis), // use gemini-2.5-flash-lite for free tier
         messages: [
           {
             role: 'user',
@@ -167,7 +168,7 @@ export const processJob = async (job: Job<IngestionJobData>) => {
     // 5. Generate Embeddings & Save
     for (const chunk of chunks) {
       const { embedding } = await embed({
-        model: google.textEmbeddingModel('text-embedding-004'),
+        model: google.textEmbeddingModel(aiModels.ingestion.embedding),
         value: chunk.pageContent,
       });
 

@@ -8,6 +8,7 @@ import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import { Config } from '../config/config';
 import logger from '../utils/logger';
 import { prompts } from '../config/prompts';
+import { aiModels } from '../config/ai-models';
 
 export const createAgentService = (config: Config) => {
   const s3Client = new S3Client({
@@ -32,7 +33,7 @@ export const createAgentService = (config: Config) => {
     if (messages.length > 1) {
       try {
         const { text } = await generateText({
-          model: google('gemini-2.5-flash-lite'),
+          model: google(aiModels.agent.queryRewriter),
           messages: messages, // Pass full history
           system: prompts.agent.queryRewriter,
         });
@@ -46,7 +47,7 @@ export const createAgentService = (config: Config) => {
 
     // 2. Convert refined query to embedding
     const { embedding } = await embed({
-      model: google.textEmbeddingModel('text-embedding-004'),
+      model: google.textEmbeddingModel(aiModels.agent.embedding),
       value: searchQuery,
     });
 
@@ -100,7 +101,7 @@ export const createAgentService = (config: Config) => {
         - gemini-2.5-flash-tts
         - gemma-3-12b
       */
-      model: google('gemini-2.5-flash-lite'), // Be aware! some models cost money or not available in free tier
+      model: google(aiModels.agent.chat), // Be aware! some models cost money or not available in free tier
       messages,
       system: systemPrompt,
     });

@@ -253,6 +253,10 @@ The free tier includes:
 
 Check [Google AI pricing](https://ai.google.dev/pricing) for limits.
 
+### 4. AI Model Configuration
+
+The specific AI models used for ingestion, chat, and embeddings are configured in `src/config/ai-models.ts`. You can modify this file to switch between different Gemini models (e.g., upgrading from `gemini-2.5-flash-lite` to `gemini-1.5-pro` for better reasoning).
+
 ## File Support
 
 | File Type | Processing Method | Max Size |
