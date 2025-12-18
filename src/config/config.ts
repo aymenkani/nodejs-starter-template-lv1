@@ -60,8 +60,8 @@ export type Config = {
     accessExpirationMinutes: number;
     refreshExpirationDays: number;
     resetPasswordSecret: string;
-    resetPasswordExpirationMinutes: number; // This line was missing
-    verifyEmailExpirationMinutes: number;
+    resetPasswordExpirationMinutes: number;
+    verifyEmailExpirationMinutes: number; // Not used in the application
   };
   aws: {
     accessKeyId: string;
