@@ -74,6 +74,7 @@ Here's an overview of the main directories and files:
 ├───eslint.config.mjs             # ESLint configuration file
 ├───package.json                  # Project metadata and dependencies
 ├───prisma.config.ts              # Prisma configuration
+├───railway.toml                  # Railway deployment configuration
 ├───README.md                     # Project README file
 ├───render.yaml                   # Render deployment configuration
 └───tsconfig.json                 # TypeScript compiler configuration
@@ -198,14 +199,17 @@ Contains all [test files](./testing.md) for the application. Tests are organized
 *   `docker-compose.mysql.yml`: Defines the Docker Compose setup for using a MySQL database.
 *   `docker-compose.postgres.yml`: Defines the Docker Compose setup for using a PostgreSQL database.
 *   `docker-compose.redis.yml`: Defines the Docker Compose setup for using a Redis service.
+*   `docker-compose.postgres.railway.yml` & `docker-compose.redis.railway.yml`: Specialized Docker Compose templates for Railway's "drag and drop" infrastructure provisioning.
 *   `docker-compose.override.yml`: Contains development-specific overrides for `docker-compose.yml`. It enables features like hot-reloading and mounts the local source code into the container. Docker Compose automatically merges this file, so you don't have to reference it manually when using `npm run docker:up`.
 *   `docker-compose.yml`: Defines multi-container Docker applications. Used for local development services (e.g., databases), excluding Redis which is now in `docker-compose.redis.yml`.
 *   `docker-entrypoint.dev.sh`: A smart entrypoint script for development Docker containers.
 *   `Dockerfile`: Instructions for building a Docker image of your application for production deployment.
 *   `Dockerfile.dev`: Instructions for building a Docker image of your application for development.
+*   `Dockerfile.railway`: Specialized production Dockerfile optimized for the Railway deployment engine.
 *   `eslint.config.mjs`: Configuration file for ESLint, a tool for identifying and reporting on patterns found in ECMAScript/JavaScript code.
 *   `package.json`: Contains project metadata, dependencies, and a variety of scripts for development, building, testing, and more. For a detailed breakdown of all available scripts, see the [npm scripts section in the Getting Started guide](./getting-started.md#4-available-npm-scripts).
 *   `prisma.config.ts`: Configuration for Prisma, often used for custom Prisma Client generation or data proxy settings.
+*   `railway.toml`: Configuration file for building and deploying the application on Railway.
 *   `README.md`: The main README file for the project, providing a quick overview.
 *   `render.yaml`: Configuration file for deploying the application to Render.
 *   `tsconfig.json`: TypeScript compiler configuration file.

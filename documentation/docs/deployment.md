@@ -168,9 +168,33 @@ services:
 
 This configuration ensures zero-downtime deployments and allows you to scale to 10+ instances safely.
 
+## 4. Cloud Deployment (Railway)
 
+This template is fully optimized for **[Railway](https://railway.app/)**, providing a seamless experience for developers who prefer a modern, high-performance PAAS.
 
-## 4. Production Scripts
+### The Railway Advantage
+Railway offers a unique "Infrastructure-as-Code" experience through its modular architecture. To support this, we've included several dedicated configuration artifacts:
+
+*   **`railway.toml`**: Optimized build and run instructions specifically for the Railway engine.
+*   **`.env.railway`**: A template for environment variables pre-configured for Railway's networking.
+*   **`Dockerfile.railway`**: A specialized production image that ensures smooth Prisma Client generation within the Railway environment.
+
+### Instant Infrastructure (Drag & Drop)
+One of Railway's most powerful features is the ability to provision infrastructure using Docker Compose files. 
+
+We provide two pre-configured templates for this purpose:
+*   `docker-compose.postgres.railway.yml`
+*   `docker-compose.redis.railway.yml`
+
+> [!TIP]
+> **Pro Tip:** You can simply drag and drop these `.railway.yml` files into the Railway dashboard playground to instantly deploy managed PostgreSQL and Redis instances.
+
+### Guided Deployment
+For a deep dive into the "easy" process of deploying this entire template on Railway, including environment setup and service linking, follow our dedicated guide.
+
+[👉 **Railway Deployment Tutorial (Coming Soon)**](https://example.com/railway-tutorial-placeholder)
+
+## 5. Production Scripts
 These `package.json` scripts are used internally by the `Dockerfile` and Render configuration.
 
 - **`build`**: The heavy lifter.
