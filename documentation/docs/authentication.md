@@ -141,6 +141,9 @@ sequenceDiagram
 *   **Auth Controller:** `src/controllers/auth.controller.ts` contains the endpoints to initiate the Google OAuth flow and handle the callback from Google.
 *   **Auth Service:** `src/services/auth.service.ts` manages the creation or retrieval of user accounts based on Google profile information and the issuance of JWTs.
 
+> [!TIP]
+> **Pro Tip:** Setting up production-ready, multi-strategy authentication can be time-consuming. The **[Node.js Enterprise Launchpad](https://aymenkani.gumroad.com/l/nodejs-enterprise-launchpad/PRO-VISITOR?price=26&option=2nCmfCVPlr707OzzOD7UGA%3D%3D&_gl=1*1qml59u*_ga*NTYyNDU1Mjc4LjE3NjA5NzUzNDg.*_ga_6LJN6D94N6*czE3NjYwNjQ0OTYkbzE4MyRnMCR0MTc2NjA2NDQ5NiRqNjAkbDAkaDA.)** comes with this entire flow pre-configured and ready for Railway deployment (including **$20 in credit** and **$0 Storage Cost**).
+
 ### Configuration
 
 Relevant [environment variables](./core-concepts.md#8-configuration-management) in your `.env` file:

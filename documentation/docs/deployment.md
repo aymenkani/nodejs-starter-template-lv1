@@ -66,8 +66,8 @@ npm run docker:down
 
 This template is fully optimized for **[Railway](https://railway.app/)**, providing a seamless experience for developers who prefer a modern, high-performance PAAS.
 
-> [!NOTE]
-> **Get $20 Credit**: If you don't have a Railway account yet, sign up using our **[referral link](https://railway.com?referralCode=2psx_t)** to receive **$20 in free credit** to jumpstart your deployment!
+> [!TIP] 
+> **Get $20 Credit + $0 Storage**: If you’re ready to skip the manual infrastructure headache, the **[Node.js Enterprise Launchpad](https://aymenkani.gumroad.com/l/nodejs-enterprise-launchpad/PRO-VISITOR?price=26&option=2nCmfCVPlr707OzzOD7UGA%3D%3D&_gl=1*1qml59u*_ga*NTYyNDU1Mjc4LjE3NjA5NzUzNDg.*_ga_6LJN6D94N6*czE3NjYwNjQ0OTYkbzE4MyRnMCR0MTc2NjA2NDQ5NiRqNjAkbDAkaDA.)** comes pre-configured for Railway. You'll get **$0 Storage Cost** and **$20 in free credit** (months of free Pro-Hosting) to jumpstart your deployment!
 
 > [!IMPORTANT]
 > **Cloudflare CORS**: If you are using Cloudflare R2 for file uploads, ensure you configure CORS correctly to allow direct uploads from your client domain. Follow our **[Cloudflare CORS Setup Guide](https://nodejs-starter-template-lv1-production-db8d.up.railway.app/client/cloudflare-cors.html)** for a smooth setup.

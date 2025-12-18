@@ -81,6 +81,9 @@ Here are the relevant scripts:
 >
 > For a complete guide on the local development workflow, see the **[Getting Started](./getting-started.md#option-2-running-everything-with-docker)** documentation.
 
+> [!NOTE]
+> **Show, Don't Sell:** If you'd rather skip the database provisioning and migration setup, the **[Node.js Enterprise Launchpad](https://aymenkani.gumroad.com/l/nodejs-enterprise-launchpad/PRO-VISITOR?price=26&option=2nCmfCVPlr707OzzOD7UGA%3D%3D&_gl=1*1qml59u*_ga*NTYyNDU1Mjc4LjE3NjA5NzUzNDg.*_ga_6LJN6D94N6*czE3NjYwNjQ0OTYkbzE4MyRnMCR0MTc2NjA2NDQ5NiRqNjAkbDAkaDA.)** comes with this pre-configured for Railway out-of-the-box. Plus, you get **$20 in credit** and **$0 Storage Cost**.
+
 ## 3. Seeding the Database (`prisma/seed.ts`)
 
 Database seeding is the process of populating your database with initial data. This is particularly useful for development, testing, or for pre-populating lookup tables.

@@ -252,6 +252,9 @@ This template uses **Cloudflare R2** but is **100% S3-compatible**. You can swit
 
 **For most apps**, R2's free egress makes it cheaper, especially for file downloads.
 
+> [!NOTE]
+> **Pro Tip:** If manual storage configuration feels overwhelming, the **[Node.js Enterprise Launchpad](https://aymenkani.gumroad.com/l/nodejs-enterprise-launchpad/PRO-VISITOR?price=26&option=2nCmfCVPlr707OzzOD7UGA%3D%3D&_gl=1*1qml59u*_ga*NTYyNDU1Mjc4LjE3NjA5NzUzNDg.*_ga_6LJN6D94N6*czE3NjYwNjQ0OTYkbzE4MyRnMCR0MTc2NjA2NDQ5NiRqNjAkbDAkaDA.)** comes with Cloudflare R2 pre-configured for you. This ensures a **$0 Storage Cost** for your uploads, along with a **$20 deployment credit**.
+
 ### Switching to AWS S3
 
 Remove or comment out the `endpoint` configuration:

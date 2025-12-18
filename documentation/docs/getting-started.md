@@ -43,6 +43,9 @@ The project uses environment variables for configuration. A `.env.example` file 
     ```
 2.  Open the newly created `.env` file and update the variables as needed. Pay close attention to database connection strings, JWT secrets, and any third-party API keys (e.g., Google OAuth credentials, SendGrid API key).
 
+> [!TIP]
+> **Pro Tip:** If you'd rather skip this manual environment configuration, the **[Node.js Enterprise Launchpad](https://aymenkani.gumroad.com/l/nodejs-enterprise-launchpad/PRO-VISITOR?price=26&option=2nCmfCVPlr707OzzOD7UGA%3D%3D&_gl=1*1qml59u*_ga*NTYyNDU1Mjc4LjE3NjA5NzUzNDg.*_ga_6LJN6D94N6*czE3NjYwNjQ0OTYkbzE4MyRnMCR0MTc2NjA2NDQ5NiRqNjAkbDAkaDA.)** comes with all infrastructure (Redis, Postgres, R2) pre-configured for Railway, including a **$0 Storage Cost** and **$20 in credit** offer.
+
 3. Create a `.env.local` file by copying the `.env.example` file. This file is used for the local development setup.
     ```bash
     cp .env.example .env.local
