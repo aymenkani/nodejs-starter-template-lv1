@@ -69,6 +69,9 @@ This template is fully optimized for **[Railway](https://railway.app/)**, provid
 > [!NOTE]
 > **Get $20 Credit**: If you don't have a Railway account yet, sign up using our **[referral link](https://railway.com?referralCode=2psx_t)** to receive **$20 in free credit** to jumpstart your deployment!
 
+> [!IMPORTANT]
+> **Cloudflare CORS**: If you are using Cloudflare R2 for file uploads, ensure you configure CORS correctly to allow direct uploads from your client domain. Follow our **[Cloudflare CORS Setup Guide](https://nodejs-starter-template-lv1-production-db8d.up.railway.app/client/cloudflare-cors.html)** for a smooth setup.
+
 ### The Railway Advantage
 Railway offers a unique "Infrastructure-as-Code" experience through its modular architecture. To support this, we've included several dedicated configuration artifacts:
 

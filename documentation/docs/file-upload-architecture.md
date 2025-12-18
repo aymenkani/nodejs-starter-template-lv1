@@ -338,7 +338,7 @@ DEMO_MODE=true  # Enables rate limiting and periodic cleanup
 ### "File not found" during confirmation
 
 **Cause**: Upload to R2 failed, but client thinks it succeeded  
-**Solution**: Check R2 dashboard, verify CORS settings
+**Solution**: Check R2 dashboard, verify CORS settings. See our [Cloudflare CORS Setup Guide](https://nodejs-starter-template-lv1-production-db8d.up.railway.app/client/cloudflare-cors.html) for detailed instructions.
 
 ### "Unauthorized access to file"
 

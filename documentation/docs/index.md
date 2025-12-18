@@ -26,6 +26,12 @@
   <p style="font-size: 0.875rem; color: #6b7280; margin-top: 16px;">No spam, just high-value content. Unsubscribe at any time.</p>
 </div>
 
+## 🔗 Quick Links
+
+- **Live Demo**: [View Dashboard](https://nodejs-starter-template-lv1-production-db8d.up.railway.app/client/)
+- **RAG Pipeline Tutorial**: [Step-by-Step Guide](https://nodejs-starter-template-lv1-production-db8d.up.railway.app/client/rag-pipeline/index.html)
+- **Cloudflare CORS Tutorial**: [Setup Guide](https://nodejs-starter-template-lv1-production-db8d.up.railway.app/client/cloudflare-cors.html)
+
 # Welcome to the Documentation
 
 This documentation provides a comprehensive guide to the Nodejs Advanced Starter Template (*Node.js Enterprise Launchpad*). It covers everything from initial setup and core concepts to deployment and advanced features, helping you build, test, and deploy your API with confidence.
