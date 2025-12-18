@@ -83,7 +83,7 @@ export const createAgentService = (config: Config) => {
 
       const visibilityLabel = doc.isPublic ? '[Public Doc]' : '[Your Private Doc]';
 
-      return `[Source Name]=${doc.originalName} ${visibilityLabel} (Link: ${signedUrl})\nContent: ${doc.content}`;
+      return `[Source: ${doc.originalName} | Link: ${signedUrl} | Visibility: ${visibilityLabel}] \nContent: ${doc.content}`;
     });
 
     const contextArray = await Promise.all(docsMap);

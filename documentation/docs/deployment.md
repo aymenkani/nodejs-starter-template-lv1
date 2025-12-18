@@ -192,7 +192,7 @@ We provide two pre-configured templates for this purpose:
 ### Guided Deployment
 For a deep dive into the "easy" process of deploying this entire template on Railway, including environment setup and service linking, follow our dedicated guide.
 
-[👉 **Railway Deployment Tutorial (Coming Soon)**](https://example.com/railway-tutorial-placeholder)
+[👉 **Railway Deployment Tutorial**](https://nodejs-starter-template-lv1-production-db8d.up.railway.app/client/railway.html)
 
 ## 5. Production Scripts
 These `package.json` scripts are used internally by the `Dockerfile` and Render configuration.
