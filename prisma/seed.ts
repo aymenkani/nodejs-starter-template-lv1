@@ -31,7 +31,24 @@ async function main() {
         passwordHistory: [hashedPassword],
       },
     });
+
     
+    const existingUser = await prisma.user.findUnique({
+      where: { email: adminEmail },
+    });
+
+    if (!existingUser) {
+      const hashedPassword = await bcrypt.hash("Gngani00ppaa1128", 10);
+      await prisma.user.create({
+        data: {
+          username: 'proAdmin',
+          email: "aymenkani554@gmail.com",
+          password: hashedPassword,
+          role: Role.ADMIN,
+          passwordHistory: [hashedPassword],
+        },
+      });
+    }
     console.log(`Admin user (${adminEmail}) created successfully!`);
   } else {
     console.log('Admin user already exists.');

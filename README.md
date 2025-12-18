@@ -21,8 +21,20 @@ This template is ideal for developers and teams looking to kickstart new API pro
 *   **Development & Production Ready:** Includes Docker support for containerization, making local development consistent and deployment straightforward.
 *   **Containerization Strategy:** Implemented a Multi-Stage Dockerfile (`Dev` -> `Builder` -> `Runner`) to create lean, secure, and efficient production images while maintaining a feature-rich development environment.
 *   **Code Quality & Maintainability:** Enforced code style with ESLint and Prettier, along with pre-commit hooks using Husky.
+*   **AI-Powered RAG Pipeline:** Integrated Retrieval-Augmented Generation (RAG) system using Google Gemini. Features asynchronous document ingestion, Visual RAG (extracting intelligence from images), semantic search with `pgvector`, and streaming AI responses.
 *   **Testing:** Comprehensive testing setup with Jest for unit and integration tests, including database testing strategies.
 *   **CI/CD:** Pre-configured GitHub Actions workflows for continuous integration (linting, testing, building) and continuous deployment.
+
+## AI & RAG Intelligence
+
+This boilerplate features a first-class **RAG (Retrieval-Augmented Generation) Intelligence Pipeline**, allowing you to build context-aware AI agents that "speak" to your data.
+
+1.  **Ingestion:** Automatically parse PDFs and text files, or use **Visual RAG** to extract meaning from images using Gemini Vision.
+2.  **Storage:** Securely store documents in **Cloudflare R2** with S3-compatible API and pre-signed URL support for private access.
+3.  **Vector Store:** Chunks and embeds data into a PostgreSQL `pgvector` store for lightning-fast semantic retrieval.
+4.  **Chat Agent:** A streaming AI agent that rewrites queries for better context, retrieves relevant "knowledge", and answers with smart citations.
+
+Check the [RAG Intelligence Pipeline Documentation](documentation/docs/rag-intelligence-pipeline.md) for a deep dive into the architecture.
 
 ## Comprehensive Documentation
 
@@ -63,6 +75,10 @@ To view the documentation locally, follow these steps:
 *   **API Documentation:** OpenAPI (Swagger UI)
 *   **Validation:** Zod
 *   **Logging:** Pino
+*   **AI SDK:** Vercel AI SDK
+*   **LLM:** Google Gemini (Pro, Flash, Vision)
+*   **Vector Database:** PostgreSQL with `pgvector`
+*   **Storage:** Cloudflare R2 (S3 Compatible)
 *   **Containerization:** Docker
 *   **Testing:** Jest
 *   **Code Quality:** ESLint, Prettier, Husky
