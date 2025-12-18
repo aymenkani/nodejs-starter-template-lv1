@@ -172,6 +172,9 @@ This configuration ensures zero-downtime deployments and allows you to scale to 
 
 This template is fully optimized for **[Railway](https://railway.app/)**, providing a seamless experience for developers who prefer a modern, high-performance PAAS.
 
+> [!NOTE]
+> **Get $20 Credit**: If you don't have a Railway account yet, sign up using our **[referral link](https://railway.com?referralCode=2psx_t)** to receive **$20 in free credit** to jumpstart your deployment!
+
 ### The Railway Advantage
 Railway offers a unique "Infrastructure-as-Code" experience through its modular architecture. To support this, we've included several dedicated configuration artifacts:
 
