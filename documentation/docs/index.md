@@ -98,7 +98,7 @@ This isn't just a folder structure; it's a complete ecosystem.
 * ✅ Quality Suite: Pre-configured Jest, ESLint, Prettier & TypeScript.
 
 <div style="text-align: center; margin: 40px 0;">
-  <a href="https://aymenkani.gumroad.com/l/nodejs-enterprise-launchpad/UDEMY-VIP?option=jO9w7s3jkf48MobF50pBTw%3D%3D&_gl=1*1cidzeq*_ga*NTYyNDU1Mjc4LjE3NjA5NzUzNDg.*_ga_6LJN6D94N6*czE3NjUxMTE4MjUkbzcwJGcxJHQxNzY1MTE1ODgwJGo2MCRsMCRoMA.." style="background-color: #7c3aed; color: white; padding: 15px 30px; border-radius: 5px; text-decoration: none; font-weight: bold; font-size: 1.2em; display: inline-block; transition: background-color 0.3s ease; margin-bottom: 2rem;" target="_blank" rel="noopener noreferrer">
+  <a href="https://aymenkani.gumroad.com/l/nodejs-enterprise-launchpad/UDEMY-VIP?price=11&option=2nCmfCVPlr707OzzOD7UGA%3D%3D&_gl=1*1qml59u*_ga*NTYyNDU1Mjc4LjE3NjA5NzUzNDg.*_ga_6LJN6D94N6*czE3NjYwNjQ0OTYkbzE4MyRnMCR0MTc2NjA2NDQ5NiRqNjAkbDAkaDA." style="background-color: #7c3aed; color: white; padding: 15px 30px; border-radius: 5px; text-decoration: none; font-weight: bold; font-size: 1.2em; display: inline-block; transition: background-color 0.3s ease; margin-bottom: 2rem;" target="_blank" rel="noopener noreferrer">
     Get the <span style="font-weight: normal; font-size: 1.3em; opacity: 0.9;">FREE</span> Production DevOps Foundation (The Skeleton) ➔
   </a>
   

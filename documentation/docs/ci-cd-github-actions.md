@@ -150,7 +150,7 @@ jobs:
 *   **Trigger:** Adjust the `on` section to define when the workflow should run (e.g., different branches, tags, or manual triggers).
 *   **Registry:** Modify the Docker login and build/push actions for your specific container registry (e.g., AWS ECR, Google Container Registry).
 *   **Image Naming/Tagging:** Customize the image name and tags to follow your versioning strategy.
-*   **Deployment Steps:** For actual deployment to a cloud provider (e.g., Render, AWS ECS, Kubernetes), you would add additional steps here using provider-specific GitHub Actions or CLI commands. Refer to [Cloud Deployment](./deployment.md#2-cloud-deployment-render) for more details.
+*   **Deployment Steps:** For actual deployment to a cloud provider (e.g., Render, AWS ECS, Kubernetes), you would add additional steps here using provider-specific GitHub Actions or CLI commands. Refer to [Cloud Deployment](./deployment.md#3-cloud-deployment-render) for more details.
 
 ## 3. GitHub Secrets
 
