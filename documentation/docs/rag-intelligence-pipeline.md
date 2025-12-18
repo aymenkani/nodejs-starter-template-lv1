@@ -4,6 +4,9 @@
 
 The **RAG (Retrieval-Augmented Generation) Intelligence Pipeline** is an advanced AI feature that allows your application to answer questions based on uploaded documents. Unlike traditional AI chatbots that rely solely on pre-trained knowledge, this system dynamically retrieves relevant information from your custom knowledge base and uses it to generate accurate, context-aware responses.
 
+> [!TIP]
+> **Interactive Tutorial**: We have an online tutorial on how to implement this RAG pipeline step by step. You can follow it here: [RAG Pipeline Step-by-Step Tutorial](https://nodejs-starter-template-lv1-production-db8d.up.railway.app/client/rag-pipeline/index.html)
+
 ### What is RAG?
 
 RAG combines two powerful AI concepts:
