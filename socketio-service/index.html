@@ -1,0 +1,1650 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://aymenkani.github.io/nodejs-starter-template-lv1/socketio-service/">
+      
+      
+        <link rel="prev" href="../email-configuration/">
+      
+      
+        <link rel="next" href="../testing/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
+    
+    
+      
+        <title>Socket.IO Service - Node.js Enterprise Launchpad - Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.618322db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#socketio-service-and-real-time-notifications" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Node.js Enterprise Launchpad - Documentation" class="md-header__button md-logo" aria-label="Node.js Enterprise Launchpad - Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Node.js Enterprise Launchpad - Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Socket.IO Service
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Node.js Enterprise Launchpad - Documentation" class="md-nav__button md-logo" aria-label="Node.js Enterprise Launchpad - Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Node.js Enterprise Launchpad - Documentation
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../getting-started/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../core-concepts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Core Concepts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../project-structure/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Project Structure
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../authentication/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Authentication
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api-documentation-openapi/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Documentation (OpenAPI)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../frontend-openapi-setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Frontend OpenAPI Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../database-prisma/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Database (Prisma)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Advanced Features
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Advanced Features
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../rag-intelligence-pipeline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RAG Intelligence Pipeline
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../file-upload-architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    File Upload Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../background-jobs-bullmq/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Background Jobs (BullMQ)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../email-configuration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Email Configuration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Socket.IO Service
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Socket.IO Service
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Architecture
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Architecture">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#server-side-nodejs-with-socketio" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Server-side (Node.js with Socket.IO)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#client-side-publicclientjs-and-publicindexhtml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Client-side (public/client.js and public/index.html)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-offline-notifications-work" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How Offline Notifications Work
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="How Offline Notifications Work">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-notification-lifecycle" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Notification Lifecycle
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#key-benefits" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Benefits
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#code-implementation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Code Implementation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#notification-flow-diagram" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Notification Flow Diagram
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#notification-status-states" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Notification Status States
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#api-routes-for-notifications" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        API Routes for Notifications
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../testing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Testing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ci-cd-github-actions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CI/CD (GitHub Actions)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../deployment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deployment
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../troubleshooting-FAQ/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Troubleshooting / FAQ
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_18" >
+        
+          
+          <label class="md-nav__link" for="__nav_18" id="__nav_18_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Routes Documentation
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_18_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_18">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Routes Documentation
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../routes-documentations/admin-routes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Admin Routes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../routes-documentations/agent-routes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Agent Routes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../routes-documentations/auth-routes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Auth Routes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../routes-documentations/file-routes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    File Routes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../routes-documentations/token-routes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Token Routes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../routes-documentations/upload-routes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Upload Routes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../routes-documentations/user-routes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    User Routes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Architecture
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Architecture">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#server-side-nodejs-with-socketio" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Server-side (Node.js with Socket.IO)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#client-side-publicclientjs-and-publicindexhtml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Client-side (public/client.js and public/index.html)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-offline-notifications-work" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How Offline Notifications Work
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="How Offline Notifications Work">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-notification-lifecycle" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Notification Lifecycle
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#key-benefits" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Benefits
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#code-implementation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Code Implementation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#notification-flow-diagram" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Notification Flow Diagram
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#notification-status-states" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Notification Status States
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#api-routes-for-notifications" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        API Routes for Notifications
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="socketio-service-and-real-time-notifications">Socket.IO Service and Real-time Notifications</h1>
+<p>This section details the implementation of real-time communication using Socket.IO, including how the client connects, how notifications are handled for both online and offline users, and the role of the <code>public</code> directory in serving the Socket.IO client.</p>
+<h2 id="overview">Overview</h2>
+<p>The application leverages Socket.IO to provide real-time notifications to users. This functionality is crucial for features like administrative alerts or instant updates. The system is designed to ensure that users receive notifications even if they are offline at the time the notification is sent.</p>
+<h2 id="architecture">Architecture</h2>
+<h3 id="server-side-nodejs-with-socketio">Server-side (Node.js with Socket.IO)</h3>
+<p>The core of the Socket.IO server is managed by the <code>SocketService</code> (<code>src/services/socket.service.ts</code>) and integrated into the main Express application in <code>src/server.ts</code>.</p>
+<ol>
+<li>
+<p><strong>Initialization</strong>:</p>
+<ul>
+<li>In <code>src/server.ts</code>, the <code>SocketService</code> is initialized by calling <code>socketService.init(server)</code>, where <code>server</code> is the HTTP server instance.</li>
+<li>CORS is configured to allow connections from specified origins.</li>
+<li>A custom <code>socketAuthMiddleware</code> (<code>src/middleware/socket.middleware.ts</code>) is applied to authenticate incoming Socket.IO connections using JWT tokens. This ensures that only authenticated users can establish a real-time connection.</li>
+</ul>
+</li>
+<li>
+<p><strong>Connection Handling</strong>:</p>
+<ul>
+<li>When a client connects, the <code>socketService</code> logs the connection and, if the user is authenticated, joins the socket to a private room named after the <code>userId</code>. This allows for targeted communication to individual users.</li>
+<li><strong>Pending Notification Delivery</strong>: Upon a successful connection, the <code>socketService</code> queries the database for all notifications belonging to that user via <code>notificationService.getNotificationsForUser</code>. It filters for notifications with status <code>PENDING</code> and emits them to the client using the <code>pending_notifications</code> event. After successful delivery, these notifications are <strong>updated</strong> from <code>PENDING</code> to <code>DELIVERED</code> status (they remain in the database for history tracking).</li>
+<li>Disconnection events are also handled and logged.</li>
+</ul>
+</li>
+<li>
+<p><strong>Notification Creation (<code>notificationService.ts</code>)</strong>:</p>
+<ul>
+<li>The <code>notificationService.createNotificationsForUserIds</code> function (<code>src/services/notification.service.ts</code>) is responsible for creating and delivering notifications.</li>
+<li><strong>Immediate Database Persistence</strong>: All notifications are immediately saved to the database for ALL target users, regardless of their online status.</li>
+<li>For each target user, the system checks if they are currently online using <code>socketService.isUserOnline(userId)</code>.</li>
+<li><strong>Status Assignment</strong>:<ul>
+<li>If the user is <strong>online</strong>: The notification is saved with status <code>DELIVERED</code> AND immediately emitted to their socket using <code>socketService.emitToUser</code> with the <code>new_notification</code> event.</li>
+<li>If the user is <strong>offline</strong>: The notification is saved with status <code>PENDING</code> to be delivered later when the user reconnects.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<h3 id="client-side-publicclientjs-and-publicindexhtml">Client-side (<code>public/client.js</code> and <code>public/index.html</code>)</h3>
+<p>The <code>public</code> directory serves a simple HTML page (<code>index.html</code>) and a JavaScript file (<code>client.js</code>) that demonstrate how to connect to and interact with the Socket.IO server.</p>
+<ol>
+<li>
+<p><strong>Serving the Client</strong>:</p>
+<ul>
+<li>In <code>src/server.ts</code>, the line <code>app.use('/client', express.static(path.join(__dirname, '../public')));</code> configures Express to serve static files from the <code>public</code> directory under the <code>/client</code> URL path. This means <code>public/index.html</code> is accessible at <code>/client/index.html</code> and <code>public/client.js</code> at <code>/client/client.js</code>.</li>
+</ul>
+</li>
+<li>
+<p><strong>Client Connection</strong>:</p>
+<ul>
+<li><code>public/index.html</code> includes the Socket.IO client library from a CDN and then loads <code>public/client.js</code>.</li>
+<li><code>public/client.js</code> handles the connection logic:<ul>
+<li>It prompts the user for a JWT access token.</li>
+<li>When the "Connect" button is clicked, it initializes a Socket.IO connection, passing the JWT token in the <code>Authorization</code> header via the <code>extraHeaders</code> option. This token is then used by the server's <code>socketAuthMiddleware</code> for authentication.</li>
+<li>It listens for various Socket.IO events:<ul>
+<li><code>connect</code>: Indicates a successful connection.</li>
+<li><code>disconnect</code>: Indicates a disconnection.</li>
+<li><code>connect_error</code>: Reports any connection errors.</li>
+<li><code>new_notification</code>: Receives real-time notifications sent by the admin or other services.</li>
+<li><code>pending_notifications</code>: Receives notifications that were stored in the database while the user was offline and are now being delivered upon reconnection.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<h2 id="how-offline-notifications-work">How Offline Notifications Work</h2>
+<p>The system ensures reliable notification delivery through an <strong>immediate persistence strategy</strong> combined with status tracking:</p>
+<h3 id="the-notification-lifecycle">The Notification Lifecycle</h3>
+<ol>
+<li>
+<p><strong>Admin/Service Creates Notification</strong>: An admin or service calls <code>notificationService.createNotificationsForUserIds(['user-id'], 'message')</code>.</p>
+</li>
+<li>
+<p><strong>Immediate Database Persistence</strong>: The notification is <strong>immediately saved to the database</strong> for all target users, regardless of their online status.</p>
+</li>
+<li>
+<p><strong>Online Status Check</strong>: For each user, the system checks if they are currently connected via <code>socketService.isUserOnline(userId)</code>.</p>
+</li>
+<li>
+<p><strong>Status Assignment</strong>:</p>
+</li>
+<li><strong>If user is online</strong>: Notification is saved with status <code>DELIVERED</code> and immediately emitted via Socket.IO</li>
+<li>
+<p><strong>If user is offline</strong>: Notification is saved with status <code>PENDING</code></p>
+</li>
+<li>
+<p><strong>Real-time Delivery (Online Users)</strong>:</p>
+</li>
+<li>Notification is emitted to the user's socket room with the <code>new_notification</code> event</li>
+<li>
+<p>Status in database is already set to <code>DELIVERED</code></p>
+</li>
+<li>
+<p><strong>Deferred Delivery (Offline Users)</strong>:</p>
+</li>
+<li>When the user later connects, the socket service fetches all notifications with status <code>PENDING</code></li>
+<li>These are emitted via the <code>pending_notifications</code> event</li>
+<li>Their status is updated from <code>PENDING</code> to <code>DELIVERED</code> (notifications are <strong>NOT deleted</strong>)</li>
+</ol>
+<h3 id="key-benefits">Key Benefits</h3>
+<ul>
+<li><strong>Notification History</strong>: All notifications remain in the database, allowing users to view their full notification history</li>
+<li><strong>Guaranteed Delivery</strong>: Offline users will receive their notifications when they reconnect</li>
+<li><strong>Status Tracking</strong>: Three states track the notification lifecycle:</li>
+<li><code>PENDING</code>: Created but not yet delivered to the user</li>
+<li><code>DELIVERED</code>: Successfully sent to the user's client</li>
+<li><code>READ</code>: User has explicitly marked as read</li>
+</ul>
+<h3 id="code-implementation">Code Implementation</h3>
+<p><strong>Creating Notifications</strong> (<code>notification.service.ts</code>):</p>
+<div class="highlight"><pre><span></span><code><span class="kd">const</span><span class="w"> </span><span class="nx">createNotificationsForUserIds</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="p">(</span>
+<span class="w">  </span><span class="nx">userIds</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">[],</span>
+<span class="w">  </span><span class="nx">message</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span>
+<span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="c1">// 1. Check online status for each user</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">notificationsData</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nb">Promise</span><span class="p">.</span><span class="nx">all</span><span class="p">(</span>
+<span class="w">    </span><span class="nx">userIds</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="k">async</span><span class="w"> </span><span class="p">(</span><span class="nx">userId</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="kd">const</span><span class="w"> </span><span class="nx">isOnline</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">socketService</span><span class="p">.</span><span class="nx">isUserOnline</span><span class="p">(</span><span class="nx">userId</span><span class="p">);</span>
+<span class="w">      </span><span class="k">return</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">userId</span><span class="p">,</span>
+<span class="w">        </span><span class="nx">message</span><span class="p">,</span>
+<span class="w">        </span><span class="nx">status</span><span class="o">:</span><span class="w"> </span><span class="kt">isOnline</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="s1">&#39;DELIVERED&#39;</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;PENDING&#39;</span><span class="p">,</span>
+<span class="w">        </span><span class="nx">isOnline</span><span class="p">,</span>
+<span class="w">      </span><span class="p">};</span>
+<span class="w">    </span><span class="p">})</span>
+<span class="w">  </span><span class="p">);</span>
+
+<span class="w">  </span><span class="c1">// 2. Save ALL notifications to database immediately</span>
+<span class="w">  </span><span class="k">await</span><span class="w"> </span><span class="nx">prisma</span><span class="p">.</span><span class="nx">notification</span><span class="p">.</span><span class="nx">createMany</span><span class="p">({</span>
+<span class="w">    </span><span class="nx">data</span><span class="o">:</span><span class="w"> </span><span class="kt">notificationsData.map</span><span class="p">(</span><span class="nx">n</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">({</span>
+<span class="w">      </span><span class="nx">userId</span><span class="o">:</span><span class="w"> </span><span class="kt">n.userId</span><span class="p">,</span>
+<span class="w">      </span><span class="nx">message</span><span class="o">:</span><span class="w"> </span><span class="kt">n.message</span><span class="p">,</span>
+<span class="w">      </span><span class="nx">status</span><span class="o">:</span><span class="w"> </span><span class="kt">n.status</span><span class="p">,</span>
+<span class="w">    </span><span class="p">}))</span>
+<span class="w">  </span><span class="p">});</span>
+
+<span class="w">  </span><span class="c1">// 3. Emit to online users only</span>
+<span class="w">  </span><span class="nx">notificationsData</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span><span class="nx">n</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">n</span><span class="p">.</span><span class="nx">isOnline</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nx">socketService</span><span class="p">.</span><span class="nx">emitToUser</span><span class="p">(</span><span class="nx">n</span><span class="p">.</span><span class="nx">userId</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;new_notification&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">message</span><span class="o">:</span><span class="w"> </span><span class="kt">n.message</span><span class="p">,</span>
+<span class="w">        </span><span class="nx">status</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;DELIVERED&#39;</span>
+<span class="w">      </span><span class="p">});</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">});</span>
+<span class="p">};</span>
+</code></pre></div>
+<p><strong>Delivering Pending on Reconnection</strong> (<code>socket.service.ts</code>):</p>
+<div class="highlight"><pre><span></span><code><span class="k">this</span><span class="p">.</span><span class="nx">io</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;connection&#39;</span><span class="p">,</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="p">(</span><span class="nx">socket</span><span class="o">:</span><span class="w"> </span><span class="kt">Socket</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">socket</span><span class="p">.</span><span class="nx">user</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">userId</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">socket</span><span class="p">.</span><span class="nx">user</span><span class="p">.</span><span class="nx">id</span><span class="p">;</span>
+<span class="w">    </span><span class="nx">socket</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="nx">userId</span><span class="p">);</span><span class="w"> </span><span class="c1">// Join user-specific room</span>
+
+<span class="w">    </span><span class="c1">// Fetch pending notifications</span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">notifications</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">notificationService</span><span class="p">.</span><span class="nx">getNotificationsForUser</span><span class="p">(</span><span class="nx">userId</span><span class="p">);</span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">undelivered</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">notifications</span><span class="p">.</span><span class="nx">filter</span><span class="p">(</span><span class="nx">n</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">n</span><span class="p">.</span><span class="nx">status</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="s1">&#39;PENDING&#39;</span><span class="p">);</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">undelivered</span><span class="p">.</span><span class="nx">length</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mf">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="c1">// Send to client</span>
+<span class="w">      </span><span class="nx">socket</span><span class="p">.</span><span class="nx">emit</span><span class="p">(</span><span class="s1">&#39;pending_notifications&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">undelivered</span><span class="p">);</span>
+
+<span class="w">      </span><span class="c1">// Update status to DELIVERED</span>
+<span class="w">      </span><span class="k">await</span><span class="w"> </span><span class="nx">notificationService</span><span class="p">.</span><span class="nx">updateNotificationsStatus</span><span class="p">(</span>
+<span class="w">        </span><span class="nx">undelivered</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="nx">n</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">n</span><span class="p">.</span><span class="nx">id</span><span class="p">),</span>
+<span class="w">        </span><span class="s1">&#39;DELIVERED&#39;</span>
+<span class="w">      </span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">});</span>
+</code></pre></div>
+<h2 id="notification-flow-diagram">Notification Flow Diagram</h2>
+<p>The following diagram illustrates the complete lifecycle of a notification, covering online, offline, and reconnection scenarios.</p>
+<pre class="mermaid"><code>sequenceDiagram
+    participant Admin
+    participant API
+    participant NotificationService
+    participant SocketService
+    participant DB as Database
+    participant OnlineClient as Client (Online)
+    participant OfflineClient as Client (Offline)
+
+    Note over Admin, OfflineClient: Scenario 1: User is Online
+    Admin-&gt;&gt;API: Send notification to User A
+    API-&gt;&gt;NotificationService: createNotificationsForUserIds([UserA])
+    NotificationService-&gt;&gt;SocketService: isUserOnline('UserA')?
+    SocketService--&gt;&gt;NotificationService: true
+    NotificationService-&gt;&gt;DB: Save notification (status: DELIVERED)
+    DB--&gt;&gt;NotificationService: Saved
+    NotificationService-&gt;&gt;SocketService: emitToUser('UserA', 'new_notification')
+    SocketService-&gt;&gt;OnlineClient: (WebSocket) 'new_notification'
+
+    Note over Admin, OfflineClient: Scenario 2: User is Offline
+    Admin-&gt;&gt;API: Send notification to User B
+    API-&gt;&gt;NotificationService: createNotificationsForUserIds([UserB])
+    NotificationService-&gt;&gt;SocketService: isUserOnline('UserB')?
+    SocketService--&gt;&gt;NotificationService: false
+    NotificationService-&gt;&gt;DB: Save notification (status: PENDING)
+    DB--&gt;&gt;NotificationService: Saved
+
+    Note over Admin, OfflineClient: Scenario 3: Offline User Reconnects
+    OfflineClient-&gt;&gt;SocketService: (WebSocket) Connect with JWT
+    SocketService-&gt;&gt;NotificationService: getNotificationsForUser('UserB')
+    NotificationService-&gt;&gt;DB: Find notifications WHERE userId=UserB
+    DB--&gt;&gt;NotificationService: Returns all notifications
+    NotificationService--&gt;&gt;SocketService: Filter status=PENDING
+    SocketService-&gt;&gt;OfflineClient: (WebSocket) 'pending_notifications'
+    SocketService-&gt;&gt;NotificationService: updateStatus(ids, DELIVERED)
+    NotificationService-&gt;&gt;DB: Update status: PENDING → DELIVERED
+    DB--&gt;&gt;NotificationService: Updated</code></pre>
+<h2 id="notification-status-states">Notification Status States</h2>
+<table>
+<thead>
+<tr>
+<th>Status</th>
+<th>Description</th>
+<th>Transition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>PENDING</code></td>
+<td>Notification created while user was offline</td>
+<td>→ <code>DELIVERED</code> when user connects</td>
+</tr>
+<tr>
+<td><code>DELIVERED</code></td>
+<td>Notification successfully sent to user's client</td>
+<td>→ <code>READ</code> when user marks as read</td>
+</tr>
+<tr>
+<td><code>READ</code></td>
+<td>User has acknowledged the notification</td>
+<td>Final state</td>
+</tr>
+</tbody>
+</table>
+<h2 id="api-routes-for-notifications">API Routes for Notifications</h2>
+<p>The application also provides HTTP endpoints for notification management:</p>
+<ul>
+<li><strong>GET <code>/v1/notifications</code></strong>: Fetch all notifications for the authenticated user (ordered by <code>createdAt DESC</code>)</li>
+<li><strong>PUT <code>/v1/notifications/:id/read</code></strong>: Mark a specific notification as <code>READ</code></li>
+<li><strong>DELETE <code>/v1/notifications/:id</code></strong>: Delete a notification</li>
+</ul>
+<p>See <a href="../routes-documentations/admin-routes/">Admin Routes</a> for the admin endpoint to create notifications.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": [], "search": "../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.e71a0d61.min.js"></script>
+      
+        <script src="https://unpkg.com/@panzoom/panzoom@4.5.1/dist/panzoom.min.js"></script>
+      
+        <script src="../javascripts/zoom.js"></script>
+      
+    
+  </body>
+</html>

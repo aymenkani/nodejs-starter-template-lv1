@@ -1,0 +1,2097 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://aymenkani.github.io/nodejs-starter-template-lv1/rag-intelligence-pipeline/">
+      
+      
+        <link rel="prev" href="../database-prisma/">
+      
+      
+        <link rel="next" href="../file-upload-architecture/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
+    
+    
+      
+        <title>RAG Intelligence Pipeline - Node.js Enterprise Launchpad - Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.618322db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#rag-intelligence-pipeline" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Node.js Enterprise Launchpad - Documentation" class="md-header__button md-logo" aria-label="Node.js Enterprise Launchpad - Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Node.js Enterprise Launchpad - Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              RAG Intelligence Pipeline
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Node.js Enterprise Launchpad - Documentation" class="md-nav__button md-logo" aria-label="Node.js Enterprise Launchpad - Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Node.js Enterprise Launchpad - Documentation
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../getting-started/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../core-concepts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Core Concepts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../project-structure/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Project Structure
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../authentication/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Authentication
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api-documentation-openapi/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Documentation (OpenAPI)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../frontend-openapi-setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Frontend OpenAPI Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../database-prisma/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Database (Prisma)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Advanced Features
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Advanced Features
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RAG Intelligence Pipeline
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RAG Intelligence Pipeline
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Overview">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-is-rag" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What is RAG?
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#architecture-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Architecture Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-it-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Works
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="How It Works">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#phase-1-file-ingestion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 1: File Ingestion
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Phase 1: File Ingestion">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-1-file-upload-reservation-pattern" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 1: File Upload (Reservation Pattern)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-2-background-processing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 2: Background Processing
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-2-intelligent-retrieval" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 2: Intelligent Retrieval
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Phase 2: Intelligent Retrieval">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-1-contextual-query-rewriting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 1: Contextual Query Rewriting
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-2-vector-embedding" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 2: Vector Embedding
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-3-hybrid-search-vector-metadata" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 3: Hybrid Search (Vector + Metadata)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-4-smart-citations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 4: Smart Citations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-5-ai-response-generation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 5: AI Response Generation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configuration
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Configuration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-google-ai-api-key" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Google AI API Key
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-pgvector-extension" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. pgvector Extension
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-supported-models" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Supported Models
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-ai-model-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. AI Model Configuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-prompt-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Prompt Configuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#file-support" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        File Support
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#performance-considerations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Performance Considerations
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Troubleshooting
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Troubleshooting">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#no-text-extracted-from-file" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        "No text extracted from file"
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#model-not-available-in-your-region" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        "Model not available in your region"
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#vector-dimension-mismatch" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        "Vector dimension mismatch"
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#duplicate-file-detected" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        "Duplicate file detected"
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Next Steps
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../file-upload-architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    File Upload Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../background-jobs-bullmq/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Background Jobs (BullMQ)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../email-configuration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Email Configuration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../socketio-service/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Socket.IO Service
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../testing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Testing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ci-cd-github-actions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CI/CD (GitHub Actions)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../deployment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deployment
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../troubleshooting-FAQ/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Troubleshooting / FAQ
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_18" >
+        
+          
+          <label class="md-nav__link" for="__nav_18" id="__nav_18_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Routes Documentation
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_18_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_18">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Routes Documentation
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../routes-documentations/admin-routes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Admin Routes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../routes-documentations/agent-routes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Agent Routes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../routes-documentations/auth-routes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Auth Routes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../routes-documentations/file-routes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    File Routes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../routes-documentations/token-routes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Token Routes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../routes-documentations/upload-routes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Upload Routes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../routes-documentations/user-routes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    User Routes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Overview">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-is-rag" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What is RAG?
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#architecture-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Architecture Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-it-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Works
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="How It Works">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#phase-1-file-ingestion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 1: File Ingestion
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Phase 1: File Ingestion">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-1-file-upload-reservation-pattern" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 1: File Upload (Reservation Pattern)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-2-background-processing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 2: Background Processing
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-2-intelligent-retrieval" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 2: Intelligent Retrieval
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Phase 2: Intelligent Retrieval">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-1-contextual-query-rewriting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 1: Contextual Query Rewriting
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-2-vector-embedding" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 2: Vector Embedding
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-3-hybrid-search-vector-metadata" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 3: Hybrid Search (Vector + Metadata)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-4-smart-citations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 4: Smart Citations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-5-ai-response-generation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 5: AI Response Generation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configuration
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Configuration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-google-ai-api-key" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Google AI API Key
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-pgvector-extension" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. pgvector Extension
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-supported-models" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Supported Models
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-ai-model-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. AI Model Configuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-prompt-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Prompt Configuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#file-support" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        File Support
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#performance-considerations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Performance Considerations
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Troubleshooting
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Troubleshooting">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#no-text-extracted-from-file" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        "No text extracted from file"
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#model-not-available-in-your-region" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        "Model not available in your region"
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#vector-dimension-mismatch" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        "Vector dimension mismatch"
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#duplicate-file-detected" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        "Duplicate file detected"
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Next Steps
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="rag-intelligence-pipeline">RAG Intelligence Pipeline</h1>
+<h2 id="overview">Overview</h2>
+<p>The <strong>RAG (Retrieval-Augmented Generation) Intelligence Pipeline</strong> is an advanced AI feature that allows your application to answer questions based on uploaded documents. Unlike traditional AI chatbots that rely solely on pre-trained knowledge, this system dynamically retrieves relevant information from your custom knowledge base and uses it to generate accurate, context-aware responses.</p>
+<blockquote>
+<p>[!TIP]
+<strong>Interactive Tutorial</strong>: We have an online tutorial on how to implement this RAG pipeline step by step. You can follow it here: <a href="https://nodejs-starter-template-lv1-production-db8d.up.railway.app/client/rag-pipeline/index.html">RAG Pipeline Step-by-Step Tutorial</a></p>
+</blockquote>
+<h3 id="what-is-rag">What is RAG?</h3>
+<p>RAG combines two powerful AI concepts:</p>
+<ol>
+<li><strong>Retrieval</strong>: Finding relevant documents from a knowledge base using semantic search</li>
+<li><strong>Generation</strong>: Using an AI model (like Google's Gemini) to generate human-like responses based on retrieved context</li>
+</ol>
+<p>This approach ensures your AI assistant provides answers grounded in your specific data, reducing hallucinations and improving accuracy.</p>
+<h2 id="architecture-overview">Architecture Overview</h2>
+<pre class="mermaid"><code>flowchart TD
+    A[User Uploads File] --&gt; B[Generate Presigned URL]
+    B --&gt; C[Upload to Cloudflare R2]
+    C --&gt; D[Confirm Upload]
+    D --&gt; E[Add to Ingestion Queue]
+    E --&gt; F{File Type?}
+    F --&gt;|Text/PDF| G[Extract Text]
+    F --&gt;|Image| H[Gemini Vision Analysis]
+    G --&gt; I[Chunk Text]
+    H --&gt; I
+    I --&gt; J[Generate Embeddings]
+    J --&gt; K[Store in pgvector]
+
+    L[User Asks Question] --&gt; M[Rewrite Query w/ Context]
+    M --&gt; N[Convert to Embedding]
+    N --&gt; O[Hybrid Vector Search]
+    O --&gt; P[Generate Presigned URLs]
+    P --&gt; Q[Stream AI Response]</code></pre>
+<h2 id="how-it-works">How It Works</h2>
+<h3 id="phase-1-file-ingestion">Phase 1: File Ingestion</h3>
+<p>When a user uploads a file, the system processes it through an asynchronous pipeline:</p>
+<h4 id="step-1-file-upload-reservation-pattern">Step 1: File Upload (Reservation Pattern)</h4>
+<p>The upload follows a secure "reservation" pattern:</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// 1. Client requests signed URL</span>
+<span class="nx">POST</span><span class="w"> </span><span class="o">/</span><span class="nx">api</span><span class="o">/</span><span class="nx">v1</span><span class="o">/</span><span class="nx">upload</span><span class="o">/</span><span class="nx">generate</span><span class="o">-</span><span class="nx">signed</span><span class="o">-</span><span class="nx">url</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="s2">&quot;fileName&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;company-docs.pdf&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="s2">&quot;fileType&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;application/pdf&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="s2">&quot;fileSize&quot;</span><span class="o">:</span><span class="w"> </span><span class="mf">524288</span><span class="p">,</span>
+<span class="w">  </span><span class="s2">&quot;isPublic&quot;</span><span class="o">:</span><span class="w"> </span><span class="kc">false</span>
+<span class="p">}</span>
+
+<span class="c1">// 2. Backend creates PENDING record in DB</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">file</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">prisma</span><span class="p">.</span><span class="nx">file</span><span class="p">.</span><span class="nx">create</span><span class="p">({</span>
+<span class="w">  </span><span class="nx">data</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">fileKey</span><span class="o">:</span><span class="w"> </span><span class="sb">`users/</span><span class="si">${</span><span class="nx">userId</span><span class="si">}</span><span class="sb">/uuid-company-docs.pdf`</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">status</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;PENDING&#39;</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">userId</span><span class="p">,</span>
+<span class="w">    </span><span class="c1">// ...</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">});</span>
+
+<span class="c1">// 3. Client uploads directly to R2 using signed URL</span>
+<span class="c1">// 4. Client confirms upload</span>
+<span class="nx">POST</span><span class="w"> </span><span class="o">/</span><span class="nx">api</span><span class="o">/</span><span class="nx">v1</span><span class="o">/</span><span class="nx">upload</span><span class="o">/</span><span class="nx">confirm</span>
+<span class="p">{</span><span class="w"> </span><span class="s2">&quot;fileId&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;uuid&quot;</span><span class="w"> </span><span class="p">}</span>
+</code></pre></div>
+<p>See <a href="../file-upload-architecture/">File Upload Architecture</a> for detailed flow.</p>
+<h4 id="step-2-background-processing">Step 2: Background Processing</h4>
+<p>Once confirmed, a BullMQ job is triggered (<code>ingestion.worker.ts</code>):</p>
+<p><strong>For Text Files (PDF, TXT, Markdown):</strong></p>
+<ol>
+<li><strong>Download from R2</strong>: Fetch the file using AWS SDK</li>
+<li><strong>Hash Check</strong>: Calculate SHA-256 to detect duplicates</li>
+<li><strong>Text Extraction</strong>: Parse content (PDF uses <code>unpdf</code> library)</li>
+<li><strong>Chunking</strong>: Split text into ~1000 character chunks with 200 char overlap</li>
+<li><strong>Embedding</strong>: Convert each chunk to a 768-dimension vector using Gemini's <code>text-embedding-004</code></li>
+<li><strong>Storage</strong>: Save to PostgreSQL with pgvector extension</li>
+</ol>
+<p><strong>For Images (JPEG, PNG, WEBP, GIF):</strong></p>
+<ol>
+<li><strong>Multimodal Analysis</strong>: Send image to Gemini Vision model (<code>gemini-2.5-flash-lite</code>)</li>
+<li><strong>Description Generation</strong>: AI describes visual content, text, and data tables</li>
+<li><strong>Chunking \u0026 Embedding</strong>: Process description text like above</li>
+</ol>
+<p><strong>Example Code from <code>ingestion.worker.ts</code>:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Image processing</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">mimeType</span><span class="p">.</span><span class="nx">startsWith</span><span class="p">(</span><span class="s1">&#39;image/&#39;</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">text</span><span class="o">:</span><span class="w"> </span><span class="kt">imageDesc</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">generateText</span><span class="p">({</span>
+<span class="w">    </span><span class="nx">model</span><span class="o">:</span><span class="w"> </span><span class="kt">google</span><span class="p">(</span><span class="s1">&#39;gemini-2.5-flash-lite&#39;</span><span class="p">),</span>
+<span class="w">    </span><span class="nx">messages</span><span class="o">:</span><span class="w"> </span><span class="p">[{</span>
+<span class="w">      </span><span class="nx">role</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;user&#39;</span><span class="p">,</span>
+<span class="w">      </span><span class="nx">content</span><span class="o">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">          </span><span class="kr">type</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;text&#39;</span><span class="p">,</span>
+<span class="w">          </span><span class="nx">text</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;Analyze this image in detail. Extract all visible text...&#39;</span>
+<span class="w">        </span><span class="p">},</span>
+<span class="w">        </span><span class="p">{</span><span class="w"> </span><span class="kr">type</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;image&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">image</span><span class="o">:</span><span class="w"> </span><span class="kt">buffer</span><span class="w"> </span><span class="p">}</span>
+<span class="w">      </span><span class="p">]</span>
+<span class="w">    </span><span class="p">}]</span>
+<span class="w">  </span><span class="p">});</span>
+<span class="w">  </span><span class="nx">text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">imageDesc</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// Generate embeddings</span>
+<span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kd">const</span><span class="w"> </span><span class="nx">chunk</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nx">chunks</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">embedding</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">embed</span><span class="p">({</span>
+<span class="w">    </span><span class="nx">model</span><span class="o">:</span><span class="w"> </span><span class="kt">google.textEmbeddingModel</span><span class="p">(</span><span class="s1">&#39;text-embedding-004&#39;</span><span class="p">),</span>
+<span class="w">    </span><span class="nx">value</span><span class="o">:</span><span class="w"> </span><span class="kt">chunk.pageContent</span><span class="p">,</span>
+<span class="w">  </span><span class="p">});</span>
+
+<span class="w">  </span><span class="c1">// Store in pgvector</span>
+<span class="w">  </span><span class="k">await</span><span class="w"> </span><span class="nx">prisma</span><span class="p">.</span><span class="nx">$executeRaw</span><span class="sb">`</span>
+<span class="sb">    INSERT INTO &quot;Document&quot; (id, content, metadata, userId, fileId, embedding, createdAt)</span>
+<span class="sb">    VALUES (gen_random_uuid(), </span><span class="si">${</span><span class="nx">chunk</span><span class="p">.</span><span class="nx">pageContent</span><span class="si">}</span><span class="sb">, </span><span class="si">${</span><span class="nx">metadata</span><span class="si">}</span><span class="sb">::jsonb, </span>
+<span class="sb">            </span><span class="si">${</span><span class="nx">userId</span><span class="si">}</span><span class="sb">, </span><span class="si">${</span><span class="nx">fileId</span><span class="si">}</span><span class="sb">, </span><span class="si">${</span><span class="nx">embedding</span><span class="si">}</span><span class="sb">::vector, NOW())</span>
+<span class="sb">  `</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+<h3 id="phase-2-intelligent-retrieval">Phase 2: Intelligent Retrieval</h3>
+<p>When a user asks a question, the system performs sophisticated retrieval:</p>
+<h4 id="step-1-contextual-query-rewriting">Step 1: Contextual Query Rewriting</h4>
+<p>If the conversation has history, the system uses Gemini to rewrite the query:</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// User: &quot;Who is Elon Musk?&quot;</span>
+<span class="c1">// AI: &quot;He is the CEO of Tesla and SpaceX&quot;</span>
+<span class="c1">// User: &quot;How old is he?&quot;</span>
+
+<span class="c1">// System rewrites &quot;How old is he?&quot; → &quot;How old is Elon Musk?&quot;</span>
+<span class="kd">const</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">text</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">generateText</span><span class="p">({</span>
+<span class="w">  </span><span class="nx">model</span><span class="o">:</span><span class="w"> </span><span class="kt">google</span><span class="p">(</span><span class="s1">&#39;gemma-3-12b&#39;</span><span class="p">),</span>
+<span class="w">  </span><span class="nx">messages</span><span class="o">:</span><span class="w"> </span><span class="kt">conversationHistory</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">system</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;Rewrite the last message into a standalone search query...&#39;</span>
+<span class="p">});</span>
+</code></pre></div>
+<h4 id="step-2-vector-embedding">Step 2: Vector Embedding</h4>
+<p>Convert the refined query to the same 768-D vector space:</p>
+<div class="highlight"><pre><span></span><code><span class="kd">const</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">embedding</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">embed</span><span class="p">({</span>
+<span class="w">  </span><span class="nx">model</span><span class="o">:</span><span class="w"> </span><span class="kt">google.textEmbeddingModel</span><span class="p">(</span><span class="s1">&#39;text-embedding-004&#39;</span><span class="p">),</span>
+<span class="w">  </span><span class="nx">value</span><span class="o">:</span><span class="w"> </span><span class="kt">refinedQuery</span>
+<span class="p">});</span>
+</code></pre></div>
+<h4 id="step-3-hybrid-search-vector-metadata">Step 3: Hybrid Search (Vector + Metadata)</h4>
+<p>The system performs a <strong>hybrid search</strong> combining:</p>
+<ul>
+<li><strong>Vector Similarity</strong>: pgvector's <code>&lt;=&gt;</code> operator (cosine distance)</li>
+<li><strong>Access Control</strong>: Filters by user ownership OR public visibility</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="n">d</span><span class="p">.</span><span class="n">content</span><span class="p">,</span><span class="w"> </span><span class="n">d</span><span class="p">.</span><span class="n">metadata</span><span class="p">,</span><span class="w"> </span><span class="n">f</span><span class="p">.</span><span class="ss">&quot;originalName&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">f</span><span class="p">.</span><span class="ss">&quot;fileKey&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">f</span><span class="p">.</span><span class="ss">&quot;isPublic&quot;</span><span class="p">,</span>
+<span class="w">       </span><span class="p">(</span><span class="n">d</span><span class="p">.</span><span class="n">embedding</span><span class="w"> </span><span class="o">&lt;=&gt;</span><span class="w"> </span><span class="err">$</span><span class="n">vectorQuery</span><span class="p">::</span><span class="n">vector</span><span class="p">)</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">distance</span>
+<span class="k">FROM</span><span class="w"> </span><span class="ss">&quot;Document&quot;</span><span class="w"> </span><span class="n">d</span>
+<span class="k">LEFT</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="ss">&quot;File&quot;</span><span class="w"> </span><span class="n">f</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">d</span><span class="p">.</span><span class="ss">&quot;fileId&quot;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">f</span><span class="p">.</span><span class="n">id</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="p">(</span><span class="n">d</span><span class="p">.</span><span class="ss">&quot;userId&quot;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="err">$</span><span class="n">currentUserId</span><span class="w"> </span><span class="k">OR</span><span class="w"> </span><span class="n">f</span><span class="p">.</span><span class="ss">&quot;isPublic&quot;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">true</span><span class="p">)</span>
+<span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">distance</span><span class="w"> </span><span class="k">ASC</span>
+<span class="k">LIMIT</span><span class="w"> </span><span class="mi">5</span>
+</code></pre></div>
+<p><strong>Security Model</strong>:
+- Users can search their <strong>own private documents</strong>
+- Users can search <strong>any public document</strong> (uploaded by admins/contributors)
+- Users <strong>cannot</strong> see other users' private documents</p>
+<h4 id="step-4-smart-citations">Step 4: Smart Citations</h4>
+<p>For each retrieved document, the system generates a <strong>temporary presigned URL</strong> (valid 1 hour) so the AI can cite sources:</p>
+<div class="highlight"><pre><span></span><code><span class="kd">const</span><span class="w"> </span><span class="nx">signedUrl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">getSignedUrl</span><span class="p">(</span><span class="nx">s3Client</span><span class="p">,</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">GetObjectCommand</span><span class="p">({</span>
+<span class="w">  </span><span class="nx">Bucket</span><span class="o">:</span><span class="w"> </span><span class="kt">config.aws.s3.bucket</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">Key</span><span class="o">:</span><span class="w"> </span><span class="kt">doc.fileKey</span>
+<span class="p">}),</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">expiresIn</span><span class="o">:</span><span class="w"> </span><span class="kt">3600</span><span class="w"> </span><span class="p">});</span>
+
+<span class="c1">// Package for AI</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">context</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">documents</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="nx">doc</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span>
+<span class="w">  </span><span class="sb">`Source: </span><span class="si">${</span><span class="nx">doc</span><span class="p">.</span><span class="nx">originalName</span><span class="si">}</span><span class="sb"> [</span><span class="si">${</span><span class="nx">doc</span><span class="p">.</span><span class="nx">isPublic</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="s1">&#39;Public&#39;</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;Private&#39;</span><span class="si">}</span><span class="sb">]</span>
+<span class="sb">   Link: </span><span class="si">${</span><span class="nx">signedUrl</span><span class="si">}</span>
+<span class="sb">   Content: </span><span class="si">${</span><span class="nx">doc</span><span class="p">.</span><span class="nx">content</span><span class="si">}</span><span class="sb">`</span>
+<span class="p">).</span><span class="nx">join</span><span class="p">(</span><span class="s1">&#39;\n\n&#39;</span><span class="p">);</span>
+</code></pre></div>
+<h4 id="step-5-ai-response-generation">Step 5: AI Response Generation</h4>
+<p>Finally, stream the response using Gemini:</p>
+<div class="highlight"><pre><span></span><code><span class="kd">const</span><span class="w"> </span><span class="nx">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">streamText</span><span class="p">({</span>
+<span class="w">  </span><span class="nx">model</span><span class="o">:</span><span class="w"> </span><span class="kt">google</span><span class="p">(</span><span class="s1">&#39;gemini-2.5-flash-lite&#39;</span><span class="p">),</span>
+<span class="w">  </span><span class="nx">messages</span><span class="o">:</span><span class="w"> </span><span class="kt">userConversation</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">system</span><span class="o">:</span><span class="w"> </span><span class="sb">`Answer based ONLY on this context. Cite sources using [Source](Link).</span>
+
+<span class="sb">  Context:</span>
+<span class="sb">  </span><span class="si">${</span><span class="nx">context</span><span class="si">}</span><span class="sb">`</span>
+<span class="p">});</span>
+
+<span class="nx">result</span><span class="p">.</span><span class="nx">pipeTextStreamToResponse</span><span class="p">(</span><span class="nx">res</span><span class="p">);</span>
+</code></pre></div>
+<h2 id="configuration">Configuration</h2>
+<h3 id="1-google-ai-api-key">1. Google AI API Key</h3>
+<p>You need a Google Generative AI API key:</p>
+<ol>
+<li>Visit <a href="https://aistudio.google.com/app/apikey">Google AI Studio</a></li>
+<li>Create an API key</li>
+<li>Add to <code>.env</code>:</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="nv">GOOGLE_GENERATIVE_AI_API_KEY</span><span class="o">=</span>your_api_key_here
+</code></pre></div>
+<h3 id="2-pgvector-extension">2. pgvector Extension</h3>
+<p>Ensure your PostgreSQL database has the <code>pgvector</code> extension:</p>
+<div class="highlight"><pre><span></span><code><span class="k">CREATE</span><span class="w"> </span><span class="n">EXTENSION</span><span class="w"> </span><span class="k">IF</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">EXISTS</span><span class="w"> </span><span class="n">vector</span><span class="p">;</span>
+</code></pre></div>
+<p>This is typically configured in your database migrations. See <a href="../database-prisma/#what-is-pgvector">Database (Prisma)</a> for details.</p>
+<h3 id="3-supported-models">3. Supported Models</h3>
+<p>The free tier includes:
+- <code>gemini-2.5-flash-lite</code> (recommended for chat)
+- <code>gemini-2.5-flash</code> (higher quality)
+- <code>gemma-3-12b</code> (lightweight)
+- <code>text-embedding-004</code> (embeddings only)</p>
+<p>Check <a href="https://ai.google.dev/pricing">Google AI pricing</a> for limits.</p>
+<h3 id="4-ai-model-configuration">4. AI Model Configuration</h3>
+<p>The specific AI models used for ingestion, chat, and embeddings are configured in <code>src/config/ai-models.ts</code>. You can modify this file to switch between different Gemini models (e.g., upgrading from <code>gemini-2.5-flash-lite</code> to <code>gemini-1.5-pro</code> for better reasoning).</p>
+<h3 id="5-prompt-configuration">5. Prompt Configuration</h3>
+<p>You can customize the specific instructions given to the AI in <code>src/config/prompts.ts</code>. This allows you to fine-tune the persona, response style, and query refinement logic without changing the core code.</p>
+<table>
+<thead>
+<tr>
+<th>Prompt Key</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ingestion.imageAnalysis</code></td>
+<td>Instructions for Gemini Vision to extract information from images during file upload.</td>
+</tr>
+<tr>
+<td><code>agent.queryRewriter</code></td>
+<td>Instructions for rewriting the user's latest message into a standalone search query based on conversation history.</td>
+</tr>
+<tr>
+<td><code>agent.systemPrompt</code></td>
+<td>The master instruction for the RAG chatbot. It controls how the AI answers questions and cites sources.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Important:</strong> When editing <code>agent.systemPrompt</code>, ensure you preserve the <code>{{context}}</code> placeholder, as this is where the retrieved documents are injected. Also, strict citation formats (e.g., <code>[Source Name](Link)</code>) are critical for the frontend to render clickable source links.</p>
+<h2 id="file-support">File Support</h2>
+<table>
+<thead>
+<tr>
+<th>File Type</th>
+<th>Processing Method</th>
+<th>Max Size</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PDF</td>
+<td>Text extraction via <code>unpdf</code></td>
+<td>5 MB</td>
+</tr>
+<tr>
+<td>Text/Markdown</td>
+<td>Direct UTF-8 decode</td>
+<td>5 MB</td>
+</tr>
+<tr>
+<td>JPEG/PNG/GIF/WEBP</td>
+<td>Gemini Vision → Text description</td>
+<td>5 MB</td>
+</tr>
+</tbody>
+</table>
+<h2 id="performance-considerations">Performance Considerations</h2>
+<p><strong>Chunking Strategy</strong>:
+- Chunk size: 1000 characters
+- Overlap: 200 characters (preserves context across boundaries)</p>
+<p><strong>Why Overlap?</strong> If a sentence is split across chunks, the overlap ensures at least one chunk contains the full context.</p>
+<p><strong>Embedding Dimensions</strong>: 768 (Gemini text-embedding-004)</p>
+<p><strong>Search Results</strong>: Top 5 most relevant chunks</p>
+<h2 id="troubleshooting">Troubleshooting</h2>
+<h3 id="no-text-extracted-from-file">"No text extracted from file"</h3>
+<ul>
+<li><strong>Cause</strong>: PDF might be image-based (scanned document)</li>
+<li><strong>Solution</strong>: Use OCR preprocessing or upload as image</li>
+</ul>
+<h3 id="model-not-available-in-your-region">"Model not available in your region"</h3>
+<ul>
+<li><strong>Cause</strong>: Some Gemini models have geographic restrictions</li>
+<li><strong>Solution</strong>: Switch to <code>gemma-3-12b</code> (globally available)</li>
+</ul>
+<h3 id="vector-dimension-mismatch">"Vector dimension mismatch"</h3>
+<ul>
+<li><strong>Cause</strong>: Database schema expects different vector size</li>
+<li><strong>Solution</strong>: Verify <code>Document.embedding</code> is <code>vector(768)</code></li>
+</ul>
+<h3 id="duplicate-file-detected">"Duplicate file detected"</h3>
+<ul>
+<li><strong>Info</strong>: This is expected! The system deduplicates files by SHA-256 hash</li>
+<li><strong>Behavior</strong>: New upload is marked <code>DUPLICATE</code>, original remains</li>
+</ul>
+<h2 id="next-steps">Next Steps</h2>
+<ul>
+<li>Learn about <a href="../file-upload-architecture/">File Upload Architecture</a></li>
+<li>Explore <a href="../routes-documentations/agent-routes/">Agent API Routes</a></li>
+<li>Review <a href="../background-jobs-bullmq/">Background Jobs</a> setup</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": [], "search": "../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.e71a0d61.min.js"></script>
+      
+        <script src="https://unpkg.com/@panzoom/panzoom@4.5.1/dist/panzoom.min.js"></script>
+      
+        <script src="../javascripts/zoom.js"></script>
+      
+    
+  </body>
+</html>

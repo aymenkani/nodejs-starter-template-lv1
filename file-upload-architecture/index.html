@@ -1,0 +1,2136 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://aymenkani.github.io/nodejs-starter-template-lv1/file-upload-architecture/">
+      
+      
+        <link rel="prev" href="../rag-intelligence-pipeline/">
+      
+      
+        <link rel="next" href="../background-jobs-bullmq/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
+    
+    
+      
+        <title>File Upload Architecture - Node.js Enterprise Launchpad - Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.618322db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#file-upload-architecture" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Node.js Enterprise Launchpad - Documentation" class="md-header__button md-logo" aria-label="Node.js Enterprise Launchpad - Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Node.js Enterprise Launchpad - Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              File Upload Architecture
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Node.js Enterprise Launchpad - Documentation" class="md-nav__button md-logo" aria-label="Node.js Enterprise Launchpad - Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Node.js Enterprise Launchpad - Documentation
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../getting-started/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../core-concepts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Core Concepts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../project-structure/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Project Structure
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../authentication/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Authentication
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api-documentation-openapi/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Documentation (OpenAPI)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../frontend-openapi-setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Frontend OpenAPI Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../database-prisma/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Database (Prisma)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Advanced Features
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Advanced Features
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../rag-intelligence-pipeline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RAG Intelligence Pipeline
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    File Upload Architecture
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    File Upload Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Overview">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#why-this-pattern" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why This Pattern?
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-reservation-pattern" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Reservation Pattern
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#detailed-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Detailed Flow
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Detailed Flow">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#phase-1-generate-signed-url" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 1: Generate Signed URL
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-2-client-upload" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 2: Client Upload
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-3-confirm-upload" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 3: Confirm Upload
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#security-features" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Security Features
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Security Features">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-no-server-streaming" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. No Server Streaming
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-time-limited-urls" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Time-Limited URLs
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-file-type-whitelist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. File Type Whitelist
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-size-limits" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Size Limits
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-ownership-verification" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Ownership Verification
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-rate-limiting-demo-mode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Rate Limiting (Demo Mode)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cloudflare-r2-vs-aws-s3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cloudflare R2 vs AWS S3
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Cloudflare R2 vs AWS S3">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#why-cloudflare-r2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why Cloudflare R2?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#switching-to-aws-s3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Switching to AWS S3
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#file-status-lifecycle" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        File Status Lifecycle
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cleanup-workers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cleanup Workers
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configuration
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Configuration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#environment-variables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Environment Variables
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get-cloudflare-r2-credentials" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Get Cloudflare R2 Credentials
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Troubleshooting
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Troubleshooting">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#upload-failed-403-forbidden" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        "Upload failed" (403 Forbidden)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#file-not-found-during-confirmation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        "File not found" during confirmation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#unauthorized-access-to-file" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        "Unauthorized access to file"
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#file-stuck-in-pending" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        File stuck in PENDING
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Next Steps
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../background-jobs-bullmq/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Background Jobs (BullMQ)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../email-configuration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Email Configuration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../socketio-service/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Socket.IO Service
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../testing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Testing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ci-cd-github-actions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CI/CD (GitHub Actions)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../deployment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deployment
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../troubleshooting-FAQ/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Troubleshooting / FAQ
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_18" >
+        
+          
+          <label class="md-nav__link" for="__nav_18" id="__nav_18_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Routes Documentation
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_18_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_18">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Routes Documentation
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../routes-documentations/admin-routes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Admin Routes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../routes-documentations/agent-routes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Agent Routes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../routes-documentations/auth-routes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Auth Routes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../routes-documentations/file-routes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    File Routes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../routes-documentations/token-routes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Token Routes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../routes-documentations/upload-routes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Upload Routes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../routes-documentations/user-routes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    User Routes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Overview">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#why-this-pattern" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why This Pattern?
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-reservation-pattern" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Reservation Pattern
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#detailed-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Detailed Flow
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Detailed Flow">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#phase-1-generate-signed-url" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 1: Generate Signed URL
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-2-client-upload" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 2: Client Upload
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-3-confirm-upload" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 3: Confirm Upload
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#security-features" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Security Features
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Security Features">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-no-server-streaming" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. No Server Streaming
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-time-limited-urls" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Time-Limited URLs
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-file-type-whitelist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. File Type Whitelist
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-size-limits" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Size Limits
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-ownership-verification" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Ownership Verification
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-rate-limiting-demo-mode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Rate Limiting (Demo Mode)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cloudflare-r2-vs-aws-s3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cloudflare R2 vs AWS S3
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Cloudflare R2 vs AWS S3">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#why-cloudflare-r2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why Cloudflare R2?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#switching-to-aws-s3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Switching to AWS S3
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#file-status-lifecycle" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        File Status Lifecycle
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cleanup-workers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cleanup Workers
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configuration
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Configuration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#environment-variables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Environment Variables
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get-cloudflare-r2-credentials" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Get Cloudflare R2 Credentials
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Troubleshooting
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Troubleshooting">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#upload-failed-403-forbidden" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        "Upload failed" (403 Forbidden)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#file-not-found-during-confirmation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        "File not found" during confirmation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#unauthorized-access-to-file" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        "Unauthorized access to file"
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#file-stuck-in-pending" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        File stuck in PENDING
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Next Steps
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="file-upload-architecture">File Upload Architecture</h1>
+<h2 id="overview">Overview</h2>
+<p>This template implements a <strong>secure, scalable file upload system</strong> that never streams files through your Node.js server. Instead, it uses <strong>presigned URLs</strong> to enable direct client-to-cloud uploads to <strong>Cloudflare R2</strong> (S3-compatible storage).</p>
+<h3 id="why-this-pattern">Why This Pattern?</h3>
+<p>Traditional file uploads stream data through your backend:</p>
+<div class="highlight"><pre><span></span><code>Client → Node.js Server → Cloud Storage
+</code></pre></div>
+<p><strong>Problems</strong>:
+- Server becomes a bottleneck
+- Consumes server bandwidth and memory
+- Vulnerable to DoS attacks (large file uploads)
+- Difficult to scale</p>
+<p><strong>Our Solution</strong> (Direct Upload):</p>
+<div class="highlight"><pre><span></span><code>Client → Cloudflare R2 (direct)
+       ↓
+    Backend (confirm)
+</code></pre></div>
+<h2 id="the-reservation-pattern">The Reservation Pattern</h2>
+<p>The upload flow uses what we call the <strong>"Reservation Pattern"</strong> - a three-phase process that ensures data integrity and security.</p>
+<pre class="mermaid"><code>sequenceDiagram
+    autonumber
+    participant Client
+    participant API as Node.js API
+    participant DB as PostgreSQL
+    participant R2 as Cloudflare R2
+
+    Note over Client,R2: Phase 1: Reservation
+    Client-&gt;&gt;API: POST /upload/generate-signed-url
+    API-&gt;&gt;API: Validate (size, type, user role)
+    API-&gt;&gt;DB: Create File record (status: PENDING)
+    API-&gt;&gt;R2: Request presigned PUT URL
+    R2--&gt;&gt;API: Signed URL (5min expiry)
+    API--&gt;&gt;Client: { signedUrl, fileId }
+
+    Note over Client,R2: Phase 2: Direct Upload
+    Client-&gt;&gt;R2: PUT file to signed URL
+    R2--&gt;&gt;Client: 200 OK
+
+    Note over Client,R2: Phase 3: Confirmation
+    Client-&gt;&gt;API: POST /upload/confirm { fileId }
+    API-&gt;&gt;DB: Verify ownership
+    API-&gt;&gt;API: Add to BullMQ ingestion queue
+    API--&gt;&gt;Client: { message: "Ingestion started" }</code></pre>
+<h2 id="detailed-flow">Detailed Flow</h2>
+<h3 id="phase-1-generate-signed-url">Phase 1: Generate Signed URL</h3>
+<p><strong>Client Request</strong>:</p>
+<div class="highlight"><pre><span></span><code><span class="nx">POST</span><span class="w"> </span><span class="o">/</span><span class="nx">api</span><span class="o">/</span><span class="nx">v1</span><span class="o">/</span><span class="nx">upload</span><span class="o">/</span><span class="nx">generate</span><span class="o">-</span><span class="nx">signed</span><span class="o">-</span><span class="nx">url</span>
+<span class="nx">Authorization</span><span class="o">:</span><span class="w"> </span><span class="kt">Bearer</span><span class="w"> </span><span class="o">&lt;</span><span class="nx">jwt_token</span><span class="o">&gt;</span>
+
+<span class="p">{</span>
+<span class="w">  </span><span class="s2">&quot;fileName&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;company-handbook.pdf&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="s2">&quot;fileType&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;application/pdf&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="s2">&quot;fileSize&quot;</span><span class="o">:</span><span class="w"> </span><span class="mf">2097152</span><span class="p">,</span><span class="w"> </span><span class="c1">// 2 MB in bytes</span>
+<span class="w">  </span><span class="s2">&quot;isPublic&quot;</span><span class="o">:</span><span class="w"> </span><span class="kc">false</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><strong>Backend Logic</strong> (<code>upload.service.ts</code>):</p>
+<ol>
+<li>
+<p><strong>Validate File Type</strong>:
+   <div class="highlight"><pre><span></span><code><span class="kd">const</span><span class="w"> </span><span class="nx">allowedTypes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span>
+<span class="w">  </span><span class="s1">&#39;image/jpeg&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;image/png&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;image/gif&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;image/webp&#39;</span><span class="p">,</span>
+<span class="w">  </span><span class="s1">&#39;application/pdf&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;text/plain&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;text/markdown&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;text/csv&#39;</span>
+<span class="p">];</span>
+
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="nx">allowedTypes</span><span class="p">.</span><span class="nx">includes</span><span class="p">(</span><span class="nx">fileType</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">throw</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">ApiError</span><span class="p">(</span><span class="mf">400</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Invalid file type&#39;</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></p>
+</li>
+<li>
+<p><strong>Validate File Size</strong>:
+   <div class="highlight"><pre><span></span><code><span class="kd">const</span><span class="w"> </span><span class="nx">maxSize</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">5</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mf">1024</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mf">1024</span><span class="p">;</span><span class="w"> </span><span class="c1">// 5 MB</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">fileSize</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="nx">maxSize</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">throw</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">ApiError</span><span class="p">(</span><span class="mf">400</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;File too large&#39;</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></p>
+</li>
+<li>
+<p><strong>Access Control</strong> (Public Files):
+   <div class="highlight"><pre><span></span><code><span class="kd">let</span><span class="w"> </span><span class="nx">finalIsPublic</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span><span class="p">;</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">isPublic</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="p">(</span><span class="nx">user</span><span class="p">.</span><span class="nx">role</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="s1">&#39;ADMIN&#39;</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nx">user</span><span class="p">.</span><span class="nx">role</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="s1">&#39;CONTRIBUTOR&#39;</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">finalIsPublic</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></p>
+</li>
+<li>
+<p><strong>Create DB Reservation</strong>:
+   <div class="highlight"><pre><span></span><code><span class="kd">const</span><span class="w"> </span><span class="nx">fileKey</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="sb">`users/</span><span class="si">${</span><span class="nx">user</span><span class="p">.</span><span class="nx">id</span><span class="si">}</span><span class="sb">/</span><span class="si">${</span><span class="nx">uuidv4</span><span class="p">()</span><span class="si">}</span><span class="sb">-</span><span class="si">${</span><span class="nx">sanitizedFileName</span><span class="si">}</span><span class="sb">`</span><span class="p">;</span>
+
+<span class="kd">const</span><span class="w"> </span><span class="nx">file</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">prisma</span><span class="p">.</span><span class="nx">file</span><span class="p">.</span><span class="nx">create</span><span class="p">({</span>
+<span class="w">  </span><span class="nx">data</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">fileKey</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">mimeType</span><span class="o">:</span><span class="w"> </span><span class="kt">fileType</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">originalName</span><span class="o">:</span><span class="w"> </span><span class="kt">fileName</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">userId</span><span class="o">:</span><span class="w"> </span><span class="kt">user.id</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">status</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;PENDING&#39;</span><span class="p">,</span><span class="w"> </span><span class="c1">// ← Reservation</span>
+<span class="w">    </span><span class="nx">isPublic</span><span class="o">:</span><span class="w"> </span><span class="kt">finalIsPublic</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">});</span>
+</code></pre></div></p>
+</li>
+<li>
+<p><strong>Generate Presigned URL</strong>:
+   <div class="highlight"><pre><span></span><code><span class="kd">const</span><span class="w"> </span><span class="nx">command</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">PutObjectCommand</span><span class="p">({</span>
+<span class="w">  </span><span class="nx">Bucket</span><span class="o">:</span><span class="w"> </span><span class="kt">config.aws.s3.bucket</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">Key</span><span class="o">:</span><span class="w"> </span><span class="kt">fileKey</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">ContentType</span><span class="o">:</span><span class="w"> </span><span class="kt">fileType</span>
+<span class="p">});</span>
+
+<span class="kd">const</span><span class="w"> </span><span class="nx">signedUrl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">getSignedUrl</span><span class="p">(</span><span class="nx">s3Client</span><span class="p">,</span><span class="w"> </span><span class="nx">command</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="w"> </span>
+<span class="w">  </span><span class="nx">expiresIn</span><span class="o">:</span><span class="w"> </span><span class="kt">60</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mf">5</span><span class="w"> </span><span class="c1">// 5 minutes</span>
+<span class="p">});</span>
+</code></pre></div></p>
+</li>
+</ol>
+<p><strong>Response</strong>:</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;signedUrl&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://[account].r2.cloudflarestorage.com/...&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;fileKey&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;users/uuid/uuid-company-handbook.pdf&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;fileId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;file-uuid&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+<h3 id="phase-2-client-upload">Phase 2: Client Upload</h3>
+<p>The client uploads <strong>directly</strong> to R2 using the signed URL:</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Frontend Example</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">response</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">fetch</span><span class="p">(</span><span class="nx">signedUrl</span><span class="p">,</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">method</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;PUT&#39;</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">headers</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s1">&#39;Content-Type&#39;</span><span class="o">:</span><span class="w"> </span><span class="nx">fileType</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="nx">body</span><span class="o">:</span><span class="w"> </span><span class="nx">file</span>
+<span class="p">});</span>
+
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="nx">response</span><span class="p">.</span><span class="nx">ok</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">throw</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="ne">Error</span><span class="p">(</span><span class="s1">&#39;Upload failed&#39;</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><strong>No backend involvement!</strong> The file streams from browser directly to R2.</p>
+<h3 id="phase-3-confirm-upload">Phase 3: Confirm Upload</h3>
+<p>Once the upload succeeds, the client confirms:</p>
+<div class="highlight"><pre><span></span><code><span class="nx">POST</span><span class="w"> </span><span class="o">/</span><span class="nx">api</span><span class="o">/</span><span class="nx">v1</span><span class="o">/</span><span class="nx">upload</span><span class="o">/</span><span class="nx">confirm</span>
+<span class="nx">Authorization</span><span class="o">:</span><span class="w"> </span><span class="kt">Bearer</span><span class="w"> </span><span class="o">&lt;</span><span class="nx">jwt_token</span><span class="o">&gt;</span>
+
+<span class="p">{</span>
+<span class="w">  </span><span class="s2">&quot;fileId&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;file-uuid&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><strong>Backend Logic</strong>:</p>
+<ol>
+<li>
+<p><strong>Verify Ownership</strong>:
+   <div class="highlight"><pre><span></span><code><span class="kd">const</span><span class="w"> </span><span class="nx">file</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">prisma</span><span class="p">.</span><span class="nx">file</span><span class="p">.</span><span class="nx">findUnique</span><span class="p">({</span><span class="w"> </span><span class="nx">where</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="kt">fileId</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">});</span>
+
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="nx">file</span><span class="p">)</span><span class="w"> </span><span class="k">throw</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">ApiError</span><span class="p">(</span><span class="mf">404</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;File not found&#39;</span><span class="p">);</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">file</span><span class="p">.</span><span class="nx">userId</span><span class="w"> </span><span class="o">!==</span><span class="w"> </span><span class="nx">user</span><span class="p">.</span><span class="nx">id</span><span class="p">)</span><span class="w"> </span><span class="k">throw</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">ApiError</span><span class="p">(</span><span class="mf">403</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Unauthorized&#39;</span><span class="p">);</span>
+</code></pre></div></p>
+</li>
+<li>
+<p><strong>Trigger Background Ingestion</strong>:
+   <div class="highlight"><pre><span></span><code><span class="k">await</span><span class="w"> </span><span class="nx">ingestionService</span><span class="p">.</span><span class="nx">addIngestionJob</span><span class="p">({</span><span class="w"> </span><span class="nx">fileId</span><span class="w"> </span><span class="p">});</span>
+</code></pre></div></p>
+</li>
+</ol>
+<p>The file remains <code>PENDING</code> until the background worker processes it. See <a href="../rag-intelligence-pipeline/">RAG Intelligence Pipeline</a> for ingestion details.</p>
+<h2 id="security-features">Security Features</h2>
+<h3 id="1-no-server-streaming">1. No Server Streaming</h3>
+<p>Files <strong>never</strong> touch your Node.js server. This prevents:
+- Memory exhaustion attacks
+- Server bandwidth saturation
+- Complexity of handling multipart uploads</p>
+<h3 id="2-time-limited-urls">2. Time-Limited URLs</h3>
+<p>Presigned URLs expire after <strong>5 minutes</strong>. Even if leaked, they become useless quickly.</p>
+<h3 id="3-file-type-whitelist">3. File Type Whitelist</h3>
+<p>Only specific MIME types are allowed. Prevents executable uploads (<code>.exe</code>, <code>.sh</code>, etc.).</p>
+<h3 id="4-size-limits">4. Size Limits</h3>
+<p>Hard limit of <strong>5 MB</strong> per file. Configurable in <code>upload.service.ts</code>.</p>
+<h3 id="5-ownership-verification">5. Ownership Verification</h3>
+<p>The <code>/confirm</code> endpoint verifies the file belongs to the requesting user before processing.</p>
+<h3 id="6-rate-limiting-demo-mode">6. Rate Limiting (Demo Mode)</h3>
+<p>In demo environments, uploads are rate-limited:</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// src/middleware/rateLimiter.ts</span>
+<span class="k">export</span><span class="w"> </span><span class="kd">const</span><span class="w"> </span><span class="nx">uploadRateLimiter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">rateLimit</span><span class="p">({</span>
+<span class="w">  </span><span class="nx">windowMs</span><span class="o">:</span><span class="w"> </span><span class="kt">24</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mf">60</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mf">60</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mf">1000</span><span class="p">,</span><span class="w"> </span><span class="c1">// 24 hours</span>
+<span class="w">  </span><span class="nx">max</span><span class="o">:</span><span class="w"> </span><span class="p">(</span><span class="nx">req</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">(</span><span class="nx">req</span><span class="p">.</span><span class="nx">user</span><span class="o">?</span><span class="p">.</span><span class="nx">role</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="s1">&#39;ADMIN&#39;</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="nx">100</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="kt">2</span><span class="p">),</span>
+<span class="w">  </span><span class="nx">message</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;Upload limit reached. Try again in 24 hours.&#39;</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">skip</span><span class="o">:</span><span class="w"> </span><span class="p">(</span><span class="nx">req</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="o">!</span><span class="nx">config</span><span class="p">.</span><span class="nx">demoMode</span>
+<span class="p">});</span>
+</code></pre></div>
+<p><strong>Limits</strong>:
+- Regular users: <strong>2 uploads / 24 hours</strong>
+- Admins: <strong>100 uploads / 24 hours</strong>
+- Production: <strong>No limit</strong> (rate limiter disabled when <code>DEMO_MODE=false</code>)</p>
+<h2 id="cloudflare-r2-vs-aws-s3">Cloudflare R2 vs AWS S3</h2>
+<p>This template uses <strong>Cloudflare R2</strong> but is <strong>100% S3-compatible</strong>. You can switch to AWS S3 by changing the endpoint.</p>
+<h3 id="why-cloudflare-r2">Why Cloudflare R2?</h3>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Cloudflare R2</th>
+<th>AWS S3</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Egress Fees</strong></td>
+<td>$0 (Free)</td>
+<td>$0.09/GB</td>
+</tr>
+<tr>
+<td><strong>Storage</strong></td>
+<td>$0.015/GB/month</td>
+<td>$0.023/GB/month</td>
+</tr>
+<tr>
+<td><strong>Free Tier</strong></td>
+<td>10 GB storage</td>
+<td>5 GB (12 months only)</td>
+</tr>
+<tr>
+<td><strong>API</strong></td>
+<td>S3-compatible</td>
+<td>Native</td>
+</tr>
+</tbody>
+</table>
+<p><strong>For most apps</strong>, R2's free egress makes it cheaper, especially for file downloads.</p>
+<blockquote>
+<p>[!NOTE]
+<strong>Pro Tip:</strong> If manual storage configuration feels overwhelming, the <strong><a href="https://aymenkani.gumroad.com/l/nodejs-enterprise-launchpad/PRO-VISITOR?price=26&amp;option=2nCmfCVPlr707OzzOD7UGA%3D%3D&amp;_gl=1*1qml59u*_ga*NTYyNDU1Mjc4LjE3NjA5NzUzNDg.*_ga_6LJN6D94N6*czE3NjYwNjQ0OTYkbzE4MyRnMCR0MTc2NjA2NDQ5NiRqNjAkbDAkaDA.">Node.js Enterprise Launchpad</a></strong> comes with Cloudflare R2 pre-configured for you. This ensures a <strong>$0 Storage Cost</strong> for your uploads, along with a <strong>$20 deployment credit</strong>.</p>
+</blockquote>
+<h3 id="switching-to-aws-s3">Switching to AWS S3</h3>
+<p>Remove or comment out the <code>endpoint</code> configuration:</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// src/services/upload.service.ts</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">s3Client</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">S3Client</span><span class="p">({</span>
+<span class="w">  </span><span class="nx">region</span><span class="o">:</span><span class="w"> </span><span class="kt">config.aws.region</span><span class="p">,</span>
+<span class="w">  </span><span class="c1">// endpoint: process.env.AWS_ENDPOINT, // ← Remove this line</span>
+<span class="w">  </span><span class="nx">credentials</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">accessKeyId</span><span class="o">:</span><span class="w"> </span><span class="kt">config.aws.accessKeyId</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">secretAccessKey</span><span class="o">:</span><span class="w"> </span><span class="kt">config.aws.secretAccessKey</span><span class="p">,</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="p">});</span>
+</code></pre></div>
+<p>Update <code>.env</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="nv">AWS_REGION</span><span class="o">=</span>us-east-1
+<span class="nv">AWS_S3_BUCKET</span><span class="o">=</span>your-s3-bucket
+<span class="c1"># Remove AWS_ENDPOINT</span>
+</code></pre></div>
+<h2 id="file-status-lifecycle">File Status Lifecycle</h2>
+<pre class="mermaid"><code>stateDiagram-v2
+    [*] --&gt; PENDING: Client requests upload
+    PENDING --&gt; PROCESSING: Worker starts
+    PROCESSING --&gt; COMPLETED: Success
+    PROCESSING --&gt; FAILED: Error
+    PROCESSING --&gt; DUPLICATE: Hash match found
+    PENDING --&gt; [*]: Cleanup after 24h
+    FAILED --&gt; [*]: Cleanup after 24h
+    COMPLETED --&gt; [*]: Demo mode cleanup
+    DUPLICATE --&gt; [*]: Immediate cleanup</code></pre>
+<p><strong>States</strong>:
+- <code>PENDING</code>: Reservation created, awaiting upload confirmation
+- <code>PROCESSING</code>: Background worker is ingesting
+- <code>COMPLETED</code>: Successfully processed and indexed
+- <code>FAILED</code>: Processing error (e.g., corrupt file)
+- <code>DUPLICATE</code>: SHA-256 hash matched existing file</p>
+<h2 id="cleanup-workers">Cleanup Workers</h2>
+<p>See <a href="../background-jobs-bullmq/#2-file-cleanup-worker">Background Jobs (BullMQ)</a> for automatic cleanup:</p>
+<ul>
+<li><strong>Abandoned files</strong>: PENDING/FAILED files older than 24 hours</li>
+<li><strong>Demo mode</strong>: Auto-delete completed files (respects <code>DEMO_MODE</code> env var)</li>
+</ul>
+<h2 id="configuration">Configuration</h2>
+<h3 id="environment-variables">Environment Variables</h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Cloudflare R2</span>
+<span class="nv">AWS_REGION</span><span class="o">=</span>auto
+<span class="nv">AWS_ENDPOINT</span><span class="o">=</span>https://&lt;account-id&gt;.r2.cloudflarestorage.com
+<span class="nv">AWS_ACCESS_KEY_ID</span><span class="o">=</span>&lt;r2-access-key&gt;
+<span class="nv">AWS_SECRET_ACCESS_KEY</span><span class="o">=</span>&lt;r2-secret-key&gt;
+<span class="nv">AWS_S3_BUCKET</span><span class="o">=</span>your-bucket-name
+
+<span class="c1"># Demo Mode (optional)</span>
+<span class="nv">DEMO_MODE</span><span class="o">=</span><span class="nb">true</span><span class="w">  </span><span class="c1"># Enables rate limiting and periodic cleanup</span>
+</code></pre></div>
+<h3 id="get-cloudflare-r2-credentials">Get Cloudflare R2 Credentials</h3>
+<ol>
+<li>Go to <a href="https://dash.cloudflare.com/">Cloudflare Dashboard</a> → R2</li>
+<li>Create a bucket</li>
+<li>Generate API tokens (R2 → Manage R2 API Tokens)</li>
+<li>Copy credentials to <code>.env</code></li>
+</ol>
+<h2 id="troubleshooting">Troubleshooting</h2>
+<h3 id="upload-failed-403-forbidden">"Upload failed" (403 Forbidden)</h3>
+<p><strong>Cause</strong>: Presigned URL expired (&gt;5 min)<br />
+<strong>Solution</strong>: Request a new signed URL</p>
+<h3 id="file-not-found-during-confirmation">"File not found" during confirmation</h3>
+<p><strong>Cause</strong>: Upload to R2 failed, but client thinks it succeeded<br />
+<strong>Solution</strong>: Check R2 dashboard, verify CORS settings. See our <a href="https://nodejs-starter-template-lv1-production-db8d.up.railway.app/client/cloudflare-cors.html">Cloudflare CORS Setup Guide</a> for detailed instructions.</p>
+<h3 id="unauthorized-access-to-file">"Unauthorized access to file"</h3>
+<p><strong>Cause</strong>: User trying to confirm someone else's upload<br />
+<strong>Solution</strong>: This is working as intended (security feature)</p>
+<h3 id="file-stuck-in-pending">File stuck in PENDING</h3>
+<p><strong>Cause</strong>: Client never called <code>/confirm</code><br />
+<strong>Solution</strong>: Automatic cleanup after 24 hours</p>
+<h2 id="next-steps">Next Steps</h2>
+<ul>
+<li>Learn about <a href="../rag-intelligence-pipeline/">RAG Intelligence Pipeline</a></li>
+<li>Explore <a href="../routes-documentations/upload-routes/">Upload API Routes</a></li>
+<li>Review <a href="../background-jobs-bullmq/">Background Jobs</a></li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": [], "search": "../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.e71a0d61.min.js"></script>
+      
+        <script src="https://unpkg.com/@panzoom/panzoom@4.5.1/dist/panzoom.min.js"></script>
+      
+        <script src="../javascripts/zoom.js"></script>
+      
+    
+  </body>
+</html>

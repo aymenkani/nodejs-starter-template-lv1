@@ -1,0 +1,1895 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://aymenkani.github.io/nodejs-starter-template-lv1/project-structure/">
+      
+      
+        <link rel="prev" href="../core-concepts/">
+      
+      
+        <link rel="next" href="../authentication/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
+    
+    
+      
+        <title>Project Structure - Node.js Enterprise Launchpad - Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.618322db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#project-structure" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Node.js Enterprise Launchpad - Documentation" class="md-header__button md-logo" aria-label="Node.js Enterprise Launchpad - Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Node.js Enterprise Launchpad - Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Project Structure
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Node.js Enterprise Launchpad - Documentation" class="md-nav__button md-logo" aria-label="Node.js Enterprise Launchpad - Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Node.js Enterprise Launchpad - Documentation
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../getting-started/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../core-concepts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Core Concepts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Project Structure
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Project Structure
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#request-lifecycle-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Request Lifecycle Flow
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#directory-breakdown" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Directory Breakdown
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Directory Breakdown">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#github" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        .github/
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#husky" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        .husky/
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        dist/
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#md-documentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        md-documentation/
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#node_modules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        node_modules/
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#prisma" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        prisma/
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#public" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        public/
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#src" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        src/
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="src/">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#srcapi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        src/api/
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#srcconfig" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        src/config/
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#srccontrollers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        src/controllers/
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#srcdocs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        src/docs/
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#srcjobs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        src/jobs/
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#srcmiddleware" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        src/middleware/
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#srcservices" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        src/services/
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#srctypes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        src/types/
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#srcutils" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        src/utils/
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#srcvalidations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        src/validations/
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#srcserverts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        src/server.ts
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tests" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        tests/
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#root-level-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Root Level Files
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../authentication/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Authentication
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api-documentation-openapi/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Documentation (OpenAPI)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../frontend-openapi-setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Frontend OpenAPI Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../database-prisma/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Database (Prisma)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Advanced Features
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Advanced Features
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../rag-intelligence-pipeline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RAG Intelligence Pipeline
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../file-upload-architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    File Upload Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../background-jobs-bullmq/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Background Jobs (BullMQ)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../email-configuration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Email Configuration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../socketio-service/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Socket.IO Service
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../testing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Testing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ci-cd-github-actions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CI/CD (GitHub Actions)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../deployment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deployment
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../troubleshooting-FAQ/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Troubleshooting / FAQ
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_18" >
+        
+          
+          <label class="md-nav__link" for="__nav_18" id="__nav_18_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Routes Documentation
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_18_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_18">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Routes Documentation
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../routes-documentations/admin-routes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Admin Routes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../routes-documentations/agent-routes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Agent Routes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../routes-documentations/auth-routes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Auth Routes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../routes-documentations/file-routes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    File Routes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../routes-documentations/token-routes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Token Routes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../routes-documentations/upload-routes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Upload Routes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../routes-documentations/user-routes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    User Routes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#request-lifecycle-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Request Lifecycle Flow
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#directory-breakdown" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Directory Breakdown
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Directory Breakdown">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#github" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        .github/
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#husky" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        .husky/
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        dist/
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#md-documentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        md-documentation/
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#node_modules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        node_modules/
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#prisma" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        prisma/
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#public" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        public/
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#src" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        src/
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="src/">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#srcapi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        src/api/
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#srcconfig" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        src/config/
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#srccontrollers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        src/controllers/
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#srcdocs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        src/docs/
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#srcjobs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        src/jobs/
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#srcmiddleware" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        src/middleware/
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#srcservices" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        src/services/
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#srctypes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        src/types/
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#srcutils" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        src/utils/
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#srcvalidations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        src/validations/
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#srcserverts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        src/server.ts
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tests" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        tests/
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#root-level-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Root Level Files
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="project-structure">Project Structure</h1>
+<p>Understanding the project's directory structure is crucial for navigating the codebase, locating specific functionalities, and contributing effectively. This template follows a clear and modular organization to promote maintainability and scalability.</p>
+<h2 id="request-lifecycle-flow">Request Lifecycle Flow</h2>
+<p>The following diagram illustrates how a typical HTTP request flows through the different layers of the application architecture.</p>
+<pre class="mermaid"><code>sequenceDiagram
+    autonumber
+    participant Client
+    participant Server as Express Server
+    participant Middleware
+    participant Router
+    participant Controller
+    participant Service
+    participant DB as Database
+
+    Client-&gt;&gt;Server: HTTP Request
+    Server-&gt;&gt;Middleware: Process global middleware (CORS, etc.)
+    Middleware--&gt;&gt;Server: next()
+    Server-&gt;&gt;Router: Match route in `api/index.ts`
+    Router-&gt;&gt;Controller: Execute handler from `*.routes.ts`
+    Controller-&gt;&gt;Service: Call business logic function
+    Service-&gt;&gt;DB: Query data via Prisma Client
+    DB--&gt;&gt;Service: Return data
+    Service--&gt;&gt;Controller: Return result
+    Controller--&gt;&gt;Server: Send HTTP Response
+    Server--&gt;&gt;Client: HTTP Response
+
+    alt Error Occurs During Processing
+        Service-&gt;&gt;Controller: throw Error
+        Controller-&gt;&gt;Server: next(error)
+        Server-&gt;&gt;Middleware: Global Error Handler (`error.ts`)
+        Middleware--&gt;&gt;Client: Formatted Error Response
+    end</code></pre>
+<p>Here's an overview of the main directories and files:</p>
+<div class="highlight"><pre><span></span><code>.
+├───.github/                      # GitHub Actions workflows for CI/CD
+├───.husky/                       # Git hooks for pre-commit checks
+├───dist/                         # Compiled JavaScript output (generated from src/)
+├───documentation/              # The Nodejs Advanced Starter Template documentation powered by MkDocs
+├───node_modules/                 # Installed Node.js dependencies
+├───prisma/                       # Prisma schema, migrations, and seed script
+├───public/                       # Static files served by the application (e.g., client-side HTML, JS)
+├───src/                          # Main application source code (TypeScript)
+│   ├───api/                      # API route definitions
+│   ├───config/                   # Application configuration settings
+│   ├───controllers/              # Request handling logic
+│   ├───docs/                     # OpenAPI documentation generation
+│   ├───jobs/                     # Background job definitions and workers (BullMQ)
+│   ├───middleware/               # Express middleware functions
+│   ├───services/                 # Business logic and data manipulation
+│   ├───types/                    # Custom TypeScript type definitions
+│   ├───utils/                    # Utility functions and helpers
+│   ├───validations/              # Request data validation schemas (Zod)
+│   └───server.ts                 # Main application entry point
+├───tests/                        # Unit and integration tests
+├───.env.example                  # Example environment variables file
+├───.gitignore                    # Specifies intentionally untracked files to ignore
+├───.prettierrc.js                # Prettier configuration for code formatting
+├───docker-compose.mysql.yml      # Docker Compose configuration for MySQL
+├───docker-compose.postgres.yml   # Docker Compose configuration for PostgreSQL
+├───docker-compose.override.yml   # Docker Compose override configuration for development
+├───docker-compose.yml            # Docker Compose configuration for local services
+├───docker-entrypoint.dev.sh      # Smart entrypoint for development Docker containers
+├───Dockerfile                    # Dockerfile for production builds
+├───Dockerfile.dev                # Dockerfile for development builds
+├───eslint.config.mjs             # ESLint configuration file
+├───package.json                  # Project metadata and dependencies
+├───prisma.config.ts              # Prisma configuration
+├───railway.toml                  # Railway deployment configuration
+├───README.md                     # Project README file
+├───render.yaml                   # Render deployment configuration
+└───tsconfig.json                 # TypeScript compiler configuration
+</code></pre></div>
+<h2 id="directory-breakdown">Directory Breakdown</h2>
+<h3 id="github"><code>.github/</code></h3>
+<p>Contains <a href="../ci-cd-github-actions/">GitHub Actions workflows for CI/CD</a>.
+*   <code>workflows/ci.yml</code>: Defines the Continuous Integration pipeline (linting, testing, building).
+*   <code>workflows/publish.yml</code>: Defines the Continuous Deployment pipeline (e.g., publishing Docker images).</p>
+<h3 id="husky"><code>.husky/</code></h3>
+<p>Configures [Git hooks]. Currently used for <code>pre-commit</code> hooks to run linters and formatters before committing code, ensuring code quality.</p>
+<h3 id="dist"><code>dist/</code></h3>
+<p>This directory is automatically generated when you compile the TypeScript source code. It contains the transpiled JavaScript files that Node.js executes. You should not manually edit files in this directory.</p>
+<h3 id="md-documentation"><code>md-documentation/</code></h3>
+<p>This directory contains the comprehensive documentation for the project, including guides, explanations of core concepts, and setup instructions.</p>
+<h3 id="node_modules"><code>node_modules/</code></h3>
+<p>Managed by npm or Yarn, this directory stores all the project's third-party dependencies. It should not be committed to version control.</p>
+<h3 id="prisma"><code>prisma/</code></h3>
+<p>Houses all files related to <a href="../database-prisma/">Prisma ORM</a>.</p>
+<ul>
+<li><code>schema.prisma</code>: Defines your database schema, including models, relations, and enums.</li>
+<li><code>migrations/</code>: Stores database migration files generated by Prisma Migrate.</li>
+<li><code>seed.ts</code>: Contains scripts to populate your database with initial data.</li>
+</ul>
+<h3 id="public"><code>public/</code></h3>
+<p>Contains static assets that are served directly by the web server. This might include client-side JavaScript, HTML files, images, or other static resources.</p>
+<h3 id="src"><code>src/</code></h3>
+<p>This is the heart of the application, containing all the TypeScript source code.</p>
+<ul>
+<li>
+<h4 id="srcapi"><code>src/api/</code></h4>
+<p>Defines the <a href="../core-concepts/#1-api-routing">API routes</a>. Each file typically corresponds to a major resource or domain:</p>
+<ul>
+<li><code>admin.routes.ts</code>: Admin-specific endpoints (e.g., creating notifications)</li>
+<li><code>agent.routes.ts</code>: AI agent chat endpoint for RAG-powered Q&amp;A</li>
+<li><code>auth.routes.ts</code>: Authentication endpoints (login, register, OAuth)</li>
+<li><code>file.routes.ts</code>: File listing and management</li>
+<li><code>notification.routes.ts</code>: Notification management (mark as read, delete)</li>
+<li><code>token.routes.ts</code>: Token refresh and management</li>
+<li><code>upload.routes.ts</code>: File upload (presigned URLs, confirmation)</li>
+<li><code>user.routes.ts</code>: User management and profile endpoints</li>
+<li><code>index.ts</code>: Aggregates all routes and exports the main router</li>
+</ul>
+</li>
+<li>
+<h4 id="srcconfig"><code>src/config/</code></h4>
+<p>Manages <a href="../core-concepts/#8-configuration-management">application-wide configuration settings</a>.</p>
+</li>
+<li><code>config.ts</code>: Loads and validates environment variables, providing a centralized configuration object.</li>
+<li><code>db.ts</code>: Handles database connection setup (e.g., Prisma Client initialization).</li>
+<li>
+<p><code>passport.config.ts</code>: Configures <a href="../authentication/">Passport.js strategies for authentication</a> (JWT, Google OAuth).</p>
+</li>
+<li>
+<h4 id="srccontrollers"><code>src/controllers/</code></h4>
+<p>Contains the <a href="../core-concepts/#2-controllers">logic for handling incoming HTTP requests</a> and preparing responses. Controllers interact with services to perform business operations and then send back appropriate HTTP responses.</p>
+</li>
+<li>
+<h4 id="srcdocs"><code>src/docs/</code></h4>
+<p>Dedicated to <a href="../api-documentation-openapi/">generating the OpenAPI specification and serving the Swagger UI</a>.</p>
+</li>
+<li><code>openapi.ts</code>: Main file for defining the OpenAPI document structure.</li>
+<li><code>openAPIRegistry.ts</code>: Registers API paths and schemas for OpenAPI generation.</li>
+<li>
+<p><code>paths/</code>: Contains individual OpenAPI path definitions, often linked to specific routes.</p>
+</li>
+<li>
+<h4 id="srcjobs"><code>src/jobs/</code></h4>
+<p>Manages <a href="../background-jobs-bullmq/">background tasks using BullMQ</a>.</p>
+</li>
+<li><code>queue.ts</code>: Defines and initializes job queues (token cleanup, file cleanup, ingestion).</li>
+<li><code>scheduler.ts</code>: Configures cron schedules for recurring jobs.</li>
+<li><code>tokenCleanup.worker.ts</code>: Processes expired token cleanup jobs.</li>
+<li><code>fileCleanup.worker.ts</code>: Handles abandoned file cleanup and demo mode file deletion.</li>
+<li>
+<p><code>ingestion.worker.ts</code>: Processes uploaded files for the RAG pipeline (text extraction, embedding generation).</p>
+</li>
+<li>
+<h4 id="srcmiddleware"><code>src/middleware/</code></h4>
+<p>Houses <a href="../core-concepts/#4-middleware">Express middleware functions</a> that process requests before they reach the route handlers or after they leave.</p>
+</li>
+<li><code>auth.middleware.ts</code>: JWT authentication and role-based authorization.</li>
+<li><code>error.ts</code>: Global error handling middleware.</li>
+<li><code>rateLimiter.ts</code>: API rate limiting (with demo mode support).</li>
+<li><code>socket.middleware.ts</code>: Socket.IO authentication middleware.</li>
+<li>
+<p><code>validate.ts</code>: Request data validation using Zod schemas.</p>
+</li>
+<li>
+<h4 id="srcservices"><code>src/services/</code></h4>
+<p>Encapsulates the core business logic of the application. Services interact with the database (via Prisma), external APIs (e.g., Cloudflare R2 for file storage, Google Gemini for AI), and other services. Key services include:</p>
+<ul>
+<li><code>auth.service.ts</code>: Authentication logic (login, registration, password reset)</li>
+<li><code>upload.service.ts</code>: File upload via presigned URLs (Cloudflare R2/AWS S3)</li>
+<li><code>file.service.ts</code>: File listing and filtering</li>
+<li><code>ingestion.service.ts</code>: Triggers background ingestion jobs for RAG</li>
+<li><code>notification.service.ts</code>: Creates and manages notifications with online/offline delivery</li>
+<li><code>socket.service.ts</code>: Real-time communication via Socket.IO</li>
+<li><code>user.service.ts</code>: User CRUD operations and profile management</li>
+</ul>
+</li>
+<li>
+<h4 id="srctypes"><code>src/types/</code></h4>
+<p>Contains custom TypeScript declaration files (<code>.d.ts</code>) for extending existing types or defining new global types specific to the application.</p>
+</li>
+<li>
+<h4 id="srcutils"><code>src/utils/</code></h4>
+<p>A collection of <a href="../core-concepts/#6-error-handling">general-purpose utility functions and helper classes</a> used across the application.</p>
+</li>
+<li><code>ApiError.ts</code>: Custom error class for standardized API error responses.</li>
+<li><code>logger.ts</code>: Configures and exports the Pino logger instance.</li>
+<li>
+<p><code>tokenCleanup.ts</code>: Utility for managing token-related tasks.</p>
+</li>
+<li>
+<h4 id="srcvalidations"><code>src/validations/</code></h4>
+<p>Defines <a href="../core-concepts/#5-validation">Zod schemas for validating incoming request data</a> (body, query parameters, path parameters). Validation files include:</p>
+<ul>
+<li><code>admin.validation.ts</code>: Admin notification creation</li>
+<li><code>agent.validation.ts</code>: AI chat message validation</li>
+<li><code>auth.validation.ts</code>: Login, register, password reset validation</li>
+<li><code>file.validation.ts</code>: File listing filters</li>
+<li><code>notification.validation.ts</code>: Notification management</li>
+<li><code>upload.validation.ts</code>: File upload (size, type, metadata)</li>
+<li><code>user.validation.ts</code>: User profile and update validation</li>
+</ul>
+</li>
+<li>
+<h4 id="srcserverts"><code>src/server.ts</code></h4>
+<p>The main entry point of the application. It sets up the Express app, connects to the database, registers middleware, defines routes, and starts the server.</p>
+</li>
+</ul>
+<h3 id="tests"><code>tests/</code></h3>
+<p>Contains all <a href="../testing/">test files</a> for the application. Tests are organized to mirror the <code>src/</code> directory structure, making it easy to find tests for specific components.</p>
+<h2 id="root-level-files">Root Level Files</h2>
+<ul>
+<li><code>.cursorrules</code> &amp; <code>.gemini/GEMINI.md</code>: These files contain a set of rules and guidelines for AI assistants (like Cursor or Gemini) to follow when working on this project. They define the architectural patterns, coding standards, and critical "must-follow" rules to ensure that AI-generated code is consistent with the project's design. They are not used by the application itself but are crucial for maintaining code quality when using AI-powered development tools.</li>
+<li><code>.env.example</code>: A template file for environment variables. Copy this to <code>.env</code> and fill in your specific configurations.</li>
+<li><code>.gitignore</code>: Specifies files and directories that Git should ignore.</li>
+<li><code>.prettierrc.js</code>: Configuration file for Prettier, ensuring consistent code formatting.</li>
+<li><code>docker-compose.mysql.yml</code>: Defines the Docker Compose setup for using a MySQL database.</li>
+<li><code>docker-compose.postgres.yml</code>: Defines the Docker Compose setup for using a PostgreSQL database.</li>
+<li><code>docker-compose.redis.yml</code>: Defines the Docker Compose setup for using a Redis service.</li>
+<li><code>docker-compose.postgres.railway.yml</code> &amp; <code>docker-compose.redis.railway.yml</code>: Specialized Docker Compose templates for Railway's "drag and drop" infrastructure provisioning.</li>
+<li><code>docker-compose.override.yml</code>: Contains development-specific overrides for <code>docker-compose.yml</code>. It enables features like hot-reloading and mounts the local source code into the container. Docker Compose automatically merges this file, so you don't have to reference it manually when using <code>npm run docker:up</code>.</li>
+<li><code>docker-compose.yml</code>: Defines multi-container Docker applications. Used for local development services (e.g., databases), excluding Redis which is now in <code>docker-compose.redis.yml</code>.</li>
+<li><code>docker-entrypoint.dev.sh</code>: A smart entrypoint script for development Docker containers.</li>
+<li><code>Dockerfile</code>: Instructions for building a Docker image of your application for production deployment.</li>
+<li><code>Dockerfile.dev</code>: Instructions for building a Docker image of your application for development.</li>
+<li><code>Dockerfile.railway</code>: Specialized production Dockerfile optimized for the Railway deployment engine.</li>
+<li><code>eslint.config.mjs</code>: Configuration file for ESLint, a tool for identifying and reporting on patterns found in ECMAScript/JavaScript code.</li>
+<li><code>package.json</code>: Contains project metadata, dependencies, and a variety of scripts for development, building, testing, and more. For a detailed breakdown of all available scripts, see the <a href="../getting-started/#4-available-npm-scripts">npm scripts section in the Getting Started guide</a>.</li>
+<li><code>prisma.config.ts</code>: Configuration for Prisma, often used for custom Prisma Client generation or data proxy settings.</li>
+<li><code>railway.toml</code>: Configuration file for building and deploying the application on Railway.</li>
+<li><code>README.md</code>: The main README file for the project, providing a quick overview.</li>
+<li><code>render.yaml</code>: Configuration file for deploying the application to Render.</li>
+<li><code>tsconfig.json</code>: TypeScript compiler configuration file.</li>
+</ul>
+<p>This structured approach helps in maintaining a clean, understandable, and scalable codebase, making it easier for new developers to onboard and for existing developers to manage features and fixes.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": [], "search": "../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.e71a0d61.min.js"></script>
+      
+        <script src="https://unpkg.com/@panzoom/panzoom@4.5.1/dist/panzoom.min.js"></script>
+      
+        <script src="../javascripts/zoom.js"></script>
+      
+    
+  </body>
+</html>

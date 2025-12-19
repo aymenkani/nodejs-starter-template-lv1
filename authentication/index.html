@@ -1,0 +1,1381 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://aymenkani.github.io/nodejs-starter-template-lv1/authentication/">
+      
+      
+        <link rel="prev" href="../project-structure/">
+      
+      
+        <link rel="next" href="../api-documentation-openapi/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
+    
+    
+      
+        <title>Authentication - Node.js Enterprise Launchpad - Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.618322db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#authentication" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Node.js Enterprise Launchpad - Documentation" class="md-header__button md-logo" aria-label="Node.js Enterprise Launchpad - Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Node.js Enterprise Launchpad - Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Authentication
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Node.js Enterprise Launchpad - Documentation" class="md-nav__button md-logo" aria-label="Node.js Enterprise Launchpad - Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Node.js Enterprise Launchpad - Documentation
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../getting-started/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../core-concepts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Core Concepts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../project-structure/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Project Structure
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Authentication
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Authentication
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-jwt-authentication" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. JWT Authentication
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. JWT Authentication">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#flow-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Flow Overview
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api-documentation-openapi/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Documentation (OpenAPI)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../frontend-openapi-setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Frontend OpenAPI Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../database-prisma/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Database (Prisma)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Advanced Features
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Advanced Features
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../rag-intelligence-pipeline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RAG Intelligence Pipeline
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../file-upload-architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    File Upload Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../background-jobs-bullmq/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Background Jobs (BullMQ)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../email-configuration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Email Configuration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../socketio-service/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Socket.IO Service
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../testing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Testing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ci-cd-github-actions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CI/CD (GitHub Actions)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../deployment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deployment
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../troubleshooting-FAQ/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Troubleshooting / FAQ
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_18" >
+        
+          
+          <label class="md-nav__link" for="__nav_18" id="__nav_18_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Routes Documentation
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_18_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_18">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Routes Documentation
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../routes-documentations/admin-routes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Admin Routes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../routes-documentations/agent-routes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Agent Routes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../routes-documentations/auth-routes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Auth Routes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../routes-documentations/file-routes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    File Routes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../routes-documentations/token-routes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Token Routes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../routes-documentations/upload-routes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Upload Routes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../routes-documentations/user-routes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    User Routes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-jwt-authentication" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. JWT Authentication
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. JWT Authentication">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#flow-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Flow Overview
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="authentication">Authentication</h1>
+<p>This template provides robust authentication mechanisms using JSON Web Tokens (JWT) for local strategy and integrates with Google OAuth2.0 for third-party authentication. It leverages Passport.js for flexible authentication strategies and includes features like refresh tokens and password reset.</p>
+<h2 id="1-jwt-authentication">1. JWT Authentication</h2>
+<p>JWT (JSON Web Token) is an open standard (RFC 7519) that defines a compact and self-contained way for securely transmitting information between parties as a JSON object. This template uses JWTs for authenticating users after they log in with their credentials.</p>
+<h3 id="flow-overview">Flow Overview</h3>
+<ol>
+<li><strong>User Login:</strong> A user sends their credentials (e.g., email and password) to the API.</li>
+<li><strong>Credential Verification:</strong> The API verifies the credentials against the database.</li>
+<li><strong>Token Generation:</strong> If credentials are valid, the API generates:</li>
+<li>An <strong>Access Token</strong>: A short-lived token used to access protected resources.</li>
+<li>A <strong>Refresh Token</strong>: A long-lived token used to obtain new access tokens without re-authenticating.</li>
+<li><strong>Token Storage:</strong> Both tokens are sent to the client. The client typically stores the access token in memory or a secure HTTP-only cookie, and the refresh token in an HTTP-only cookie.</li>
+<li><strong>Resource Access:</strong> For subsequent requests to protected routes, the client sends the access token (usually in the <code>Authorization</code> header as a <code>Bearer</code> token).</li>
+<li><strong>Token Verification:</strong> The API verifies the access token's signature and expiration. If valid, the request is authorized.</li>
+<li><strong>Token Refresh:</strong> When the access token expires, the client sends the refresh token to a dedicated refresh endpoint. If the refresh token is valid, a new access token (and optionally a new refresh token) is issued.</li>
+</ol>
+<h1 id="authentication-flow">Authentication Flow</h1>
+<p>Here is how the Refresh Token rotation and logout process works:</p>
+<pre class="mermaid"><code>sequenceDiagram
+    autonumber
+    participant User
+    participant API
+    participant DB
+
+    %% -- Login Flow --
+    User-&gt;&gt;API: POST /api/v1/auth/login (Email/Pass)
+    API-&gt;&gt;DB: Validate credentials
+    DB--&gt;&gt;API: User is valid
+    API-&gt;&gt;DB: Delete old refresh tokens for user
+    API-&gt;&gt;DB: Create and store new Refresh Token
+    DB--&gt;&gt;API: OK
+    API--&gt;&gt;User: Access Token (in JSON response) + New Refresh Token (in HttpOnly Cookie)
+
+    Note over User, API: Later, when Access Token is expired...
+
+    %% -- Refresh Token Flow --
+    User-&gt;&gt;API: POST /api/v1/token/refresh (with Refresh Token Cookie)
+    API-&gt;&gt;DB: Find and verify Refresh Token
+    DB--&gt;&gt;API: Token is valid
+    API-&gt;&gt;DB: Delete the used Refresh Token
+    DB--&gt;&gt;API: OK
+    API-&gt;&gt;DB: Create and store another new Refresh Token
+    DB--&gt;&gt;API: OK
+    API--&gt;&gt;User: New Access Token (in JSON response) + Another New Refresh Token (in HttpOnly Cookie)
+
+    Note over User, API: Later, when user logs out...
+
+    %% -- Logout Flow --
+    User-&gt;&gt;API: POST /api/v1/auth/logout (with Access Token and Refresh Token Cookie)
+    API-&gt;&gt;DB: Delete Refresh Token from DB
+    DB--&gt;&gt;API: OK
+    API-&gt;&gt;DB: Add Access Token to blacklist
+    DB--&gt;&gt;API: OK
+    API--&gt;&gt;User: 204 No Content (clears cookie)</code></pre>
+<h3 id="implementation-details">Implementation Details</h3>
+<ul>
+<li><strong>Passport.js Strategy:</strong> The JWT authentication strategy is configured in <code>src/config/passport.config.ts</code>. It defines how to extract the JWT from the request and how to verify its payload.</li>
+<li><strong>Token Service:</strong> <code>src/services/token.service.ts</code> handles the creation, verification, and management of access and refresh tokens. It interacts with the database to store refresh tokens and manage their expiration.</li>
+<li><strong>Authentication Middleware:</strong> <code>src/middleware/auth.middleware.ts</code> uses Passport.js to authenticate requests. It includes <code>authenticate</code> to verify tokens and <code>authorize</code> to check user roles against required permissions.</li>
+<li><strong>Token Blacklisting:</strong> To enhance security, this template implements a token blacklisting mechanism. When a user logs out, their JWT access token is added to a blacklist. This is managed by the <code>BlacklistedToken</code> <a href="../database-prisma/#1-prisma-schema-prismaschemaprisma">model in Prisma</a>.</li>
+</ul>
+<h3 id="token-blacklisting-and-cleanup">Token Blacklisting and Cleanup</h3>
+<p>To enhance security, this template implements a token blacklisting mechanism. When a user logs out, their JWT access token is added to a blacklist.</p>
+<p><strong>Flow:</strong></p>
+<ol>
+<li><strong>Logout:</strong> The user initiates a logout request.</li>
+<li><strong>Blacklist Storage:</strong> The <code>authService.logout</code> function adds the user's current access token and its expiration date to the <code>BlacklistedToken</code> table in the database.</li>
+<li><strong>Verification:</strong> The <code>auth</code> middleware, which protects secure endpoints, checks every incoming access token against this blacklist.</li>
+<li><strong>Rejection:</strong> If a token is found on the blacklist, the request is rejected with a <code>401 Unauthorized</code> error, effectively preventing its reuse after logout.</li>
+</ol>
+<p>This mechanism ensures that even if an access token is compromised after a user has logged out, it cannot be used to access protected resources.</p>
+<p>To prevent the <code>BlacklistedToken</code> table from growing indefinitely, a background job runs periodically to remove expired tokens.</p>
+<ul>
+<li><strong>Scheduled Job:</strong> A cron job is scheduled to run every hour.</li>
+<li><strong>Queueing:</strong> This job adds a <code>cleanExpiredTokens</code> task to a BullMQ queue.</li>
+<li><strong>Worker Process:</strong> A BullMQ worker processes this task, deleting all tokens from the <code>BlacklistedToken</code> table whose expiration date has passed.</li>
+</ul>
+<p>This cleanup process is essential for maintaining the performance and efficiency of the authentication system. For more details on how background jobs are implemented, see the <a href="../background-jobs-bullmq/">Background Jobs with BullMQ</a> documentation.</p>
+<h3 id="configuration">Configuration</h3>
+<p>Relevant <a href="../core-concepts/#8-configuration-management">environment variables</a> in your <code>.env</code> file:</p>
+<ul>
+<li><code>JWT_SECRET</code>: A strong, secret key used to sign JWTs.</li>
+<li><code>JWT_ACCESS_EXPIRATION_MINUTES</code>: Lifetime of the access token in minutes.</li>
+<li><code>JWT_REFRESH_EXPIRATION_DAYS</code>: Lifetime of the refresh token in days.</li>
+</ul>
+<h2 id="2-google-oauth20">2. Google OAuth2.0</h2>
+<p>The template supports authentication via Google OAuth2.0, allowing users to log in using their Google accounts.</p>
+<h3 id="flow-overview_1">Flow Overview</h3>
+<ol>
+<li><strong>Initiate OAuth:</strong> The client redirects the user to Google's authentication server.</li>
+<li><strong>User Consent:</strong> The user grants permission to your application to access their Google profile.</li>
+<li><strong>Authorization Code:</strong> Google redirects the user back to your application's callback URL with an authorization code.</li>
+<li><strong>Token Exchange:</strong> Your application exchanges the authorization code for access and ID tokens with Google.</li>
+<li><strong>User Profile Retrieval:</strong> Your application uses the access token to fetch the user's profile information from Google.</li>
+<li><strong>Local Account Management:</strong></li>
+<li>If a user with the Google ID already exists in your database, they are logged in.</li>
+<li>If not, a new user account is created in your database using the information from Google.</li>
+<li><strong>JWT Issuance:</strong> Your application then issues its own JWT (access and refresh tokens) to the client, similar to the local login strategy.</li>
+</ol>
+<pre class="mermaid"><code>sequenceDiagram
+    participant Client as User's Browser
+    participant API as Your API Server
+    participant Google as Google's Auth Server
+
+    Client-&gt;&gt;API: GET /v1/auth/google (or clicks 'Login with Google')
+    API--&gt;&gt;Client: 302 Redirect to Google's consent screen
+
+    Client-&gt;&gt;Google: Follows redirect, authenticates, and grants consent
+    Google--&gt;&gt;Client: 302 Redirect to your API's callback URL with an authorization code
+
+    Client-&gt;&gt;API: GET /v1/auth/google/callback?code=...
+    API-&gt;&gt;Google: Exchange authorization code for Google tokens
+    Google--&gt;&gt;API: Returns Google Access Token + Profile Info
+
+    API-&gt;&gt;API: Find or create user in local database
+    API-&gt;&gt;API: Generate internal JWTs (Access &amp; Refresh Tokens)
+    API--&gt;&gt;Client: Return internal JWTs (Access Token in JSON, Refresh Token in Cookie)</code></pre>
+<h3 id="implementation-details_1">Implementation Details</h3>
+<ul>
+<li><strong>Passport-Google-OAuth20 Strategy:</strong> Configured in <code>src/config/passport.config.ts</code>, this strategy handles the communication with Google's OAuth servers.</li>
+<li><strong>Auth Controller:</strong> <code>src/controllers/auth.controller.ts</code> contains the endpoints to initiate the Google OAuth flow and handle the callback from Google.</li>
+<li><strong>Auth Service:</strong> <code>src/services/auth.service.ts</code> manages the creation or retrieval of user accounts based on Google profile information and the issuance of JWTs.</li>
+</ul>
+<blockquote>
+<p>[!TIP]
+<strong>Pro Tip:</strong> Setting up production-ready, multi-strategy authentication can be time-consuming. The <strong><a href="https://aymenkani.gumroad.com/l/nodejs-enterprise-launchpad/PRO-VISITOR?price=26&amp;option=2nCmfCVPlr707OzzOD7UGA%3D%3D&amp;_gl=1*1qml59u*_ga*NTYyNDU1Mjc4LjE3NjA5NzUzNDg.*_ga_6LJN6D94N6*czE3NjYwNjQ0OTYkbzE4MyRnMCR0MTc2NjA2NDQ5NiRqNjAkbDAkaDA.">Node.js Enterprise Launchpad</a></strong> comes with this entire flow pre-configured and ready for Railway deployment (including <strong>$20 in credit</strong> and <strong>$0 Storage Cost</strong>).</p>
+</blockquote>
+<h3 id="configuration_1">Configuration</h3>
+<p>Relevant <a href="../core-concepts/#8-configuration-management">environment variables</a> in your <code>.env</code> file:</p>
+<ul>
+<li><code>GOOGLE_CLIENT_ID</code>: Your Google OAuth client ID.</li>
+<li><code>GOOGLE_CLIENT_SECRET</code>: Your Google OAuth client secret.</li>
+<li><code>GOOGLE_CALLBACK_URL</code>: The redirect URI registered with Google, pointing to your application's callback endpoint (e.g., <code>http://localhost:5001/v1/auth/google/callback</code>).</li>
+</ul>
+<h2 id="3-password-reset">3. Password Reset</h2>
+<p>The template includes a secure mechanism for users to reset their forgotten passwords.</p>
+<h3 id="flow-overview_2">Flow Overview</h3>
+<ol>
+<li><strong>Request Reset:</strong> A user requests a password reset by providing their email address.</li>
+<li><strong>Token Generation:</strong> The API generates a unique, time-limited password reset token and stores it in the database, associated with the user.</li>
+<li><strong>Email Delivery:</strong> An email containing a link with the password reset token is sent to the user's registered email address.</li>
+<li><strong>Reset Password:</strong> The user clicks the link, which directs them to a page where they can enter a new password. The client sends the new password along with the reset token to the API.</li>
+<li><strong>Token Verification &amp; Password Update:</strong> The API verifies the reset token's validity and expiration. If valid, the user's password is updated, and the reset token is invalidated.</li>
+</ol>
+<pre class="mermaid"><code>sequenceDiagram
+    participant User
+    participant API
+    participant DB as Database
+    participant EmailService as Email Service
+
+    User-&gt;&gt;API: POST /v1/auth/request-password-reset (with email)
+    API-&gt;&gt;DB: Find user by email
+    DB--&gt;&gt;API: User found
+    API-&gt;&gt;API: Generate Opaque Token &amp; Hashed JWT
+    API-&gt;&gt;DB: Store Hashed JWT and Opaque Token with expiry
+    DB--&gt;&gt;API: Token stored
+    API-&gt;&gt;EmailService: Send email with Opaque Token
+    EmailService--&gt;&gt;User: Password Reset Email
+
+    Note over User, API: Later, user clicks link in email...
+
+    User-&gt;&gt;API: POST /v1/auth/reset-password (with Opaque Token &amp; new password)
+    API-&gt;&gt;DB: Find token record by Opaque Token
+    DB--&gt;&gt;API: Token record found (and not expired)
+    API-&gt;&gt;DB: Find user by userId from token record
+    DB--&gt;&gt;API: User found
+    API-&gt;&gt;API: Hash new password &amp; check against password history
+    API-&gt;&gt;DB: Update user's password &amp; password history
+    DB--&gt;&gt;API: User updated
+    API-&gt;&gt;DB: Delete all refresh tokens for user (force logout)
+    API-&gt;&gt;DB: Delete the used password reset token
+    API--&gt;&gt;User: 200 OK (Password reset successfully)</code></pre>
+<h3 id="implementation-details_2">Implementation Details</h3>
+<ul>
+<li><strong>Password Reset Token Model:</strong> A dedicated <a href="../database-prisma/#1-prisma-schema-prismaschemaprisma">Prisma model (<code>PasswordResetToken</code>)</a> stores the reset tokens, their expiration, and links them to users.</li>
+<li><strong>Auth Service:</strong> <code>src/services/auth.service.ts</code> contains the logic for generating, sending, and verifying password reset tokens, and updating user passwords.</li>
+<li><strong>Email Service:</strong> <code>src/services/email.service.ts</code> is used to send the password reset email to the user.</li>
+</ul>
+<h2 id="security-considerations">Security Considerations</h2>
+<ul>
+<li><strong>HTTPS:</strong> Always use HTTPS in production to protect sensitive data during transit.</li>
+<li><strong>HTTP-only Cookies:</strong> Store refresh tokens in HTTP-only cookies to mitigate XSS attacks.</li>
+<li><strong>Token Expiration:</strong> Configure appropriate expiration times for access and refresh tokens.</li>
+<li><strong>Secret Management:</strong> Keep <code>JWT_SECRET</code> and OAuth client secrets secure and never expose them publicly.</li>
+<li><strong>Rate Limiting:</strong> Implement rate limiting on authentication endpoints to prevent brute-force attacks.</li>
+</ul>
+<p>By providing these comprehensive authentication features, the template ensures that your API can securely manage user access and identity.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": [], "search": "../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.e71a0d61.min.js"></script>
+      
+        <script src="https://unpkg.com/@panzoom/panzoom@4.5.1/dist/panzoom.min.js"></script>
+      
+        <script src="../javascripts/zoom.js"></script>
+      
+    
+  </body>
+</html>

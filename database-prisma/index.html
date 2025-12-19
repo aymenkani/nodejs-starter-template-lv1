@@ -1,0 +1,1774 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://aymenkani.github.io/nodejs-starter-template-lv1/database-prisma/">
+      
+      
+        <link rel="prev" href="../frontend-openapi-setup/">
+      
+      
+        <link rel="next" href="../rag-intelligence-pipeline/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
+    
+    
+      
+        <title>Database (Prisma) - Node.js Enterprise Launchpad - Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.618322db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#database-with-prisma" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Node.js Enterprise Launchpad - Documentation" class="md-header__button md-logo" aria-label="Node.js Enterprise Launchpad - Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Node.js Enterprise Launchpad - Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Database (Prisma)
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Node.js Enterprise Launchpad - Documentation" class="md-nav__button md-logo" aria-label="Node.js Enterprise Launchpad - Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Node.js Enterprise Launchpad - Documentation
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../getting-started/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../core-concepts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Core Concepts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../project-structure/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Project Structure
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../authentication/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Authentication
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api-documentation-openapi/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Documentation (OpenAPI)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../frontend-openapi-setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Frontend OpenAPI Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Database (Prisma)
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Database (Prisma)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-prisma-schema-prismaschemaprisma" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Prisma Schema (prisma/schema.prisma)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-migrations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Migrations
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-seeding-the-database-prismaseedts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Seeding the Database (prisma/seed.ts)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-other-prisma-scripts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Other Prisma Scripts
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-interacting-with-prisma-client" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Interacting with Prisma Client
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-pgvector-setup-for-ai-vector-search" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. pgvector Setup for AI &amp; Vector Search
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. pgvector Setup for AI &amp; Vector Search">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-is-pgvector" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What is pgvector?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#installation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Installation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#schema-setup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Schema Setup
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#prisma-schema" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Prisma Schema
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#usage-in-code" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Usage in Code
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#vector-operators" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Vector Operators
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#performance-optimization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Performance Optimization
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Troubleshooting
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-database-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Database Configuration
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Advanced Features
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Advanced Features
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../rag-intelligence-pipeline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RAG Intelligence Pipeline
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../file-upload-architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    File Upload Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../background-jobs-bullmq/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Background Jobs (BullMQ)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../email-configuration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Email Configuration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../socketio-service/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Socket.IO Service
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../testing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Testing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ci-cd-github-actions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CI/CD (GitHub Actions)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../deployment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deployment
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../troubleshooting-FAQ/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Troubleshooting / FAQ
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_18" >
+        
+          
+          <label class="md-nav__link" for="__nav_18" id="__nav_18_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Routes Documentation
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_18_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_18">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Routes Documentation
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../routes-documentations/admin-routes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Admin Routes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../routes-documentations/agent-routes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Agent Routes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../routes-documentations/auth-routes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Auth Routes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../routes-documentations/file-routes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    File Routes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../routes-documentations/token-routes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Token Routes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../routes-documentations/upload-routes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Upload Routes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../routes-documentations/user-routes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    User Routes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-prisma-schema-prismaschemaprisma" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Prisma Schema (prisma/schema.prisma)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-migrations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Migrations
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-seeding-the-database-prismaseedts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Seeding the Database (prisma/seed.ts)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-other-prisma-scripts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Other Prisma Scripts
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-interacting-with-prisma-client" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Interacting with Prisma Client
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-pgvector-setup-for-ai-vector-search" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. pgvector Setup for AI &amp; Vector Search
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. pgvector Setup for AI &amp; Vector Search">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-is-pgvector" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What is pgvector?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#installation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Installation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#schema-setup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Schema Setup
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#prisma-schema" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Prisma Schema
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#usage-in-code" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Usage in Code
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#vector-operators" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Vector Operators
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#performance-optimization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Performance Optimization
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Troubleshooting
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-database-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Database Configuration
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="database-with-prisma">Database with Prisma</h1>
+<p>This template leverages <a href="https://www.prisma.io/">Prisma</a> as its Object-Relational Mapper (ORM) for interacting with databases. Prisma provides a type-safe, modern, and intuitive way to define your database schema, manage migrations, and perform database operations.</p>
+<h2 id="1-prisma-schema-prismaschemaprisma">1. Prisma Schema (<code>prisma/schema.prisma</code>)</h2>
+<p>The <code>schema.prisma</code> file is the single source of truth for your database schema. It defines your data models, their fields, relationships, and the database connector.</p>
+<p><strong>Location:</strong> <code>prisma/schema.prisma</code></p>
+<p><strong>Key Components:</strong></p>
+<ul>
+<li><strong><code>datasource</code> block:</strong> Specifies your database connection details. This template is configured to work with PostgreSQL or MySQL. The <code>url</code> field typically references an environment variable (<code>DATABASE_URL</code>).
+    <div class="highlight"><pre><span></span><code>datasource db {
+  provider = &quot;postgresql&quot; // or &quot;mysql&quot;
+  url      = env(&quot;DATABASE_URL&quot;)
+}
+</code></pre></div></li>
+<li><strong><code>generator</code> block:</strong> Configures Prisma Client generation. The <code>provider</code> is set to <code>prisma-client-js</code>.
+    <div class="highlight"><pre><span></span><code>generator client {
+  provider = &quot;prisma-client-js&quot;
+}
+</code></pre></div></li>
+<li><strong><code>model</code> definitions:</strong> These define your application's data models, which map directly to database tables. Each model specifies its fields, their types, attributes (e.g., <code>@id</code>, <code>@unique</code>, <code>@default</code>), and relationships with other models.</li>
+</ul>
+<p><strong>Example Model (<code>User</code> from <code>schema.prisma</code>):</strong></p>
+<div class="highlight"><pre><span></span><code>enum Role {
+  USER
+  ADMIN
+}
+
+model User {
+  id            String    @id @default(uuid())
+  name          String
+  email         String    @unique
+  password      String
+  role          Role      @default(USER)
+  isEmailVerified Boolean @default(false)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  tokens        Token[]
+  passwordResetTokens PasswordResetToken[]
+}
+</code></pre></div>
+<h2 id="2-migrations">2. Migrations</h2>
+<p>Prisma Migrate helps you evolve your database schema in a controlled and reproducible way. It generates SQL migration files based on changes you make to your <code>schema.prisma</code> file.</p>
+<p><strong>Workflow:</strong></p>
+<ol>
+<li><strong>Modify <code>schema.prisma</code>:</strong> Make changes to your data models (e.g., add a new model, add a field, change a field type).</li>
+<li><strong>Generate a new migration:</strong>
+    <div class="highlight"><pre><span></span><code>npm<span class="w"> </span>run<span class="w"> </span>prisma:migrate:dev<span class="w"> </span>--<span class="w"> </span>--name<span class="w"> </span>&lt;migration_name&gt;
+</code></pre></div>
+    This command creates a new migration file based on schema changes for development. It uses <code>.env.local</code> to connect to the database.</li>
+<li><strong>Apply migrations (in other environments):</strong>
+    In production or other environments, you apply pending migrations using:
+    <div class="highlight"><pre><span></span><code>npm<span class="w"> </span>run<span class="w"> </span>prisma:migrate:deploy
+</code></pre></div>
+    This command applies pending migrations to the database, for production/CI.</li>
+</ol>
+<p><strong>Location of Migration Files:</strong> <code>prisma/migrations/&lt;timestamp&gt;_&lt;migration_name&gt;/migration.sql</code></p>
+<p>Here are the relevant scripts:
+*   <code>prisma:migrate:dev</code>: Creates a new migration file based on schema changes (for development). Uses <code>.env.local</code> to connect.
+*   <code>prisma:migrate:deploy</code>: Applies pending migrations to the database (for production/CI).</p>
+<blockquote>
+<p><strong>Note on Local Development:</strong>
+When running the application locally (not in a full Docker environment), it's crucial to ensure your database is running before you attempt to run migrations.</p>
+<ol>
+<li>Start your database and Redis services: <code>npm run docker:redis:postgres:up</code></li>
+<li>Then, run your migration: <code>npm run prisma:migrate:dev</code></li>
+</ol>
+<p>For a complete guide on the local development workflow, see the <strong><a href="../getting-started/#option-2-running-everything-with-docker">Getting Started</a></strong> documentation.</p>
+<p>[!NOTE]
+<strong>Show, Don't Sell:</strong> If you'd rather skip the database provisioning and migration setup, the <strong><a href="https://aymenkani.gumroad.com/l/nodejs-enterprise-launchpad/PRO-VISITOR?price=26&amp;option=2nCmfCVPlr707OzzOD7UGA%3D%3D&amp;_gl=1*1qml59u*_ga*NTYyNDU1Mjc4LjE3NjA5NzUzNDg.*_ga_6LJN6D94N6*czE3NjYwNjQ0OTYkbzE4MyRnMCR0MTc2NjA2NDQ5NiRqNjAkbDAkaDA.">Node.js Enterprise Launchpad</a></strong> comes with this pre-configured for Railway out-of-the-box. Plus, you get <strong>$20 in credit</strong> and <strong>$0 Storage Cost</strong>.</p>
+</blockquote>
+<h2 id="3-seeding-the-database-prismaseedts">3. Seeding the Database (<code>prisma/seed.ts</code>)</h2>
+<p>Database seeding is the process of populating your database with initial data. This is particularly useful for development, testing, or for pre-populating lookup tables.</p>
+<p><strong>Location:</strong> <code>prisma/seed.ts</code></p>
+<p>The <code>seed.ts</code> file contains TypeScript code that uses the Prisma Client to insert initial data into your database.</p>
+<p><strong>To run the seed script:</strong></p>
+<ul>
+<li><code>seed</code>: Runs the TypeScript seed file (<code>prisma/seed.ts</code>). Requires <code>ts-node</code> (run ONLY when using Docker in development).
+    <div class="highlight"><pre><span></span><code>npm<span class="w"> </span>run<span class="w"> </span>seed
+</code></pre></div></li>
+<li><code>seed:local</code>: Runs the seed script using the <code>.env.local</code> file. Use this for local development.
+    <div class="highlight"><pre><span></span><code>npm<span class="w"> </span>run<span class="w"> </span>seed:local
+</code></pre></div></li>
+<li><code>seed:prod</code>: Runs the Compiled JavaScript seed file (<code>dist/prisma/seed.js</code>). Does NOT require <code>ts-node</code> (Production only).
+    <div class="highlight"><pre><span></span><code>npm<span class="w"> </span>run<span class="w"> </span>seed:prod
+</code></pre></div></li>
+</ul>
+<h2 id="4-other-prisma-scripts">4. Other Prisma Scripts</h2>
+<ul>
+<li><code>prisma:generate</code>: Reads <code>schema.prisma</code> and updates <code>node_modules/@prisma/client</code>. This is automatically run by the <code>postinstall</code> script.</li>
+<li><code>prisma:studio</code>: Opens the GUI to view/edit your database data.</li>
+</ul>
+<h2 id="5-interacting-with-prisma-client">5. Interacting with Prisma Client</h2>
+<p>The Prisma Client is a type-safe query builder automatically generated from your <code>schema.prisma</code>. It allows you to perform CRUD (Create, Read, Update, Delete) operations on your database in a highly intuitive and type-safe manner.</p>
+<p><strong>Location:</strong> The generated Prisma Client is located in <code>node_modules/@prisma/client</code>. You typically import it from <code>@prisma/client</code>.</p>
+<p><strong>Basic Usage in Services:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">PrismaClient</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;@prisma/client&#39;</span><span class="p">;</span>
+
+<span class="kd">const</span><span class="w"> </span><span class="nx">prisma</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">PrismaClient</span><span class="p">();</span>
+
+<span class="c1">// Create a new user</span>
+<span class="k">async</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">createUser</span><span class="p">(</span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">,</span><span class="w"> </span><span class="nx">email</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">,</span><span class="w"> </span><span class="nx">passwordHash</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="nx">prisma</span><span class="p">.</span><span class="nx">user</span><span class="p">.</span><span class="nx">create</span><span class="p">({</span>
+<span class="w">    </span><span class="nx">data</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nx">name</span><span class="p">,</span>
+<span class="w">      </span><span class="nx">email</span><span class="p">,</span>
+<span class="w">      </span><span class="nx">password</span><span class="o">:</span><span class="w"> </span><span class="kt">passwordHash</span><span class="p">,</span>
+<span class="w">      </span><span class="c1">// ... other fields</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">  </span><span class="p">});</span>
+<span class="p">}</span>
+
+<span class="c1">// Find a user by ID</span>
+<span class="k">async</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">findUserById</span><span class="p">(</span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="nx">prisma</span><span class="p">.</span><span class="nx">user</span><span class="p">.</span><span class="nx">findUnique</span><span class="p">({</span>
+<span class="w">    </span><span class="nx">where</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">id</span><span class="w"> </span><span class="p">},</span>
+<span class="w">    </span><span class="nx">include</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">tokens</span><span class="o">:</span><span class="w"> </span><span class="kt">true</span><span class="w"> </span><span class="p">},</span><span class="w"> </span><span class="c1">// Include related data</span>
+<span class="w">  </span><span class="p">});</span>
+<span class="p">}</span>
+
+<span class="c1">// Update a user&#39;s email</span>
+<span class="k">async</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">updateUserEmail</span><span class="p">(</span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">,</span><span class="w"> </span><span class="nx">newEmail</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="nx">prisma</span><span class="p">.</span><span class="nx">user</span><span class="p">.</span><span class="nx">update</span><span class="p">({</span>
+<span class="w">    </span><span class="nx">where</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">id</span><span class="w"> </span><span class="p">},</span>
+<span class="w">    </span><span class="nx">data</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">email</span><span class="o">:</span><span class="w"> </span><span class="kt">newEmail</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="p">});</span>
+<span class="p">}</span>
+
+<span class="c1">// Delete a user</span>
+<span class="k">async</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">deleteUser</span><span class="p">(</span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="nx">prisma</span><span class="p">.</span><span class="nx">user</span><span class="p">.</span><span class="ow">delete</span><span class="p">({</span>
+<span class="w">    </span><span class="nx">where</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">id</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="p">});</span>
+<span class="p">}</span>
+</code></pre></div>
+<h2 id="6-pgvector-setup-for-ai-vector-search">6. pgvector Setup for AI &amp; Vector Search</h2>
+<p>This template uses the <a href="https://github.com/pgvector/pgvector">pgvector</a> PostgreSQL extension to enable vector similarity search, which powers the RAG (Retrieval-Augmented Generation) intelligence pipeline.</p>
+<h3 id="what-is-pgvector">What is pgvector?</h3>
+<p>pgvector adds vector similarity search capabilities to PostgreSQL, allowing you to:
+- Store high-dimensional vectors (embeddings) efficiently
+- Perform fast similarity searches using cosine distance, L2 distance, or inner product
+- Index vectors for optimal query performance</p>
+<h3 id="installation">Installation</h3>
+<p>The pgvector extension is automatically installed in the Docker PostgreSQL image. The setup is handled in the database initialization:</p>
+<p><strong>Docker Compose</strong> (<code>docker-compose.postgres.yml</code>):
+<div class="highlight"><pre><span></span><code><span class="nt">services</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">db</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pgvector/pgvector:pg16</span>
+<span class="w">    </span><span class="nt">environment</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">POSTGRES_DB</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">your_database</span>
+</code></pre></div></p>
+<h3 id="schema-setup">Schema Setup</h3>
+<p>The extension is enabled via Prisma migrations. The initial migration includes:</p>
+<div class="highlight"><pre><span></span><code><span class="c1">-- Enable pgvector extension</span>
+<span class="k">CREATE</span><span class="w"> </span><span class="n">EXTENSION</span><span class="w"> </span><span class="k">IF</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">EXISTS</span><span class="w"> </span><span class="n">vector</span><span class="p">;</span>
+
+<span class="c1">-- Document table with vector column</span>
+<span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="ss">&quot;Document&quot;</span><span class="w"> </span><span class="p">(</span>
+<span class="w">  </span><span class="n">id</span><span class="w"> </span><span class="n">UUID</span><span class="w"> </span><span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="w"> </span><span class="k">DEFAULT</span><span class="w"> </span><span class="n">gen_random_uuid</span><span class="p">(),</span>
+<span class="w">  </span><span class="n">content</span><span class="w"> </span><span class="nb">TEXT</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+<span class="w">  </span><span class="n">embedding</span><span class="w"> </span><span class="n">vector</span><span class="p">(</span><span class="mi">768</span><span class="p">),</span><span class="w">  </span><span class="c1">-- 768-dimensional vector for Gemini embeddings</span>
+<span class="w">  </span><span class="ss">&quot;userId&quot;</span><span class="w"> </span><span class="n">UUID</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+<span class="w">  </span><span class="ss">&quot;fileId&quot;</span><span class="w"> </span><span class="n">UUID</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+<span class="w">  </span><span class="ss">&quot;createdAt&quot;</span><span class="w"> </span><span class="k">TIMESTAMP</span><span class="w"> </span><span class="k">DEFAULT</span><span class="w"> </span><span class="n">NOW</span><span class="p">()</span>
+<span class="p">);</span>
+
+<span class="c1">-- Create index for faster similarity search</span>
+<span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="ss">&quot;Document&quot;</span><span class="w"> </span><span class="k">USING</span><span class="w"> </span><span class="n">ivfflat</span><span class="w"> </span><span class="p">(</span><span class="n">embedding</span><span class="w"> </span><span class="n">vector_cosine_ops</span><span class="p">);</span>
+</code></pre></div>
+<h3 id="prisma-schema">Prisma Schema</h3>
+<p>In <code>prisma/schema.prisma</code>, vectors are defined using the <code>Unsupported</code> type:</p>
+<div class="highlight"><pre><span></span><code>model Document {
+  id        String                     @id @default(dbgenerated(&quot;gen_random_uuid()&quot;)) @db.Uuid
+  content   String
+  embedding Unsupported(&quot;vector(768)&quot;)?
+  userId    String                     @db.Uuid
+  fileId    String                     @db.Uuid
+  user      User                       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  file      File                       @relation(fields: [fileId],references: [id], onDelete: Cascade)
+  createdAt DateTime                   @default(now())
+
+  @@index([embedding], map: &quot;Document_embedding_idx&quot;, type: Ivfflat)
+  @@index([userId])
+  @@index([fileId])
+}
+</code></pre></div>
+<h3 id="usage-in-code">Usage in Code</h3>
+<p><strong>Storing Vectors</strong> (from <code>ingestion.worker.ts</code>):</p>
+<div class="highlight"><pre><span></span><code><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">embed</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;ai&#39;</span><span class="p">;</span>
+<span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">google</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;@ai-sdk/google&#39;</span><span class="p">;</span>
+
+<span class="c1">// Generate embedding</span>
+<span class="kd">const</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">embedding</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">embed</span><span class="p">({</span>
+<span class="w">  </span><span class="nx">model</span><span class="o">:</span><span class="w"> </span><span class="kt">google.textEmbeddingModel</span><span class="p">(</span><span class="s1">&#39;text-embedding-004&#39;</span><span class="p">),</span>
+<span class="w">  </span><span class="nx">value</span><span class="o">:</span><span class="w"> </span><span class="kt">textChunk</span>
+<span class="p">});</span>
+
+<span class="c1">// Store in database with pgvector</span>
+<span class="k">await</span><span class="w"> </span><span class="nx">prisma</span><span class="p">.</span><span class="nx">$executeRaw</span><span class="sb">`</span>
+<span class="sb">  INSERT INTO &quot;Document&quot; (id, content, embedding, userId, fileId)</span>
+<span class="sb">  VALUES (</span>
+<span class="sb">    gen_random_uuid(), </span>
+<span class="sb">    </span><span class="si">${</span><span class="nx">textChunk</span><span class="si">}</span><span class="sb">, </span>
+<span class="sb">    </span><span class="si">${</span><span class="nx">embedding</span><span class="si">}</span><span class="sb">::vector,</span>
+<span class="sb">    </span><span class="si">${</span><span class="nx">userId</span><span class="si">}</span><span class="sb">::uuid,</span>
+<span class="sb">    </span><span class="si">${</span><span class="nx">fileId</span><span class="si">}</span><span class="sb">::uuid</span>
+<span class="sb">  )</span>
+<span class="sb">`</span><span class="p">;</span>
+</code></pre></div>
+<p><strong>Similarity Search</strong> (from <code>agent.controller.ts</code>):</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Generate query embedding</span>
+<span class="kd">const</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">embedding</span><span class="o">:</span><span class="w"> </span><span class="kt">queryEmbedding</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">embed</span><span class="p">({</span>
+<span class="w">  </span><span class="nx">model</span><span class="o">:</span><span class="w"> </span><span class="kt">google.textEmbeddingModel</span><span class="p">(</span><span class="s1">&#39;text-embedding-004&#39;</span><span class="p">),</span>
+<span class="w">  </span><span class="nx">value</span><span class="o">:</span><span class="w"> </span><span class="kt">searchQuery</span>
+<span class="p">});</span>
+
+<span class="c1">// Find similar documents using cosine distance</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">results</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">prisma</span><span class="p">.</span><span class="nx">$queryRaw</span><span class="o">&lt;</span><span class="nx">DocumentWithDistance</span><span class="p">[]</span><span class="o">&gt;</span><span class="sb">`</span>
+<span class="sb">  SELECT </span>
+<span class="sb">    d.id,</span>
+<span class="sb">    d.content,</span>
+<span class="sb">    f.&quot;originalName&quot; as &quot;fileName&quot;,</span>
+<span class="sb">    f.&quot;fileKey&quot;,</span>
+<span class="sb">    (d.embedding &lt;=&gt; </span><span class="si">${</span><span class="nx">queryEmbedding</span><span class="si">}</span><span class="sb">::vector) as distance</span>
+<span class="sb">  FROM &quot;Document&quot; d</span>
+<span class="sb">  INNER JOIN &quot;File&quot; f ON d.&quot;fileId&quot; = f.id</span>
+<span class="sb">  WHERE (</span>
+<span class="sb">    d.&quot;userId&quot; = </span><span class="si">${</span><span class="nx">userId</span><span class="si">}</span><span class="sb">::uuid </span>
+<span class="sb">    OR f.&quot;isPublic&quot; = true</span>
+<span class="sb">  )</span>
+<span class="sb">  AND f.status = &#39;COMPLETED&#39;</span>
+<span class="sb">  ORDER BY d.embedding &lt;=&gt; </span><span class="si">${</span><span class="nx">queryEmbedding</span><span class="si">}</span><span class="sb">::vector</span>
+<span class="sb">  LIMIT 5</span>
+<span class="sb">`</span><span class="p">;</span>
+</code></pre></div>
+<h3 id="vector-operators">Vector Operators</h3>
+<table>
+<thead>
+<tr>
+<th>Operator</th>
+<th>Description</th>
+<th>Use Case</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>&lt;=&gt;</code></td>
+<td>Cosine distance</td>
+<td>Text similarity (most common for embeddings)</td>
+</tr>
+<tr>
+<td><code>&lt;-&gt;</code></td>
+<td>L2 (Euclidean) distance</td>
+<td>Spatial data</td>
+</tr>
+<tr>
+<td><code>&lt;#&gt;</code></td>
+<td>Inner product</td>
+<td>Normalized vectors</td>
+</tr>
+</tbody>
+</table>
+<h3 id="performance-optimization">Performance Optimization</h3>
+<p><strong>Indexing</strong>: The <code>ivfflat</code> index significantly improves query performance for large datasets:</p>
+<div class="highlight"><pre><span></span><code><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="ss">&quot;Document&quot;</span><span class="w"> </span><span class="k">USING</span><span class="w"> </span><span class="n">ivfflat</span><span class="w"> </span><span class="p">(</span><span class="n">embedding</span><span class="w"> </span><span class="n">vector_cosine_ops</span><span class="p">)</span>
+<span class="k">WITH</span><span class="w"> </span><span class="p">(</span><span class="n">lists</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">100</span><span class="p">);</span>
+</code></pre></div>
+<ul>
+<li><code>lists</code>: Number of clusters (typically sqrt(row_count) for good performance)</li>
+<li>Rebuild index periodically as data grows</li>
+</ul>
+<p><strong>Query Performance</strong>:
+- Without index: Full table scan on every query
+- With index: ~10-100x faster on datasets &gt;10k vectors</p>
+<h3 id="troubleshooting">Troubleshooting</h3>
+<p><strong>"type vector does not exist"</strong>:
+- Ensure <code>CREATE EXTENSION vector;</code> ran in your migration
+- Run <code>SELECT * FROM pg_extension WHERE extname = 'vector';</code> to verify</p>
+<p><strong>Slow queries</strong>:
+- Check if index exists: <code>\d "Document"</code> in psql
+- Rebuild index if dataset grew: <code>REINDEX INDEX "Document_embedding_idx";</code></p>
+<p><strong>Dimension mismatch</strong>:
+- Gemini <code>text-embedding-004</code> produces 768-D vectors
+- Ensure schema uses <code>vector(768)</code>, not <code>vector(1536)</code> or other dimensions</p>
+<p>For more details on the RAG pipeline, see <a href="../rag-intelligence-pipeline/">RAG Intelligence Pipeline</a>.</p>
+<hr />
+<h2 id="7-database-configuration">7. Database Configuration</h2>
+<p>The database connection is configured via the <code>DATABASE_URL</code> <a href="../core-concepts/#8-configuration-management">environment variable</a> in your <code>.env</code> file. This template supports both PostgreSQL and MySQL.
+<strong>Example <code>DATABASE_URL</code> formats:</strong></p>
+<ul>
+<li><strong>PostgreSQL:</strong> <code>postgresql://USER:PASSWORD@HOST:PORT/DATABASE?schema=public</code></li>
+<li><strong>MySQL:</strong> <code>mysql://USER:PASSWORD@HOST:PORT/DATABASE</code></li>
+</ul>
+<p>Ensure your <code>docker-compose.yml</code> (or specific <code>docker-compose</code> file) and <code>DATABASE_URL</code> in <code>.env</code> match your chosen database provider and credentials.</p>
+<p>By using Prisma, this template provides a powerful, type-safe, and developer-friendly database layer that simplifies data access and management.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": [], "search": "../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.e71a0d61.min.js"></script>
+      
+        <script src="https://unpkg.com/@panzoom/panzoom@4.5.1/dist/panzoom.min.js"></script>
+      
+        <script src="../javascripts/zoom.js"></script>
+      
+    
+  </body>
+</html>
