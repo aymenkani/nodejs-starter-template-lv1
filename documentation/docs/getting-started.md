@@ -2,6 +2,24 @@
 
 This section will guide you through setting up and running the Node.js Advanced Starter Template for local development. Follow these steps to get your environment ready and the application running.
 
+## Quick Start: Zero to Launch
+
+1.  **Unzip the Package and open the Template**
+2.  **Install**: `npm install`
+3.  **Infra**: `npm run docker:redis:postgres:up` (wait for healthy status)
+4.  **Sync**: `npm run prisma:generate && npm run prisma:migrate:dev`
+5.  **Deploy**: `npm run dev:watch:local`
+6.  **Status**: Online.
+
+### Troubleshooting:
+
+If `npm run test` fails with a `PrismaClientKnownRequestError`, your local artifacts are out of sync.
+
+**The Fix**: Re-run `npm run prisma:generate` followed by `npm run prisma:migrate:dev` to reset the client state.
+
+---
+
+
  **NOTE:** In this template, the term `local` refers to running the application **outside of Docker**. In this case, the `.env.local` file is used. Any script in `package.json` that includes the `:local` suffix indicates that the script runs using the `.env.local` configuration.
 
 ## Prerequisites
