@@ -1,0 +1,1742 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://aymenkani.github.io/nodejs-starter-template-lv1/deployment/">
+      
+      
+        <link rel="prev" href="../ci-cd-github-actions/">
+      
+      
+        <link rel="next" href="../troubleshooting-FAQ/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
+    
+    
+      
+        <title>Deployment - Node.js Enterprise Launchpad - Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.618322db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#1-docker-deployment" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Node.js Enterprise Launchpad - Documentation" class="md-header__button md-logo" aria-label="Node.js Enterprise Launchpad - Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Node.js Enterprise Launchpad - Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Deployment
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Node.js Enterprise Launchpad - Documentation" class="md-nav__button md-logo" aria-label="Node.js Enterprise Launchpad - Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Node.js Enterprise Launchpad - Documentation
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../getting-started/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../core-concepts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Core Concepts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../project-structure/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Project Structure
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../authentication/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Authentication
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api-documentation-openapi/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Documentation (OpenAPI)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../frontend-openapi-setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Frontend OpenAPI Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../database-prisma/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Database (Prisma)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Advanced Features
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Advanced Features
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../rag-intelligence-pipeline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RAG Intelligence Pipeline
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../file-upload-architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    File Upload Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../background-jobs-bullmq/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Background Jobs (BullMQ)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../email-configuration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Email Configuration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../socketio-service/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Socket.IO Service
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../testing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Testing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ci-cd-github-actions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CI/CD (GitHub Actions)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deployment
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deployment
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-docker-deployment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Docker Deployment
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Docker Deployment">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#dockerfile-production" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dockerfile (Production)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dockerfiledev-local-development" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dockerfile.dev (Local Development)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#docker-composeyml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        docker-compose.yml
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-cloud-deployment-railway" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Cloud Deployment (Railway)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Cloud Deployment (Railway)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-railway-advantage" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Railway Advantage
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#instant-infrastructure-drag-drop" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Instant Infrastructure (Drag &amp; Drop)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#guided-deployment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Guided Deployment
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-cloud-deployment-render" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Cloud Deployment (Render)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Cloud Deployment (Render)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#danger-important-environment-variables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🚨 danger "Important: Environment Variables"
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#default-deployment-free-tier" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Default Deployment (Free Tier)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Default Deployment (Free Tier)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#free-tier-limitations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Free Tier Limitations
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-scaling-production-render-pro" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Scaling &amp; Production (Render Pro)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Scaling &amp; Production (Render Pro)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#how-to-upgrade-to-render-pro" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How to Upgrade to Render Pro
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-production-scripts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Production Scripts
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../troubleshooting-FAQ/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Troubleshooting / FAQ
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_18" >
+        
+          
+          <label class="md-nav__link" for="__nav_18" id="__nav_18_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Routes Documentation
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_18_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_18">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Routes Documentation
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../routes-documentations/admin-routes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Admin Routes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../routes-documentations/agent-routes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Agent Routes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../routes-documentations/auth-routes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Auth Routes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../routes-documentations/file-routes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    File Routes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../routes-documentations/token-routes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Token Routes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../routes-documentations/upload-routes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Upload Routes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../routes-documentations/user-routes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    User Routes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-docker-deployment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Docker Deployment
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Docker Deployment">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#dockerfile-production" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dockerfile (Production)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dockerfiledev-local-development" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dockerfile.dev (Local Development)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#docker-composeyml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        docker-compose.yml
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-cloud-deployment-railway" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Cloud Deployment (Railway)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Cloud Deployment (Railway)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-railway-advantage" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Railway Advantage
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#instant-infrastructure-drag-drop" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Instant Infrastructure (Drag &amp; Drop)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#guided-deployment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Guided Deployment
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-cloud-deployment-render" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Cloud Deployment (Render)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Cloud Deployment (Render)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#danger-important-environment-variables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🚨 danger "Important: Environment Variables"
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#default-deployment-free-tier" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Default Deployment (Free Tier)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Default Deployment (Free Tier)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#free-tier-limitations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Free Tier Limitations
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-scaling-production-render-pro" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Scaling &amp; Production (Render Pro)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Scaling &amp; Production (Render Pro)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#how-to-upgrade-to-render-pro" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How to Upgrade to Render Pro
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-production-scripts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Production Scripts
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+  <h1>Deployment</h1>
+
+<p>This template is designed for flexible deployment, supporting containerization with Docker and providing guidance for cloud platforms. This section will cover how to prepare and deploy your application.</p>
+<h2 id="1-docker-deployment">1. Docker Deployment</h2>
+<p>Docker provides a consistent environment for your application across development, testing, and production. This template includes <code>Dockerfile</code>, <code>Dockerfile.dev</code>, and <code>docker-compose.yml</code> files to facilitate containerization.</p>
+<h3 id="dockerfile-production">Dockerfile (Production)</h3>
+<p>The <code>Dockerfile</code> defines the steps to build a Docker image of your application, primarily for production deployments.</p>
+<p><strong>Location:</strong> <code>Dockerfile</code> (at the project root)</p>
+<p><strong>Key Optimizations:</strong></p>
+<ul>
+<li><strong>Multi-Stage Build:</strong> Uses a builder stage to compile TypeScript and a runner stage for the final image.</li>
+<li><strong>Security:</strong> Runs as a non-root user (<code>appuser</code>) for security best practices.</li>
+<li><strong>Prisma Optimization:</strong> Efficiently handles the Prisma Client generation and copies it to the final image.</li>
+<li><strong>Static Assets:</strong> Automatically copies the <code>public/</code> folder so your static client files work in production.</li>
+</ul>
+<p><strong>Building the Docker Image:</strong></p>
+<div class="highlight"><pre><span></span><code>docker<span class="w"> </span>build<span class="w"> </span>-t<span class="w"> </span>my-node-app<span class="w"> </span>.
+</code></pre></div>
+<p><strong>Running the Docker Container:</strong></p>
+<div class="highlight"><pre><span></span><code>docker<span class="w"> </span>run<span class="w"> </span>-p<span class="w"> </span><span class="m">5001</span>:5001<span class="w"> </span>--env-file<span class="w"> </span>./.env<span class="w"> </span>my-node-app
+</code></pre></div>
+<h3 id="dockerfiledev-local-development">Dockerfile.dev (Local Development)</h3>
+<p>The <code>Dockerfile.dev</code> is specifically designed for local development.</p>
+<p><strong>Location:</strong> <code>Dockerfile.dev</code> (at the project root)</p>
+<p><strong>Key Features:</strong></p>
+<ul>
+<li><strong>Smart Entrypoint:</strong> Uses <code>docker-entrypoint.dev.sh</code> to automatically wait for the database to be ready, run migrations, and seed the database on startup.</li>
+<li><strong>Hot-Reloading:</strong> Includes <code>nodemon</code> to restart the server on file changes.</li>
+<li><strong>Cached Layers:</strong> Optimizes build speed by caching dependencies.</li>
+</ul>
+<h3 id="docker-composeyml">docker-compose.yml</h3>
+<p>This template uses a modular Docker Compose setup to keep configurations clean.</p>
+<p><strong>Key Services:</strong></p>
+<ul>
+<li><code>app</code>: Your Node.js application (built using <code>Dockerfile.dev</code>).</li>
+<li><code>db</code>: PostgreSQL database.</li>
+<li><code>redis</code>: Redis server for caching and queues.</li>
+</ul>
+<p><strong>Starting Services (Recommended):</strong></p>
+<p>We provide helper scripts to manage the modular compose files automatically:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Start all services (App + DB + Redis)</span>
+npm<span class="w"> </span>run<span class="w"> </span>docker:up
+
+<span class="c1"># Start in detached mode (background)</span>
+npm<span class="w"> </span>run<span class="w"> </span>docker:up:detached
+
+<span class="c1"># Stop and remove all containers</span>
+npm<span class="w"> </span>run<span class="w"> </span>docker:down
+</code></pre></div>
+<h2 id="2-cloud-deployment-railway">2. Cloud Deployment (Railway)</h2>
+<p>This template is fully optimized for <strong><a href="https://railway.app/">Railway</a></strong>, providing a seamless experience for developers who prefer a modern, high-performance PAAS.</p>
+<blockquote>
+<p>[!TIP] 
+<strong>Get $20 Credit + $0 Storage</strong>: If you’re ready to skip the manual infrastructure headache, the <strong><a href="https://aymenkani.gumroad.com/l/nodejs-enterprise-launchpad/PRO-VISITOR?price=26&amp;option=2nCmfCVPlr707OzzOD7UGA%3D%3D&amp;_gl=1*1qml59u*_ga*NTYyNDU1Mjc4LjE3NjA5NzUzNDg.*_ga_6LJN6D94N6*czE3NjYwNjQ0OTYkbzE4MyRnMCR0MTc2NjA2NDQ5NiRqNjAkbDAkaDA.">Node.js Enterprise Launchpad</a></strong> comes pre-configured for Railway. You'll get <strong>$0 Storage Cost</strong> and <strong>$20 in free credit</strong> (months of free Pro-Hosting) to jumpstart your deployment!</p>
+<p>[!IMPORTANT]
+<strong>Cloudflare CORS</strong>: If you are using Cloudflare R2 for file uploads, ensure you configure CORS correctly to allow direct uploads from your client domain. Follow our <strong><a href="https://nodejs-starter-template-lv1-production-db8d.up.railway.app/client/cloudflare-cors.html">Cloudflare CORS Setup Guide</a></strong> for a smooth setup.</p>
+</blockquote>
+<h3 id="the-railway-advantage">The Railway Advantage</h3>
+<p>Railway offers a unique "Infrastructure-as-Code" experience through its modular architecture. To support this, we've included several dedicated configuration artifacts:</p>
+<ul>
+<li><strong><code>railway.toml</code></strong>: Optimized build and run instructions specifically for the Railway engine.</li>
+<li><strong><code>.env.railway</code></strong>: A template for environment variables pre-configured for Railway's networking.</li>
+<li><strong><code>Dockerfile.railway</code></strong>: A specialized production image that ensures smooth Prisma Client generation within the Railway environment.</li>
+</ul>
+<h3 id="instant-infrastructure-drag-drop">Instant Infrastructure (Drag &amp; Drop)</h3>
+<p>One of Railway's most powerful features is the ability to provision infrastructure using Docker Compose files. </p>
+<p>We provide two pre-configured templates for this purpose:
+*   <code>docker-compose.postgres.railway.yml</code>
+*   <code>docker-compose.redis.railway.yml</code></p>
+<blockquote>
+<p>[!TIP]
+<strong>Pro Tip:</strong> You can simply drag and drop these <code>.railway.yml</code> files into the Railway dashboard playground to instantly deploy managed PostgreSQL and Redis instances.</p>
+</blockquote>
+<h3 id="guided-deployment">Guided Deployment</h3>
+<p>For a deep dive into the "easy" process of deploying this entire template on Railway, including environment setup and service linking, follow our dedicated guide.</p>
+<p><a href="https://nodejs-starter-template-lv1-production-db8d.up.railway.app/client/railway.html">👉 <strong>Railway Deployment Tutorial</strong></a></p>
+<h2 id="3-cloud-deployment-render">3. Cloud Deployment (Render)</h2>
+<p>The template includes a <code>render.yaml</code> file, which is a blueprint for deploying your application to Render.</p>
+<h3 id="danger-important-environment-variables">🚨 danger "Important: Environment Variables"</h3>
+<p><strong>Critical Setup Step:</strong> Render Blueprints cannot automatically import secrets from your local <code>.env</code> file for security reasons.</p>
+<ul>
+<li><strong>Do NOT</strong> upload your <code>.env</code> file to the "Secret Files" tab in Render (this will not work with the app structure).</li>
+<li><strong>DO</strong> copy the content of your local <code>.env</code> and paste it into the "Environment Variables" section of your Render Service Dashboard.</li>
+</ul>
+<h3 id="_1"></h3>
+<p>When you copy your .env content to paste into Render, exclude these lines:</p>
+<p>❌ NODE_ENV=... (Handled by Docker)</p>
+<p>❌ JWT_SECRET=... (Handled by Render Blueprint)</p>
+<p>❌ PORT=... (Render sets this automatically to match your EXPOSE instruction)</p>
+<p>Keep everything else (AWS keys, Google keys, ADMIN_EMAIL, JWT_RESET_PASSWORD_SECRET, CLIENT_URL, etc.).</p>
+<h3 id="_2"></h3>
+<h3 id="default-deployment-free-tier">Default Deployment (Free Tier)</h3>
+<p>By default, the <code>Dockerfile</code> and <code>render.yaml</code> are configured for the Render Free Tier.</p>
+<p><strong>Strategy:</strong> Migrations and Seeding run automatically inside the Docker Startup Command.</p>
+<p><strong>Why:</strong> The Free Tier allows only 1 instance. Running migrations on startup is safe because there are no race conditions with a single instance.</p>
+<p><strong>How to Deploy:</strong></p>
+<ol>
+<li>Connect your GitHub repository to Render.</li>
+<li>Create a <strong>New Blueprint Instance</strong>.</li>
+<li>Render will detect <code>render.yaml</code> and provision the Database, Redis, and Web Service automatically.</li>
+</ol>
+<h4 id="free-tier-limitations">Free Tier Limitations</h4>
+<p>!!! warning "Important Considerations for Render's Free Tier"
+    When using Render's free tier, please be aware of the following limitations:</p>
+<ul>
+<li>
+<p><strong>Redis Data Loss:</strong> The <code>redis</code> service on the free plan is ephemeral. If your instance restarts for any reason, all data stored in Redis (such as session information and cached data) will be permanently lost. This is acceptable for testing and development, but it is <strong>highly recommended</strong> to upgrade to a paid plan for production environments to ensure data persistence.</p>
+</li>
+<li>
+<p><strong>PostgreSQL Database:</strong> The free PostgreSQL database is subject to limitations, including expiration after 90 days of inactivity or limited usage quotas. For production applications requiring long-term data storage, consider upgrading to a paid database plan.</p>
+</li>
+<li>
+<p><strong><code>repo</code> Field in <code>render.yaml</code>:</strong> The <code>repo</code> field in the <code>render.yaml</code> file is typically not required if you create the Blueprint directly from the Render dashboard while connected to your GitHub account. Render automatically associates the repository. Removing this line can make the configuration more generic and portable.</p>
+</li>
+</ul>
+<h2 id="4-scaling-production-render-pro">4. Scaling &amp; Production (Render Pro)</h2>
+<h3 id="how-to-upgrade-to-render-pro">How to Upgrade to Render Pro</h3>
+<p>By default, this template uses the <code>start:with-db</code> logic inside the Docker image. If you upgrade to a Paid Plan (Starter/Standard) and want to scale to multiple instances (replicas), you must change this behavior to prevent <strong>Database Locking</strong> (multiple instances trying to migrate simultaneously).</p>
+<p>The diagram below illustrates the key difference between the two strategies:</p>
+<pre class="mermaid"><code>sequenceDiagram
+    autonumber
+    participant Dev as Developer
+    participant Repo as GitHub
+    participant Render
+    participant Instance as Render Instance
+
+    Note over Dev, Instance: Strategy 1: Render Free Tier
+    Dev-&gt;&gt;Repo: Push to git repo
+    Repo-&gt;&gt;Render: Trigger deploy
+    Render-&gt;&gt;Instance: Start container with `start:with-db` command
+    Instance-&gt;&gt;Instance: Run Migrations &amp; Seed (inside container)
+    Instance-&gt;&gt;Instance: Start Node.js Server
+
+    Note over Dev, Instance: Strategy 2: Render Pro Tier (for Scaling)
+    Dev-&gt;&gt;Repo: Push to git repo
+    Repo-&gt;&gt;Render: Trigger deploy
+    Render-&gt;&gt;Render: Run `preDeployCommand` (Migrations &amp; Seed)
+    Render-&gt;&gt;Instance: Start container with `start` command
+    Instance-&gt;&gt;Instance: Start Node.js Server</code></pre>
+<p><strong>Steps to configure for Scaling:</strong></p>
+<ol>
+<li>Open <code>render.yaml</code>.</li>
+<li>Change <code>plan</code> from <code>free</code> to <code>starter</code> (or your desired paid plan).</li>
+<li><strong>Add a Pre-Deploy Command:</strong> This ensures migrations run only once, on a temporary instance, before the new version goes live.</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="c1"># render.yaml</span>
+<span class="nt">services</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">web</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my-app</span>
+<span class="w">    </span><span class="nt">plan</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">starter</span><span class="w"> </span><span class="c1"># or standard</span>
+<span class="w">    </span><span class="c1"># ...</span>
+<span class="w">    </span><span class="nt">preDeployCommand</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;sh</span><span class="nv"> </span><span class="s">-c</span><span class="nv"> </span><span class="s">&#39;npx</span><span class="nv"> </span><span class="s">prisma</span><span class="nv"> </span><span class="s">migrate</span><span class="nv"> </span><span class="s">deploy</span><span class="nv"> </span><span class="s">&amp;&amp;</span><span class="nv"> </span><span class="s">npm</span><span class="nv"> </span><span class="s">run</span><span class="nv"> </span><span class="s">seed:prod&#39;&quot;</span>
+</code></pre></div>
+<ol>
+<li><strong>Override the Docker Command:</strong> Tell Render to ignore the default <code>Dockerfile</code> command (which includes migrations) and just start the server.</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="c1"># render.yaml</span>
+<span class="nt">services</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">web</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my-app</span>
+<span class="w">    </span><span class="c1"># ...</span>
+<span class="w">    </span><span class="nt">dockerCommand</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;node</span><span class="nv"> </span><span class="s">dist/server.js&quot;</span>
+</code></pre></div>
+<p>This configuration ensures zero-downtime deployments and allows you to scale to 10+ instances safely.</p>
+<h2 id="5-production-scripts">5. Production Scripts</h2>
+<p>These <code>package.json</code> scripts are used internally by the <code>Dockerfile</code> and Render configuration.</p>
+<ul>
+<li><strong><code>build</code></strong>: The heavy lifter.<ul>
+<li>Generates the Prisma Client to <code>node_modules</code>.</li>
+<li>Compiles the main app to <code>dist</code>.</li>
+<li>Compiles Seeds: Compiles <code>prisma/seed.ts</code> into a standalone JS file (<code>dist/prisma/seed.js</code>) so it can run in production without <code>ts-node</code>.</li>
+</ul>
+</li>
+<li><strong><code>start</code></strong>: The standard production command (<code>node dist/server.js</code>). Use this when handling migrations via a separate Pre-Deploy command.</li>
+<li><strong><code>start:with-db</code></strong>: The "Lazy" production command. It runs <code>migrate deploy -&gt; seed:prod -&gt; node dist/server.js</code>. This is the default command used by the <code>Dockerfile</code> for the Free Tier.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": [], "search": "../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.e71a0d61.min.js"></script>
+      
+        <script src="https://unpkg.com/@panzoom/panzoom@4.5.1/dist/panzoom.min.js"></script>
+      
+        <script src="../javascripts/zoom.js"></script>
+      
+    
+  </body>
+</html>

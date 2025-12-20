@@ -1,0 +1,1997 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://aymenkani.github.io/nodejs-starter-template-lv1/getting-started/">
+      
+      
+        <link rel="prev" href="../introduction/">
+      
+      
+        <link rel="next" href="../core-concepts/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
+    
+    
+      
+        <title>Getting Started - Node.js Enterprise Launchpad - Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.618322db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#getting-started" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Node.js Enterprise Launchpad - Documentation" class="md-header__button md-logo" aria-label="Node.js Enterprise Launchpad - Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Node.js Enterprise Launchpad - Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Getting Started
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Node.js Enterprise Launchpad - Documentation" class="md-nav__button md-logo" aria-label="Node.js Enterprise Launchpad - Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Node.js Enterprise Launchpad - Documentation
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#quick-start-zero-to-launch" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quick Start: Zero to Launch
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Quick Start: Zero to Launch">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Troubleshooting:
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#prerequisites" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Prerequisites
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#unzip-the-project" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Unzip the Project
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-manual-installation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Manual Installation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Manual Installation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-1-install-dependencies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 1: Install Dependencies
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-2-environment-variables-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 2: Environment Variables Configuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-3-database-setup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 3: Database Setup
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-running-the-application" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Running the Application
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Running the Application">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#option-1-running-the-app-locally-hybrid-approach" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option 1: Running the App Locally (Hybrid Approach)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Option 1: Running the App Locally (Hybrid Approach)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-1-start-background-services-with-docker" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 1: Start Background Services with Docker
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-2-run-the-application-on-your-host-machine" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 2: Run the Application on Your Host Machine
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#option-2-running-everything-with-docker" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option 2: Running Everything with Docker
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-troubleshooting-local-development" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Troubleshooting Local Development
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Troubleshooting Local Development">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#prisma-errors-after-setup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Prisma Errors After Setup
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-available-npm-scripts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Available npm Scripts
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Available npm Scripts">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#lifecycle-hooks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔄 Lifecycle Hooks
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#build-production" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🚀 Build &amp; Production
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#local-development" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        💻 Local Development
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#docker-modular" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🐳 Docker (Modular)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#database-prisma" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🗄️ Database (Prisma)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#quality-testing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ✅ Quality &amp; Testing
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-initial-api-interaction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Initial API Interaction
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Initial API Interaction">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#accessing-the-api-documentation-swagger-ui" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Accessing the API Documentation (Swagger UI)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../core-concepts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Core Concepts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../project-structure/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Project Structure
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../authentication/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Authentication
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api-documentation-openapi/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Documentation (OpenAPI)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../frontend-openapi-setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Frontend OpenAPI Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../database-prisma/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Database (Prisma)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Advanced Features
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Advanced Features
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../rag-intelligence-pipeline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RAG Intelligence Pipeline
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../file-upload-architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    File Upload Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../background-jobs-bullmq/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Background Jobs (BullMQ)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../email-configuration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Email Configuration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../socketio-service/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Socket.IO Service
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../testing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Testing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ci-cd-github-actions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CI/CD (GitHub Actions)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../deployment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deployment
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../troubleshooting-FAQ/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Troubleshooting / FAQ
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_18" >
+        
+          
+          <label class="md-nav__link" for="__nav_18" id="__nav_18_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Routes Documentation
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_18_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_18">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Routes Documentation
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../routes-documentations/admin-routes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Admin Routes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../routes-documentations/agent-routes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Agent Routes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../routes-documentations/auth-routes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Auth Routes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../routes-documentations/file-routes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    File Routes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../routes-documentations/token-routes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Token Routes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../routes-documentations/upload-routes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Upload Routes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../routes-documentations/user-routes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    User Routes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#quick-start-zero-to-launch" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quick Start: Zero to Launch
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Quick Start: Zero to Launch">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Troubleshooting:
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#prerequisites" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Prerequisites
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#unzip-the-project" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Unzip the Project
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-manual-installation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Manual Installation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Manual Installation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-1-install-dependencies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 1: Install Dependencies
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-2-environment-variables-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 2: Environment Variables Configuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-3-database-setup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 3: Database Setup
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-running-the-application" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Running the Application
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Running the Application">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#option-1-running-the-app-locally-hybrid-approach" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option 1: Running the App Locally (Hybrid Approach)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Option 1: Running the App Locally (Hybrid Approach)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-1-start-background-services-with-docker" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 1: Start Background Services with Docker
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-2-run-the-application-on-your-host-machine" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 2: Run the Application on Your Host Machine
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#option-2-running-everything-with-docker" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option 2: Running Everything with Docker
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-troubleshooting-local-development" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Troubleshooting Local Development
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Troubleshooting Local Development">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#prisma-errors-after-setup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Prisma Errors After Setup
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-available-npm-scripts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Available npm Scripts
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Available npm Scripts">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#lifecycle-hooks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔄 Lifecycle Hooks
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#build-production" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🚀 Build &amp; Production
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#local-development" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        💻 Local Development
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#docker-modular" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🐳 Docker (Modular)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#database-prisma" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🗄️ Database (Prisma)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#quality-testing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ✅ Quality &amp; Testing
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-initial-api-interaction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Initial API Interaction
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Initial API Interaction">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#accessing-the-api-documentation-swagger-ui" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Accessing the API Documentation (Swagger UI)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="getting-started">Getting Started</h1>
+<p>This section will guide you through setting up and running the Node.js Advanced Starter Template for local development. Follow these steps to get your environment ready and the application running.</p>
+<h2 id="quick-start-zero-to-launch">Quick Start: Zero to Launch</h2>
+<ol>
+<li><strong>Unzip the Package and open the Template</strong></li>
+<li><strong>Install</strong>: <code>npm install</code></li>
+<li><strong>Infra</strong>: <code>npm run docker:redis:postgres:up</code> (wait for healthy status)</li>
+<li><strong>Sync</strong>: <code>npm run prisma:generate &amp;&amp; npm run prisma:migrate:dev</code></li>
+<li><strong>Deploy</strong>: <code>npm run dev:watch:local</code></li>
+<li><strong>Status</strong>: Online.</li>
+</ol>
+<h3 id="troubleshooting">Troubleshooting:</h3>
+<p>If <code>npm run test</code> fails with a <code>PrismaClientKnownRequestError</code>, your local artifacts are out of sync.</p>
+<p><strong>The Fix</strong>: Re-run <code>npm run prisma:generate</code> followed by <code>npm run prisma:migrate:dev</code> to reset the client state.</p>
+<hr />
+<p><strong>NOTE:</strong> In this template, the term <code>local</code> refers to running the application <strong>outside of Docker</strong>. In this case, the <code>.env.local</code> file is used. Any script in <code>package.json</code> that includes the <code>:local</code> suffix indicates that the script runs using the <code>.env.local</code> configuration.</p>
+<h2 id="prerequisites">Prerequisites</h2>
+<p>Before you begin, ensure you have the following software installed on your system:</p>
+<ul>
+<li><strong>Node.js</strong>: Version 18.x or higher. You can download it from <a href="https://nodejs.org/">nodejs.org</a>.</li>
+<li><strong>npm</strong> or <strong>Yarn</strong>: npm comes bundled with Node.js. If you prefer Yarn, you can install it via <code>npm install -g yarn</code>.</li>
+<li><strong>Docker &amp; Docker Compose</strong>: Essential for running the database and other services locally. Download Docker Desktop from <a href="https://www.docker.com/products/docker-desktop/">docker.com</a>.</li>
+</ul>
+<h2 id="unzip-the-project">Unzip the Project</h2>
+<p>Start by unzipping the downloaded project file. This will create a new directory named <code>node-template-advanced-1</code>. Navigate into this new directory to proceed with the setup.</p>
+<h2 id="1-manual-installation">1. Manual Installation</h2>
+<p>If you prefer to set up the project step-by-step, follow the instructions below.</p>
+<h3 id="step-1-install-dependencies">Step 1: Install Dependencies</h3>
+<p>Navigate into the project directory and install the required Node.js packages:</p>
+<p><div class="highlight"><pre><span></span><code>npm<span class="w"> </span>install
+<span class="c1"># or if you use yarn</span>
+yarn<span class="w"> </span>install
+</code></pre></div>
+This will also automatically trigger <code>npx prisma generate</code> because of the <code>postinstall</code> script in <code>package.json</code>.</p>
+<h3 id="step-2-environment-variables-configuration">Step 2: Environment Variables Configuration</h3>
+<p>The project uses environment variables for configuration. A <code>.env.example</code> file is provided as a template.</p>
+<ol>
+<li>Create a <code>.env</code> file in the root of your project by copying <code>.env.example</code>:
+    <div class="highlight"><pre><span></span><code>cp<span class="w"> </span>.env.example<span class="w"> </span>.env
+</code></pre></div></li>
+<li>Open the newly created <code>.env</code> file and update the variables as needed. Pay close attention to database connection strings, JWT secrets, and any third-party API keys (e.g., Google OAuth credentials, SendGrid API key).</li>
+</ol>
+<blockquote>
+<p>[!TIP]
+<strong>Pro Tip:</strong> If you'd rather skip this manual environment configuration, the <strong><a href="https://aymenkani.gumroad.com/l/nodejs-enterprise-launchpad/PRO-VISITOR?price=26&amp;option=2nCmfCVPlr707OzzOD7UGA%3D%3D&amp;_gl=1*1qml59u*_ga*NTYyNDU1Mjc4LjE3NjA5NzUzNDg.*_ga_6LJN6D94N6*czE3NjYwNjQ0OTYkbzE4MyRnMCR0MTc2NjA2NDQ5NiRqNjAkbDAkaDA.">Node.js Enterprise Launchpad</a></strong> comes with all infrastructure (Redis, Postgres, R2) pre-configured for Railway, including a <strong>$0 Storage Cost</strong> and <strong>$20 in credit</strong> offer.</p>
+</blockquote>
+<ol>
+<li>Create a <code>.env.local</code> file by copying the <code>.env.example</code> file. This file is used for the local development setup.
+    <div class="highlight"><pre><span></span><code>cp<span class="w"> </span>.env.example<span class="w"> </span>.env.local
+</code></pre></div></li>
+<li>Open the <code>.env.local</code> file and make sure the <code>DATABASE_URL</code> and <code>REDIS_URL</code> are pointing to <code>localhost</code>.</li>
+</ol>
+<p><strong>Example <code>.env</code> (excerpt):</strong>
+<div class="highlight"><pre><span></span><code><span class="l l-Scalar l-Scalar-Plain">NODE_ENV=development</span>
+<span class="l l-Scalar l-Scalar-Plain">PORT=5001</span>
+
+<span class="l l-Scalar l-Scalar-Plain">DATABASE_URL=&quot;postgresql://user:password@localhost:5432/mydatabase?schema=public&quot;</span>
+<span class="l l-Scalar l-Scalar-Plain"># Or for MySQL</span><span class="p p-Indicator">:</span>
+<span class="c1"># DATABASE_URL=&quot;mysql://user:password@localhost:3306/mydatabase&quot;</span>
+
+<span class="l l-Scalar l-Scalar-Plain">JWT_SECRET=supersecretjwtkey</span>
+<span class="l l-Scalar l-Scalar-Plain">JWT_ACCESS_EXPIRATION_MINUTES=30</span>
+<span class="l l-Scalar l-Scalar-Plain">JWT_REFRESH_EXPIRATION_DAYS=30</span>
+
+<span class="l l-Scalar l-Scalar-Plain">GOOGLE_CLIENT_ID=YOUR_GOOGLE_CLIENT_ID</span>
+<span class="l l-Scalar l-Scalar-Plain">GOOGLE_CLIENT_SECRET=YOUR_GOOGLE_CLIENT_SECRET</span>
+<span class="l l-Scalar l-Scalar-Plain">GOOGLE_CALLBACK_URL=http://localhost:5001/v1/auth/google/callback</span>
+
+<span class="l l-Scalar l-Scalar-Plain">SENDGRID_API_KEY=YOUR_SENDGRID_API_KEY</span>
+<span class="l l-Scalar l-Scalar-Plain">EMAIL_FROM=support@example.com</span>
+</code></pre></div></p>
+<h3 id="step-3-database-setup">Step 3: Database Setup</h3>
+<p><strong>Note:</strong> You can launch the entire application stack, including the database and Redis server, with a single command. Please refer to the <a href="#option-2-running-everything-with-docker">Running with Docker (Recommended)</a> section.</p>
+<p>This template uses Docker Compose to manage local database instances (PostgreSQL or MySQL).</p>
+<ol>
+<li><strong>Start the database container:</strong></li>
+</ol>
+<p><div class="highlight"><pre><span></span><code><span class="c1"># For PostgreSQL</span>
+npm<span class="w"> </span>run<span class="w"> </span>docker:redis:postgres:up
+</code></pre></div>
+This command will pull the database image and start a container in the background.</p>
+<ol>
+<li>
+<p><strong>Generate Prisma Client:</strong></p>
+<p>This command will generate the Prisma client based on the database schema.
+<div class="highlight"><pre><span></span><code>npm<span class="w"> </span>run<span class="w"> </span>prisma:generate
+</code></pre></div></p>
+</li>
+<li>
+<p><strong>Run Prisma Migrations:</strong></p>
+<p>This command will apply the Prisma migrations to set up your database schema:
+<div class="highlight"><pre><span></span><code>npm<span class="w"> </span>run<span class="w"> </span>prisma:migrate:dev
+</code></pre></div></p>
+</li>
+<li>
+<p><strong>Seed the Database (Optional):</strong></p>
+<p>This command will populate your database with initial data using the Prisma seed script:
+<div class="highlight"><pre><span></span><code>npm<span class="w"> </span>run<span class="w"> </span>seed:local<span class="w"> </span>//<span class="w"> </span>using<span class="w"> </span>.env.local<span class="w"> </span>file
+</code></pre></div>
+Review <code>prisma/seed.ts</code> to understand what data will be added.</p>
+</li>
+</ol>
+<h2 id="2-running-the-application">2. Running the Application</h2>
+<p>You have two main ways to run the application for development.</p>
+<h3 id="option-1-running-the-app-locally-hybrid-approach">Option 1: Running the App Locally (Hybrid Approach)</h3>
+<p>This method is for developers who want to run the Node.js application directly on their host machine (e.g., for easier debugging) while still using Docker to manage the database and Redis.</p>
+<h4 id="step-1-start-background-services-with-docker">Step 1: Start Background Services with Docker</h4>
+<p>Before you can run the application locally, the database and Redis must be running.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># This command starts ONLY the PostgreSQL and Redis containers</span>
+npm<span class="w"> </span>run<span class="w"> </span>docker:redis:postgres:up
+</code></pre></div>
+<p>This command uses Docker to make the database and Redis available on <code>localhost</code>.</p>
+<blockquote>
+<p><strong>CRITICAL STEP:</strong> You <strong>must</strong> run this command before starting the local server. The application will fail to start if it cannot connect to the database and Redis.</p>
+</blockquote>
+<h4 id="step-2-run-the-application-on-your-host-machine">Step 2: Run the Application on Your Host Machine</h4>
+<p>Once the background services are running, open a new terminal and start the application using the local-specific script:</p>
+<div class="highlight"><pre><span></span><code>npm<span class="w"> </span>run<span class="w"> </span>dev:watch:local
+</code></pre></div>
+<p>This command does two important things:
+1.  It uses <code>ts-node</code> to run the app with hot-reloading.
+2.  It loads the <code>.env.local</code> file, which is configured to connect to <code>localhost</code> for the database and Redis.</p>
+<p>The API server will start on <code>http://localhost:5002</code>.</p>
+<h3 id="option-2-running-everything-with-docker">Option 2: Running Everything with Docker</h3>
+<p>This is the simplest method. It uses Docker Compose to build and run the Node.js application, the database (PostgreSQL), and Redis in a unified, isolated environment.</p>
+<p>We've added convenient <code>npm</code> scripts to automate this process. The entrypoint script will automatically:
+- Wait for the database to be ready.
+- Run database migrations.
+- Seed the database with initial data.
+- Start the application with hot-reloading.</p>
+<ul>
+<li>
+<p><strong>To start the app and all services (Postgres, Redis):</strong>
+    <div class="highlight"><pre><span></span><code>npm<span class="w"> </span>run<span class="w"> </span>docker:up:build
+</code></pre></div>
+    Your application will be available at <code>http://localhost:5001</code>.</p>
+</li>
+<li>
+<p><strong>To run in the background:</strong>
+    <div class="highlight"><pre><span></span><code>npm<span class="w"> </span>run<span class="w"> </span>docker:up:detached
+</code></pre></div></p>
+</li>
+<li>
+<p><strong>To stop all services:</strong>
+    <div class="highlight"><pre><span></span><code>npm<span class="w"> </span>run<span class="w"> </span>docker:down
+</code></pre></div></p>
+</li>
+<li>
+<p><strong>To view logs:</strong>
+    <div class="highlight"><pre><span></span><code>npm<span class="w"> </span>run<span class="w"> </span>docker:logs
+</code></pre></div></p>
+</li>
+</ul>
+<blockquote>
+<p><strong>Note on Docker commands:</strong> The <code>npm run dev</code> and <code>npm run dev:watch</code> commands are designed to be run <em>inside</em> the Docker container. They rely on the <code>.env</code> file, which uses Docker network hostnames like <code>db</code> and <code>redis</code>. They are not meant for local development directly on your host machine.</p>
+</blockquote>
+<hr />
+<h2 id="3-troubleshooting-local-development">3. Troubleshooting Local Development</h2>
+<h3 id="prisma-errors-after-setup">Prisma Errors After Setup</h3>
+<p>If you run into Prisma-related errors (e.g., <code>PrismaClient is not a constructor</code>, schema mismatches) when running the app locally, it often means the Prisma Client is out of sync with your database schema.</p>
+<p><strong>Important:</strong> Ensure your database is running before you proceed. If it's not, run <code>npm run docker:redis:postgres:up</code>.</p>
+<p>To fix this, run the following commands in order:</p>
+<ol>
+<li>
+<p><strong>Generate the Prisma Client:</strong>
+    This command reads your <code>prisma/schema.prisma</code> and generates the type-safe client.
+    <div class="highlight"><pre><span></span><code>npm<span class="w"> </span>run<span class="w"> </span>prisma:generate
+</code></pre></div></p>
+</li>
+<li>
+<p><strong>Run Database Migrations:</strong>
+    This command applies any pending migrations to your database to ensure the schema is up to date.
+    <div class="highlight"><pre><span></span><code>npm<span class="w"> </span>run<span class="w"> </span>prisma:migrate:dev
+</code></pre></div></p>
+</li>
+</ol>
+<p>After completing these steps, try starting the application again with <code>npm run dev:watch:local</code>.</p>
+<h2 id="4-available-npm-scripts">4. Available npm Scripts</h2>
+<p>Here is the breakdown of your package.json scripts, explained section by section. This acts as a perfect reference for your documentation.</p>
+<h3 id="lifecycle-hooks">🔄 Lifecycle Hooks</h3>
+<p>These run automatically by npm at specific times.</p>
+<ul>
+<li><code>postinstall</code>: Runs automatically after <code>npm install</code>. It triggers <code>prisma generate</code> to ensure the <code>@prisma/client</code> is created immediately. This prevents the common "Prisma Client not initialized" error when a user first clones the repo.</li>
+<li><code>prepare</code>: Runs automatically after install (only locally). It sets up Husky (git hooks) to ensure linting/formatting happens before commits.</li>
+</ul>
+<h3 id="build-production">🚀 Build &amp; Production</h3>
+<p>These are used when deploying to servers (Render, AWS, etc.).</p>
+<ul>
+<li><code>build</code>: The heavy lifter. It does three things:<ol>
+<li>Generates the Prisma Client.</li>
+<li>Compiles your main app (<code>src</code>) to <code>dist</code>.</li>
+<li>Crucially: Compiles <code>prisma/seed.ts</code> into a standalone JS file (<code>dist/prisma/seed.js</code>) using specific flags (<code>--target ES2022</code>, <code>--module CommonJS</code>) so it can run in production without <code>ts-node</code>.</li>
+</ol>
+</li>
+<li><code>start</code>: The standard production command. It simply runs the compiled server (<code>node dist/server.js</code>). Use this if you handle migrations separately (like in Render Paid tier).</li>
+<li><code>start:with-db</code>: The "Lazy" production command (Great for Render Free Tier). It runs migrations, seeds the DB, and then starts the server.</li>
+</ul>
+<h3 id="local-development">💻 Local Development</h3>
+<p>These are for working on your machine without Docker.</p>
+<ul>
+<li><code>dev</code>: Runs the server directly using <code>ts-node</code>. Good for a quick check.</li>
+<li><code>dev:watch</code>: The main dev command. Uses <code>nodemon</code> to restart the server automatically whenever you save a file.</li>
+<li><code>dev:watch:local</code>: Same as above, but forces <code>dotenv</code> to load variables from <code>.env.local</code>. This is the primary command for local development.</li>
+</ul>
+<h3 id="docker-modular">🐳 Docker (Modular)</h3>
+<p>These handle your complex multi-file Docker setup.</p>
+<ul>
+<li><code>docker:up:build</code>: Starts all services (app, Redis, PostgreSQL) defined in <code>docker-compose.yml</code>, <code>docker-compose.redis.yml</code>, <code>docker-compose.postgres.yml</code>, and <code>docker-compose.override.yml</code>, rebuilding images if necessary.</li>
+<li><code>docker:up</code>: Starts all services (app, Redis, PostgreSQL) defined in <code>docker-compose.yml</code>, <code>docker-compose.redis.yml</code>, <code>docker-compose.postgres.yml</code>, and <code>docker-compose.override.yml</code> in the foreground.</li>
+<li><code>docker:up:detached</code>: Starts all services (app, Redis, PostgreSQL) in the background (<code>-d</code>), freeing up your terminal.</li>
+<li><code>docker:down</code>: Stops and removes the app, redis and PostgreSQL containers.</li>
+<li><code>docker:logs</code>: Follows the logs of the app, redis and PostgreSQL containers.</li>
+<li><code>docker:redis:postgres:up</code>: Starts only the Redis and PostgreSQL services, rebuilding their images if necessary.</li>
+</ul>
+<h3 id="database-prisma">🗄️ Database (Prisma)</h3>
+<p>Wrappers for Prisma CLI tools.</p>
+<ul>
+<li><code>prisma:generate</code>: Reads <code>schema.prisma</code> and updates <code>node_modules/@prisma/client</code>. This is now run automatically on <code>npm install</code>.</li>
+<li><code>prisma:migrate:dev</code>: Creates a new migration file based on schema changes (for development). Uses <code>.env.local</code> to connect.</li>
+<li><code>prisma:migrate:deploy</code>: Applies pending migrations to the database (for production/CI).</li>
+<li><code>prisma:studio</code>: Opens the GUI to view/edit your database data.</li>
+<li><code>seed</code>: Runs the TypeScript seed file (<code>prisma/seed.ts</code>). Requires <code>ts-node</code> (Dev only).</li>
+<li><code>seed:local</code>: Runs the seed script using the <code>.env.local</code> file. Use this for local development.</li>
+<li><code>seed:prod</code>: Runs the Compiled JavaScript seed file (<code>dist/prisma/seed.js</code>). Does NOT require <code>ts-node</code> (Production only).</li>
+</ul>
+<h3 id="quality-testing">✅ Quality &amp; Testing</h3>
+<ul>
+<li><code>test</code>: Loads <code>.env.test</code> (connecting to the test DB) and runs Jest tests.</li>
+<li><code>lint</code>: Scans your code with ESLint to catch syntax errors and bad patterns.</li>
+<li><code>type-check</code>: Runs the TypeScript compiler (<code>tsc</code>) without emitting files. Useful to check for type errors without actually building.</li>
+<li><code>format</code>: Uses Prettier to automatically format your code to look consistent.</li>
+</ul>
+<h2 id="5-initial-api-interaction">5. Initial API Interaction</h2>
+<p>Once the server is running, you can verify its status by accessing the health endpoint:</p>
+<ul>
+<li>Open your web browser or an API client and navigate to:
+    <code>http://localhost:5001/api/v1/health</code></li>
+</ul>
+<p>You should receive a JSON response indicating the API's health.</p>
+<h3 id="accessing-the-api-documentation-swagger-ui">Accessing the API Documentation (Swagger UI)</h3>
+<p>To explore and test the API endpoints interactively, navigate to the Swagger UI:</p>
+<ul>
+<li>Open your web browser and go to:
+    <code>http://localhost:5001/api-docs</code></li>
+</ul>
+<p>Here you can view all available routes and make test calls directly from the browser.</p>
+<p>Congratulations! You have successfully set up and run the Node.js Advanced Starter Template. You are now ready to explore its features and start building your API.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": [], "search": "../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.e71a0d61.min.js"></script>
+      
+        <script src="https://unpkg.com/@panzoom/panzoom@4.5.1/dist/panzoom.min.js"></script>
+      
+        <script src="../javascripts/zoom.js"></script>
+      
+    
+  </body>
+</html>

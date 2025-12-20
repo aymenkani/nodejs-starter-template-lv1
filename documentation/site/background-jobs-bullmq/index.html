@@ -1,0 +1,1829 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://aymenkani.github.io/nodejs-starter-template-lv1/background-jobs-bullmq/">
+      
+      
+        <link rel="prev" href="../file-upload-architecture/">
+      
+      
+        <link rel="next" href="../email-configuration/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
+    
+    
+      
+        <title>Background Jobs (BullMQ) - Node.js Enterprise Launchpad - Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.618322db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#background-jobs-with-bullmq" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Node.js Enterprise Launchpad - Documentation" class="md-header__button md-logo" aria-label="Node.js Enterprise Launchpad - Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Node.js Enterprise Launchpad - Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Background Jobs (BullMQ)
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Node.js Enterprise Launchpad - Documentation" class="md-nav__button md-logo" aria-label="Node.js Enterprise Launchpad - Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Node.js Enterprise Launchpad - Documentation
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../getting-started/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../core-concepts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Core Concepts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../project-structure/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Project Structure
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../authentication/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Authentication
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api-documentation-openapi/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Documentation (OpenAPI)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../frontend-openapi-setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Frontend OpenAPI Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../database-prisma/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Database (Prisma)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Advanced Features
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Advanced Features
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../rag-intelligence-pipeline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RAG Intelligence Pipeline
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../file-upload-architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    File Upload Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Background Jobs (BullMQ)
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Background Jobs (BullMQ)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#why-use-background-jobs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why Use Background Jobs?
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-the-existing-job-token-cleanup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. The Existing Job: Token Cleanup
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. The Existing Job: Token Cleanup">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#how-it-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Works
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#visual-flow-of-background-jobs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Visual Flow of Background Jobs
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-file-cleanup-worker" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. File Cleanup Worker
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. File Cleanup Worker">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#jobs-included" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Jobs Included
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-it-works_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Works
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-ingestion-worker" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Ingestion Worker
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Ingestion Worker">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#how-it-works_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Works
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#error-handling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Error Handling
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-extending-with-a-new-job-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Extending with a New Job (Example)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Extending with a New Job (Example)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-1-define-a-new-queue" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 1: Define a New Queue
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-2-add-logic-to-the-worker" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 2: Add Logic to the Worker
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-3-instantiate-the-new-queue-and-worker" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 3: Instantiate the New Queue and Worker
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-4-add-the-job-from-your-service" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 4: Add the Job from Your Service
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../email-configuration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Email Configuration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../socketio-service/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Socket.IO Service
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../testing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Testing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ci-cd-github-actions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CI/CD (GitHub Actions)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../deployment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deployment
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../troubleshooting-FAQ/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Troubleshooting / FAQ
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_18" >
+        
+          
+          <label class="md-nav__link" for="__nav_18" id="__nav_18_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Routes Documentation
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_18_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_18">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Routes Documentation
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../routes-documentations/admin-routes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Admin Routes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../routes-documentations/agent-routes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Agent Routes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../routes-documentations/auth-routes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Auth Routes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../routes-documentations/file-routes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    File Routes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../routes-documentations/token-routes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Token Routes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../routes-documentations/upload-routes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Upload Routes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../routes-documentations/user-routes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    User Routes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#why-use-background-jobs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why Use Background Jobs?
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-the-existing-job-token-cleanup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. The Existing Job: Token Cleanup
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. The Existing Job: Token Cleanup">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#how-it-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Works
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#visual-flow-of-background-jobs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Visual Flow of Background Jobs
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-file-cleanup-worker" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. File Cleanup Worker
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. File Cleanup Worker">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#jobs-included" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Jobs Included
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-it-works_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Works
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-ingestion-worker" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Ingestion Worker
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Ingestion Worker">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#how-it-works_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Works
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#error-handling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Error Handling
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-extending-with-a-new-job-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Extending with a New Job (Example)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Extending with a New Job (Example)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-1-define-a-new-queue" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 1: Define a New Queue
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-2-add-logic-to-the-worker" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 2: Add Logic to the Worker
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-3-instantiate-the-new-queue-and-worker" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 3: Instantiate the New Queue and Worker
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-4-add-the-job-from-your-service" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 4: Add the Job from Your Service
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="background-jobs-with-bullmq">Background Jobs with BullMQ</h1>
+<p>This template integrates <a href="https://docs.bullmq.io/">BullMQ</a> for handling background jobs and asynchronous tasks. BullMQ is a fast, robust, and Redis-backed queueing system that allows you to offload time-consuming operations from your main application thread, improving responsiveness and scalability.</p>
+<p>The template comes pre-configured with one background job: a recurring task to clean up expired blacklisted JWTs from the database.</p>
+<h2 id="why-use-background-jobs">Why Use Background Jobs?</h2>
+<ul>
+<li><strong>Improving User Experience:</strong> Offload long-running tasks (e.g., sending emails, processing images) so API requests can return quickly.</li>
+<li><strong>Reliability &amp; Scheduling:</strong> Run tasks on a schedule or ensure they are processed even if the main application crashes, with features like retries and persistent queues.</li>
+<li><strong>Scalability:</strong> Distribute workloads across multiple worker processes or servers.</li>
+</ul>
+<h2 id="1-the-existing-job-token-cleanup">1. The Existing Job: Token Cleanup</h2>
+<p>The template includes a cron job that runs every hour to clean out the <code>BlacklistedToken</code> table. This prevents the table from growing indefinitely.</p>
+<h3 id="how-it-works">How It Works</h3>
+<ol>
+<li><strong>Scheduler (<code>src/utils/tokenCleanup.ts</code>):</strong> A <code>node-cron</code> scheduler is configured to run every 60 minutes.</li>
+<li><strong>Add Job to Queue:</strong> On schedule, the cron job calls <code>addTokenCleanupJob</code> from <code>src/jobs/queue.ts</code>, which adds a <code>cleanExpiredTokens</code> job to the <code>tokenCleanup</code> queue.</li>
+<li><strong>Worker Processes Job (<code>src/jobs/worker.ts</code>):</strong> The BullMQ worker, which is listening to the <code>tokenCleanup</code> queue, picks up the job.</li>
+<li><strong>Execute Logic:</strong> The worker executes <code>processTokenCleanupJob</code>, which runs a Prisma query to <code>deleteMany</code> tokens where the <code>expires</code> date is in the past.</li>
+</ol>
+<p>This entire flow is already set up and requires no additional configuration.</p>
+<h2 id="visual-flow-of-background-jobs">Visual Flow of Background Jobs</h2>
+<p>The following diagram illustrates how both scheduled and event-driven jobs are handled by the BullMQ system.</p>
+<pre class="mermaid"><code>sequenceDiagram
+    autonumber
+    participant Service as API Service
+    participant Cron as Cron Scheduler
+    participant Queue as BullMQ Queue (Redis)
+    participant Worker as Worker Process
+    participant DB as Database
+    participant Email as Email Provider
+
+    Note over Service, Email: Hypothetical Flow: Sending a Welcome Email
+    Service-&gt;&gt;Queue: 1. Add 'sendEmail' job
+    Worker-&gt;&gt;Queue: 2. Listen for jobs
+    Queue--&gt;&gt;Worker: 3. Dequeue 'sendEmail' job
+    Worker-&gt;&gt;Email: 4. Process job (sends email via provider)
+
+    Note over Cron, DB: Existing Flow: Cleaning Expired Tokens
+    Cron-&gt;&gt;Queue: 1. Add 'cleanExpiredTokens' job (hourly)
+    Worker-&gt;&gt;Queue: 2. Listen for jobs
+    Queue--&gt;&gt;Worker: 3. Dequeue 'cleanExpiredTokens' job
+    Worker-&gt;&gt;DB: 4. Process job (deletes tokens from DB)</code></pre>
+<h2 id="2-file-cleanup-worker">2. File Cleanup Worker</h2>
+<p>The file cleanup worker maintains database hygiene by removing old, abandoned, or temporary files. It runs multiple cleanup jobs based on file status and demo mode configuration.</p>
+<h3 id="jobs-included">Jobs Included</h3>
+<ol>
+<li><strong>Abandoned Files Cleanup</strong> (Every 24 hours at midnight)</li>
+<li><strong>Public Files Cleanup</strong> (Every 10 minutes in demo mode)</li>
+<li><strong>Private Files Cleanup</strong> (Every 30 minutes in demo mode)</li>
+</ol>
+<h3 id="how-it-works_1">How It Works</h3>
+<p><strong>Abandoned Files</strong> (<code>cleanAbandonedFiles</code>):
+- <strong>Schedule</strong>: Daily at midnight UTC (<code>0 0 * * *</code>)
+- <strong>Target</strong>: Files with status <code>PENDING</code> or <code>FAILED</code> older than 24 hours
+- <strong>Purpose</strong>: Removes incomplete uploads and failed processing attempts
+- <strong>Implementation</strong> (<code>fileCleanup.worker.ts</code>):
+  <div class="highlight"><pre><span></span><code><span class="kd">const</span><span class="w"> </span><span class="nx">abandonedFiles</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">prisma</span><span class="p">.</span><span class="nx">file</span><span class="p">.</span><span class="nx">findMany</span><span class="p">({</span>
+<span class="w">  </span><span class="nx">where</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">status</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="ow">in</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="s1">&#39;PENDING&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;FAILED&#39;</span><span class="p">]</span><span class="w"> </span><span class="p">},</span>
+<span class="w">    </span><span class="nx">createdAt</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">lt</span><span class="o">:</span><span class="w"> </span><span class="kt">new</span><span class="w"> </span><span class="nb">Date</span><span class="p">(</span><span class="nb">Date</span><span class="p">.</span><span class="nx">now</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mf">24</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mf">60</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mf">60</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mf">1000</span><span class="p">)</span><span class="w"> </span><span class="p">}</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">});</span>
+
+<span class="c1">// Delete from S3/R2</span>
+<span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kd">const</span><span class="w"> </span><span class="nx">file</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nx">abandonedFiles</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">await</span><span class="w"> </span><span class="nx">s3Client</span><span class="p">.</span><span class="nx">send</span><span class="p">(</span><span class="ow">new</span><span class="w"> </span><span class="nx">DeleteObjectCommand</span><span class="p">({</span>
+<span class="w">    </span><span class="nx">Bucket</span><span class="o">:</span><span class="w"> </span><span class="kt">config.aws.s3.bucket</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">Key</span><span class="o">:</span><span class="w"> </span><span class="kt">file.fileKey</span>
+<span class="w">  </span><span class="p">}));</span>
+<span class="w">  </span><span class="k">await</span><span class="w"> </span><span class="nx">prisma</span><span class="p">.</span><span class="nx">file</span><span class="p">.</span><span class="ow">delete</span><span class="p">({</span><span class="w"> </span><span class="nx">where</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="kt">file.id</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">});</span>
+<span class="p">}</span>
+</code></pre></div></p>
+<p><strong>Demo Mode Cleanup</strong> (Public/Private):
+- <strong>Schedule</strong>: 
+  - Public files: Every 10 minutes (<code>*/10 * * * *</code>)
+  - Private files: Every 30 minutes (<code>*/30 * * * *</code>)
+- <strong>Condition</strong>: Only runs if <code>DEMO_MODE=true</code>
+- <strong>Target</strong>: All <code>COMPLETED</code> files (except those owned by demo admin)
+- <strong>Purpose</strong>: Keep demo environment clean and prevent storage bloat</p>
+<blockquote>
+<p><strong>Important</strong>: Demo mode cleanup is protected by the <code>DEMO_MODE</code> environment variable. If <code>DEMO_MODE=false</code>, these jobs will skip execution to prevent accidental deletions in production.</p>
+</blockquote>
+<h3 id="configuration">Configuration</h3>
+<p>Set in your <code>.env</code> file:
+<div class="highlight"><pre><span></span><code><span class="nv">DEMO_MODE</span><span class="o">=</span><span class="nb">true</span><span class="w">  </span><span class="c1"># Enable demo cleanup jobs</span>
+</code></pre></div></p>
+<h2 id="3-ingestion-worker">3. Ingestion Worker</h2>
+<p>The ingestion worker processes uploaded files for the RAG (Retrieval-Augmented Generation) intelligence pipeline. It extracts content, generates embeddings, and stores them in the vector database.</p>
+<h3 id="how-it-works_2">How It Works</h3>
+<p><strong>Trigger</strong>: Event-driven (triggered when a user confirms file upload)</p>
+<p><strong>Processing Steps</strong>:</p>
+<ol>
+<li><strong>Download from R2/S3</strong>: Fetches the file using AWS SDK</li>
+<li><strong>Hash Calculation</strong>: Generates SHA-256 hash for deduplication</li>
+<li><strong>Duplicate Check</strong>: Compares hash against existing files</li>
+<li><strong>Content Extraction</strong>:</li>
+<li><strong>PDFs</strong>: Uses <code>unpdf</code> library to extract text</li>
+<li><strong>Images</strong>: Sends to Gemini Vision model for description</li>
+<li><strong>Text files</strong>: Direct UTF-8 decode</li>
+<li><strong>Text Chunking</strong>: Splits content into ~1000 character chunks with 200 char overlap</li>
+<li><strong>Embedding Generation</strong>: Converts each chunk to 768-D vector using Gemini <code>text-embedding-004</code></li>
+<li><strong>Storage</strong>: Saves to PostgreSQL with pgvector extension</li>
+<li><strong>Status Update</strong>: Marks file as <code>COMPLETED</code></li>
+</ol>
+<p><strong>Implementation</strong> (<code>ingestion.worker.ts</code>):</p>
+<div class="highlight"><pre><span></span><code><span class="k">export</span><span class="w"> </span><span class="kd">const</span><span class="w"> </span><span class="nx">processJob</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="p">(</span><span class="nx">job</span><span class="o">:</span><span class="w"> </span><span class="kt">Job</span><span class="o">&lt;</span><span class="nx">IngestionJobData</span><span class="o">&gt;</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">fileId</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">job</span><span class="p">.</span><span class="nx">data</span><span class="p">;</span>
+
+<span class="w">  </span><span class="c1">// Fetch and process file</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">fileRecord</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">prisma</span><span class="p">.</span><span class="nx">file</span><span class="p">.</span><span class="nx">findUnique</span><span class="p">({</span><span class="w"> </span><span class="nx">where</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="kt">fileId</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">});</span>
+
+<span class="w">  </span><span class="c1">// Download from S3/R2</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">s3Response</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">s3Client</span><span class="p">.</span><span class="nx">send</span><span class="p">(</span><span class="ow">new</span><span class="w"> </span><span class="nx">GetObjectCommand</span><span class="p">({</span>
+<span class="w">    </span><span class="nx">Bucket</span><span class="o">:</span><span class="w"> </span><span class="kt">config.aws.s3.bucket</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">Key</span><span class="o">:</span><span class="w"> </span><span class="kt">fileRecord.fileKey</span>
+<span class="w">  </span><span class="p">}));</span>
+
+<span class="w">  </span><span class="c1">// Extract text (PDF/Image/Text)</span>
+<span class="w">  </span><span class="kd">let</span><span class="w"> </span><span class="nx">text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;&#39;</span><span class="p">;</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">mimeType</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="s1">&#39;application/pdf&#39;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">pdf</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">getDocumentProxy</span><span class="p">(</span><span class="nx">buffer</span><span class="p">);</span>
+<span class="w">    </span><span class="nx">text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">extractText</span><span class="p">(</span><span class="nx">pdf</span><span class="p">);</span>
+<span class="w">  </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">mimeType</span><span class="p">.</span><span class="nx">startsWith</span><span class="p">(</span><span class="s1">&#39;image/&#39;</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">text</span><span class="o">:</span><span class="w"> </span><span class="kt">imageDesc</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">generateText</span><span class="p">({</span>
+<span class="w">      </span><span class="nx">model</span><span class="o">:</span><span class="w"> </span><span class="kt">google</span><span class="p">(</span><span class="s1">&#39;gemini-2.5-flash-lite&#39;</span><span class="p">),</span>
+<span class="w">      </span><span class="nx">messages</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="cm">/* vision prompt */</span><span class="p">]</span>
+<span class="w">    </span><span class="p">});</span>
+<span class="w">    </span><span class="nx">text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">imageDesc</span><span class="p">;</span>
+<span class="w">  </span><span class="p">}</span>
+
+<span class="w">  </span><span class="c1">// Chunk and embed</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">chunks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">splitter</span><span class="p">.</span><span class="nx">createDocuments</span><span class="p">([</span><span class="nx">text</span><span class="p">]);</span>
+<span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kd">const</span><span class="w"> </span><span class="nx">chunk</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nx">chunks</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">embedding</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">embed</span><span class="p">({</span>
+<span class="w">      </span><span class="nx">model</span><span class="o">:</span><span class="w"> </span><span class="kt">google.textEmbeddingModel</span><span class="p">(</span><span class="s1">&#39;text-embedding-004&#39;</span><span class="p">),</span>
+<span class="w">      </span><span class="nx">value</span><span class="o">:</span><span class="w"> </span><span class="kt">chunk.pageContent</span>
+<span class="w">    </span><span class="p">});</span>
+
+<span class="w">    </span><span class="k">await</span><span class="w"> </span><span class="nx">prisma</span><span class="p">.</span><span class="nx">$executeRaw</span><span class="sb">`</span>
+<span class="sb">      INSERT INTO &quot;Document&quot; (id, content, embedding, userId, fileId)</span>
+<span class="sb">      VALUES (gen_random_uuid(), </span><span class="si">${</span><span class="nx">chunk</span><span class="p">.</span><span class="nx">pageContent</span><span class="si">}</span><span class="sb">, </span>
+<span class="sb">              </span><span class="si">${</span><span class="nx">embedding</span><span class="si">}</span><span class="sb">::vector, </span><span class="si">${</span><span class="nx">userId</span><span class="si">}</span><span class="sb">, </span><span class="si">${</span><span class="nx">fileId</span><span class="si">}</span><span class="sb">)</span>
+<span class="sb">    `</span><span class="p">;</span>
+<span class="w">  </span><span class="p">}</span>
+
+<span class="w">  </span><span class="k">await</span><span class="w"> </span><span class="nx">prisma</span><span class="p">.</span><span class="nx">file</span><span class="p">.</span><span class="nx">update</span><span class="p">({</span>
+<span class="w">    </span><span class="nx">where</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="kt">fileId</span><span class="w"> </span><span class="p">},</span>
+<span class="w">    </span><span class="nx">data</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">status</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;COMPLETED&#39;</span><span class="w"> </span><span class="p">}</span>
+<span class="w">  </span><span class="p">});</span>
+<span class="p">};</span>
+</code></pre></div>
+<h3 id="error-handling">Error Handling</h3>
+<ul>
+<li><strong>File Not Found in S3</strong>: Deletes DB reservation and exits gracefully</li>
+<li><strong>Duplicate File</strong>: Deletes from S3, marks as <code>DUPLICATE</code></li>
+<li><strong>Processing Failure</strong>: Marks file as <code>FAILED</code>, retries according to BullMQ settings</li>
+</ul>
+<p>For more details on the RAG pipeline, see <a href="../rag-intelligence-pipeline/">RAG Intelligence Pipeline</a>.</p>
+<hr />
+<h2 id="4-extending-with-a-new-job-example">4. Extending with a New Job (Example)</h2>
+<p>While the template includes token cleanup, file cleanup, and ingestion workers, it is structured to be easily extensible. Let's walk through an example of how to add a new job for sending a welcome email after a user registers.</p>
+<h3 id="step-1-define-a-new-queue">Step 1: Define a New Queue</h3>
+<p>In <code>src/jobs/queue.ts</code>, define and export a new queue for emails.</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// src/jobs/queue.ts</span>
+
+<span class="c1">// ... existing redisConnection and defaultQueueOptions</span>
+
+<span class="k">export</span><span class="w"> </span><span class="kd">const</span><span class="w"> </span><span class="nx">tokenCleanupQueueName</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;tokenCleanup&#39;</span><span class="p">;</span>
+<span class="k">export</span><span class="w"> </span><span class="kd">const</span><span class="w"> </span><span class="nx">emailQueueName</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;emailQueue&#39;</span><span class="p">;</span><span class="w"> </span><span class="c1">// 1. Add new queue name</span>
+
+<span class="c1">// ... existing addTokenCleanupJob function</span>
+
+<span class="c1">// 2. Create a function to add jobs to the new email queue</span>
+<span class="k">export</span><span class="w"> </span><span class="kd">const</span><span class="w"> </span><span class="nx">addSendEmailJob</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="p">(</span><span class="nx">queue</span><span class="o">:</span><span class="w"> </span><span class="kt">Queue</span><span class="p">,</span><span class="w"> </span><span class="nx">data</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">to</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">;</span><span class="w"> </span><span class="nx">subject</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">;</span><span class="w"> </span><span class="nx">text</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="p">})</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">await</span><span class="w"> </span><span class="nx">queue</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="s1">&#39;sendEmail&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">data</span><span class="p">,</span><span class="w"> </span><span class="nx">defaultQueueOptions</span><span class="p">.</span><span class="nx">defaultJobOptions</span><span class="p">);</span>
+<span class="p">};</span>
+</code></pre></div>
+<h3 id="step-2-add-logic-to-the-worker">Step 2: Add Logic to the Worker</h3>
+<p>In <code>src/jobs/worker.ts</code>, update the worker process to handle jobs from the new <code>emailQueue</code>. Since the worker logic can get complex, it's best to handle different job names.</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// src/jobs/worker.ts</span>
+<span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">Job</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;bullmq&#39;</span><span class="p">;</span>
+<span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">prisma</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;../config/db&#39;</span><span class="p">;</span>
+<span class="k">import</span><span class="w"> </span><span class="nx">logger</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;../utils/logger&#39;</span><span class="p">;</span>
+<span class="k">import</span><span class="w"> </span><span class="nx">dotenv</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;dotenv&#39;</span><span class="p">;</span>
+<span class="c1">// Hypothetical email service</span>
+<span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">emailService</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;../services&#39;</span><span class="p">;</span><span class="w"> </span>
+
+<span class="nx">dotenv</span><span class="p">.</span><span class="nx">config</span><span class="p">();</span>
+
+<span class="c1">// Main processing function</span>
+<span class="k">export</span><span class="w"> </span><span class="kd">const</span><span class="w"> </span><span class="nx">processJob</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="p">(</span><span class="nx">job</span><span class="o">:</span><span class="w"> </span><span class="kt">Job</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">logger</span><span class="p">.</span><span class="nx">info</span><span class="p">(</span><span class="sb">`Processing job </span><span class="si">${</span><span class="nx">job</span><span class="p">.</span><span class="nx">id</span><span class="si">}</span><span class="sb"> of type </span><span class="si">${</span><span class="nx">job</span><span class="p">.</span><span class="nx">name</span><span class="si">}</span><span class="sb"> from queue </span><span class="si">${</span><span class="nx">job</span><span class="p">.</span><span class="nx">queueName</span><span class="si">}</span><span class="sb">`</span><span class="p">);</span>
+
+<span class="w">  </span><span class="k">switch</span><span class="w"> </span><span class="p">(</span><span class="nx">job</span><span class="p">.</span><span class="nx">queueName</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="s1">&#39;tokenCleanup&#39;</span><span class="o">:</span>
+<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">job</span><span class="p">.</span><span class="nx">name</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="s1">&#39;cleanExpiredTokens&#39;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="nx">processTokenCleanupJob</span><span class="p">(</span><span class="nx">job</span><span class="p">);</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">      </span><span class="k">break</span><span class="p">;</span>
+
+<span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="s1">&#39;emailQueue&#39;</span><span class="o">:</span><span class="w"> </span><span class="c1">// 1. Handle the new queue</span>
+<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">job</span><span class="p">.</span><span class="nx">name</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="s1">&#39;sendEmail&#39;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="nx">processSendEmailJob</span><span class="p">(</span><span class="nx">job</span><span class="p">);</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">      </span><span class="k">break</span><span class="p">;</span>
+
+<span class="w">    </span><span class="nx">default</span><span class="o">:</span>
+<span class="w">      </span><span class="kt">throw</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="ne">Error</span><span class="p">(</span><span class="sb">`No processor for queue </span><span class="si">${</span><span class="nx">job</span><span class="p">.</span><span class="nx">queueName</span><span class="si">}</span><span class="sb">`</span><span class="p">);</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">};</span>
+
+<span class="c1">// Existing token cleanup logic</span>
+<span class="k">async</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">processTokenCleanupJob</span><span class="p">(</span><span class="nx">job</span><span class="o">:</span><span class="w"> </span><span class="kt">Job</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">count</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">prisma</span><span class="p">.</span><span class="nx">blacklistedToken</span><span class="p">.</span><span class="nx">deleteMany</span><span class="p">({</span>
+<span class="w">      </span><span class="nx">where</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">expires</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">lt</span><span class="o">:</span><span class="w"> </span><span class="kt">new</span><span class="w"> </span><span class="nb">Date</span><span class="p">()</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">},</span>
+<span class="w">    </span><span class="p">});</span>
+<span class="w">    </span><span class="nx">logger</span><span class="p">.</span><span class="nx">info</span><span class="p">(</span><span class="sb">`Cleaned up </span><span class="si">${</span><span class="nx">count</span><span class="si">}</span><span class="sb"> expired blacklisted tokens.`</span><span class="p">);</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">cleanedCount</span><span class="o">:</span><span class="w"> </span><span class="kt">count</span><span class="w"> </span><span class="p">};</span>
+<span class="w">  </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="nx">error</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">logger</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="nx">error</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Error cleaning up expired tokens in worker:&#39;</span><span class="p">);</span>
+<span class="w">    </span><span class="k">throw</span><span class="w"> </span><span class="nx">error</span><span class="p">;</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// 2. Create a new function for the email job</span>
+<span class="k">async</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">processSendEmailJob</span><span class="p">(</span><span class="nx">job</span><span class="o">:</span><span class="w"> </span><span class="kt">Job</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">to</span><span class="p">,</span><span class="w"> </span><span class="nx">subject</span><span class="p">,</span><span class="w"> </span><span class="nx">text</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">job</span><span class="p">.</span><span class="nx">data</span><span class="p">;</span>
+<span class="w">    </span><span class="c1">// Assuming you have an emailService that can send emails</span>
+<span class="w">    </span><span class="k">await</span><span class="w"> </span><span class="nx">emailService</span><span class="p">.</span><span class="nx">sendEmail</span><span class="p">(</span><span class="nx">to</span><span class="p">,</span><span class="w"> </span><span class="nx">subject</span><span class="p">,</span><span class="w"> </span><span class="nx">text</span><span class="p">);</span>
+<span class="w">    </span><span class="nx">logger</span><span class="p">.</span><span class="nx">info</span><span class="p">(</span><span class="sb">`Sent email to </span><span class="si">${</span><span class="nx">to</span><span class="si">}</span><span class="sb">`</span><span class="p">);</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">status</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;ok&#39;</span><span class="w"> </span><span class="p">};</span>
+<span class="w">  </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="nx">error</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">logger</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="nx">error</span><span class="p">,</span><span class="w"> </span><span class="sb">`Error sending email to </span><span class="si">${</span><span class="nx">job</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">to</span><span class="si">}</span><span class="sb">:`</span><span class="p">);</span>
+<span class="w">    </span><span class="k">throw</span><span class="w"> </span><span class="nx">error</span><span class="p">;</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<h3 id="step-3-instantiate-the-new-queue-and-worker">Step 3: Instantiate the New Queue and Worker</h3>
+<p>In <code>src/server.ts</code>, where the application is initialized, you need to create the new queue and worker instances.</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// src/server.ts</span>
+<span class="c1">// ... other imports</span>
+<span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">Queue</span><span class="p">,</span><span class="w"> </span><span class="nx">Worker</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;bullmq&#39;</span><span class="p">;</span>
+<span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">tokenCleanupQueueName</span><span class="p">,</span><span class="w"> </span><span class="nx">emailQueueName</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;./jobs/queue&#39;</span><span class="p">;</span><span class="w"> </span><span class="c1">// Import new queue name</span>
+<span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">processJob</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;./jobs/worker&#39;</span><span class="p">;</span><span class="w"> </span><span class="c1">// Import the main processor</span>
+
+<span class="c1">// ... inside startServer function</span>
+
+<span class="c1">// Initialize BullMQ Queues</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">tokenCleanupQueue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">Queue</span><span class="p">(</span><span class="nx">tokenCleanupQueueName</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">connection</span><span class="o">:</span><span class="w"> </span><span class="kt">redisConnection</span><span class="w"> </span><span class="p">});</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">emailQueue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">Queue</span><span class="p">(</span><span class="nx">emailQueueName</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">connection</span><span class="o">:</span><span class="w"> </span><span class="kt">redisConnection</span><span class="w"> </span><span class="p">});</span><span class="w"> </span><span class="c1">// 1. Instantiate new queue</span>
+
+<span class="c1">// Initialize BullMQ Workers</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">worker</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">Worker</span><span class="p">(</span>
+<span class="w">  </span><span class="p">[</span><span class="nx">tokenCleanupQueueName</span><span class="p">,</span><span class="w"> </span><span class="nx">emailQueueName</span><span class="p">],</span><span class="w"> </span><span class="c1">// 2. Listen to both queues</span>
+<span class="w">  </span><span class="nx">processJob</span><span class="p">,</span><span class="w"> </span>
+<span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="nx">connection</span><span class="o">:</span><span class="w"> </span><span class="kt">redisConnection</span><span class="w"> </span><span class="p">}</span>
+<span class="p">);</span>
+
+<span class="c1">// ... worker event listeners</span>
+
+<span class="c1">// Start the cron job for token cleanup</span>
+<span class="nx">startTokenCleanupJob</span><span class="p">(</span><span class="nx">tokenCleanupQueue</span><span class="p">);</span>
+</code></pre></div>
+<h3 id="step-4-add-the-job-from-your-service">Step 4: Add the Job from Your Service</h3>
+<p>Finally, trigger the job from your business logic. For example, after a user is created in <code>src/services/auth.service.ts</code>.</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// src/services/auth.service.ts</span>
+<span class="c1">// ... other imports</span>
+<span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">addSendEmailJob</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;../jobs/queue&#39;</span><span class="p">;</span>
+<span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">Queue</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;bullmq&#39;</span><span class="p">;</span>
+
+<span class="c1">// This is a simplified example. In a real app, you would inject the queue</span>
+<span class="c1">// or use a singleton pattern to access it.</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">emailQueue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">Queue</span><span class="p">(</span><span class="s1">&#39;emailQueue&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">connection</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">host</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;...&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">port</span><span class="o">:</span><span class="w"> </span><span class="kt">...</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">});</span>
+
+<span class="c1">// ... inside registerUser function, after user is created</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">registerUser</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="p">(</span><span class="nx">userData</span><span class="o">:</span><span class="w"> </span><span class="kt">RegisterUserBody</span><span class="p">)</span><span class="o">:</span><span class="w"> </span><span class="nb">Promise</span><span class="o">&lt;</span><span class="nx">User</span><span class="o">&gt;</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="c1">// ... existing logic to create user</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">user</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">userService</span><span class="p">.</span><span class="nx">createUser</span><span class="p">(</span><span class="nx">userData</span><span class="p">);</span>
+
+<span class="w">  </span><span class="c1">// Add a job to the email queue</span>
+<span class="w">  </span><span class="k">await</span><span class="w"> </span><span class="nx">addSendEmailJob</span><span class="p">(</span><span class="nx">emailQueue</span><span class="p">,</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">to</span><span class="o">:</span><span class="w"> </span><span class="kt">user.email</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">subject</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;Welcome!&#39;</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">text</span><span class="o">:</span><span class="w"> </span><span class="sb">`Hi </span><span class="si">${</span><span class="nx">user</span><span class="p">.</span><span class="nx">username</span><span class="si">}</span><span class="sb">, welcome to our platform!`</span><span class="p">,</span>
+<span class="w">  </span><span class="p">});</span>
+
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="nx">user</span><span class="p">;</span>
+<span class="p">};</span>
+</code></pre></div>
+<p>This example demonstrates how the existing BullMQ setup can be extended to accommodate new background tasks in a structured and scalable way.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": [], "search": "../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.e71a0d61.min.js"></script>
+      
+        <script src="https://unpkg.com/@panzoom/panzoom@4.5.1/dist/panzoom.min.js"></script>
+      
+        <script src="../javascripts/zoom.js"></script>
+      
+    
+  </body>
+</html>
