@@ -22,4 +22,4 @@ startCommand = "sh -c 'npm run start:with-db'"
 numReplicas = 1
 
 # 5. Sleep Application: Keep false for production apps (so it doesn't sleep like the free tier)
-sleepApplication = false
+sleepApplication = true
