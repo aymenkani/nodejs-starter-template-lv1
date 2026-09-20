@@ -4,6 +4,8 @@
 
 Welcome to the Node.js Advanced Starter Template documentation! This template is designed to provide a robust, scalable, and feature-rich foundation for building modern Node.js API applications. It integrates a selection of industry-standard tools and best practices to accelerate your development process and ensure high-quality, maintainable code.
 
+[![Deploy on Railway](https://railway.com/button.svg)](https://railway.com/deploy/nodejs-multimodal-rag-starter?referralCode=2psx_t&utm_medium=integration&utm_source=template&utm_campaign=generic)
+
 ## What is this Template For?
 
 This template is ideal for developers and teams looking to kickstart new API projects with a solid architectural base. It abstracts away much of the initial setup and configuration, allowing you to focus on developing your core business logic. Whether you're building a microservice, a backend for a web application, or a standalone API, this template provides the necessary infrastructure to get started quickly and efficiently.
@@ -24,6 +26,9 @@ This template is ideal for developers and teams looking to kickstart new API pro
 *   **AI-Powered RAG Pipeline:** Integrated Retrieval-Augmented Generation (RAG) system using Google Gemini. Features asynchronous document ingestion, Visual RAG (extracting intelligence from images), semantic search with `pgvector`, and streaming AI responses.
 *   **Testing:** Comprehensive testing setup with Jest for unit and integration tests, including database testing strategies.
 *   **CI/CD:** Pre-configured GitHub Actions workflows for continuous integration (linting, testing, building) and continuous deployment.
+
+
+[![Deploy on Railway](https://railway.com/button.svg)](https://railway.com/deploy/nodejs-multimodal-rag-starter?referralCode=2psx_t&utm_medium=integration&utm_source=template&utm_campaign=generic)
 
 ## AI & RAG Intelligence
 
@@ -64,6 +69,8 @@ To view the documentation locally, follow these steps:
 4.  **Open in your browser:**
     By default, the site will be available at [http://127.0.0.1:8000](http://127.0.0.1:8000).
 
+[![Deploy on Railway](https://railway.com/button.svg)](https://railway.com/deploy/nodejs-multimodal-rag-starter?referralCode=2psx_t&utm_medium=integration&utm_source=template&utm_campaign=generic)
+
 ## Core Technologies Stack
 
 *   **Runtime:** Node.js
@@ -94,9 +101,12 @@ This template is designed for:
 
 By leveraging this template, you can significantly reduce setup time and focus on delivering value faster, with confidence in the underlying architecture.
 
+[![Deploy on Railway](https://railway.com/button.svg)](https://railway.com/deploy/nodejs-multimodal-rag-starter?referralCode=2psx_t&utm_medium=integration&utm_source=template&utm_campaign=generic)
+
 ## Deploying to Render
 
 This template includes a `render.yaml` file to easily deploy the application to [Render](https://render.com/) using Blueprints.
+
 
 ### Free Tier Limitations
 
